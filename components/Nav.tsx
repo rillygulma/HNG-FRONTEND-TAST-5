@@ -4,10 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const Nav = () => {
-  // State to manage the active button in the toggle
-  const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
-
+const Nav = ({ activeButton, setActiveButton }) => {
   return (
     <nav className='flex items-center justify-between p-4 bg-white'>
       {/* Logo */}
@@ -56,7 +53,7 @@ const Nav = () => {
       </div>
 
       {/* Preview button */}
-      <button className='px-4 py-2 text-white'>
+      <button className='px-2 py-1 text-white border-primary.blue rounded-md border-2 hover:bg-tertiary.blue'>
         <Image
           src='./images/icon-preview-header.svg'
           alt='Preview Icon'
