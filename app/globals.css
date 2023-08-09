@@ -16,6 +16,16 @@
   }
 }
 
+@font-face {
+  font-family: 'InstrumentSans';
+  src: local('InstrumentSans'),
+    url('/fonts/InstrumentSans-Regular') format('ttf'),
+    url('/fonts/InstrumentSans-Bold') format('ttf'),
+    url('/fonts/InstrumentSans-SemiBold') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
