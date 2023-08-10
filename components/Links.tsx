@@ -28,7 +28,24 @@ const Links = () => {
         Add, edit, or remove links below, then share your collated links.
       </p>
       <button className='bg-transparent hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4'>
-        <span className='text-lg'>+</span> Add Link
+        <div className='w-full mr-4'>
+          <svg
+            className=' inline-block align-middle w-4 h-4 mx-2 mb-0.5 text-blue dark:text-white'
+            aria-hidden='true'
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 18 18'
+          >
+            <path
+              stroke='currentColor'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              stroke-width='2'
+              d='M9 1v16M1 9h16'
+            />
+          </svg>{' '}
+          Add Link
+        </div>
       </button>
       <form action='' className='w-full mb-4'>
         <div className='space-y-6'>
@@ -38,11 +55,11 @@ const Links = () => {
         </div>
         <button
           type='submit'
-          className='flex justify-start bg-primary.blue hover:bg-tertiary.blue text-white font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 w-full'
+          className='flex justify-start bg-primary.blue hover:bg-secondary.blue text-white font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 w-full'
         >
           <div className='w-full tertiary.gray mr-4'>
             <svg
-              className=' inline-block align-middle w-5 h-5 mx-4 text-tertiary.gray dark:text-white'
+              className=' inline-block align-middle w-4 h-4 mx-3 mb-0.5 text-tertiary.gray dark:text-white'
               aria-hidden='true'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
