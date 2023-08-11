@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const LinkBlock = ({ index }) => {
   return (
-    <article className='text-primary.gray text-sm z-50 bg-blue-50 rounded-md h-52 w-full my-4'>
+    <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-52 w-full my-4'>
       <div className='flex justify-between py-4 px-2'>
         <div className=' flex w-full'>
           <Image
