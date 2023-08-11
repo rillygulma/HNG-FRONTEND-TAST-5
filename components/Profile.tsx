@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const Profile = () => {
   return (
-    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-10 phone:w-80 phone:h-full rounded-md'>
+    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>
       <h1 className='py-4'>Profile Details</h1>
 
       <p className='text-sm text-gray-500'>
