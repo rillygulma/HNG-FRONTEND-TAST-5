@@ -53,7 +53,10 @@ const Nav = ({ activeButton, setActiveButton }) => {
       </div>
 
       {/* Preview button */}
-      <button className='px-2 py-1 text-white border-primary.blue rounded-md border-2 hover:bg-tertiary.blue'>
+      <Link
+        href='/preview'
+        className='px-2 py-1 text-white border-primary.blue rounded-md border-2 hover:bg-tertiary.blue'
+      >
         <Image
           src='./images/icon-preview-header.svg'
           alt='Preview Icon'
@@ -61,7 +64,7 @@ const Nav = ({ activeButton, setActiveButton }) => {
           width={100}
           height={100}
         />
-      </button>
+      </Link>
     </nav>
   )
 }
