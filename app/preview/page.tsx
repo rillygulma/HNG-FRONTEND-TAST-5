@@ -30,7 +30,14 @@ const Preview = () => {
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>
         {testArr &&
           testArr.map((link, index) => {
-            return <CustomLinkBlock key={index} index={index} link={link} />
+            return (
+              <CustomLinkBlock
+                key={index}
+                index={index}
+                link={link}
+                platform='none'
+              />
+            )
           })}
       </section>
     </main>
