@@ -3,22 +3,22 @@ import Image from 'next/image'
 
 const LinkBlock = ({ index }) => {
   return (
-    <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-52 w-full my-4'>
-      <div className='flex justify-between py-4 px-2'>
+    <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-56 w-full my-4'>
+      <div className='flex justify-between py-4 px-3'>
         <div className=' flex w-full'>
           <Image
             src='./images/icon-drag-and-drop.svg'
             alt=''
-            width={16}
-            height={16}
-            className='my-2 mx-2'
+            width={22}
+            height={22}
+            className='my-2 mx-2 pt-0.5'
           />
 
-          <span className='font-semibold text-primary.gray ml-2'>
+          <span className='font-semibold text-primary.gray ml-3 mt-1'>
             Link #{index + 1}
           </span>
         </div>
-        <span className='mr-2 text-primary.gray'>Remove</span>
+        <span className='mr-2 pt-0.5 text-primary.gray'>Remove</span>
       </div>
       <div className='px-4 space-y-4'>
         <div>

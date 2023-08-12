@@ -1,14 +1,20 @@
 import React from 'react'
 import Button from '../../components/Button'
 import CustomLinkBlock from '../../components/CustomLinkBlock'
+import Link from 'next/link'
 
 const Preview = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
-      <nav className='flex desktop:w-80 phone:w-72 desktop:text-md phone:text-sm h-16 items-start space-x-4'>
-        <Button text='Back to Editor' style='clear' />
+      <nav className='flex desktop:w-80 phone:w-80 phone:px-2 desktop:text-md phone:text-sm h-16 items-start space-x-4'>
+        <Link
+          href='/editor'
+          className='bg-transparent text-center hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 w-full'
+        >
+          Back to Editor
+        </Link>
         <Button text='Share Link' style='filled' />
       </nav>
 
