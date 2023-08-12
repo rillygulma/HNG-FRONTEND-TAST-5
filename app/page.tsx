@@ -56,7 +56,7 @@ export default function Home() {
           </form>
 
           <div className='flex mt-4 justify-center flex-wrap'>
-            <span className='text-black'>Don't have an account?</span>
+            <span className='text-black'>Don&apos;t have an account?</span>
             <a
               href='#'
               className='desktop:block phone:flex phone:flex-nowrap justify-center ml-2 text-primary.blue hover:text-secondary.blue'
