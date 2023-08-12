@@ -4,7 +4,12 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
-const Nav = ({ activeButton, setActiveButton }) => {
+type NavProps = {
+  activeButton: string
+  setActiveButton: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Nav = ({ activeButton, setActiveButton }: NavProps) => {
   return (
     <nav className='flex items-center justify-between p-4 bg-white'>
       {/* Logo */}

@@ -1,5 +1,5 @@
 import React from 'react'
-import LinkBlock from './EditLinkBlock'
+import EditLinkBlock from './EditLinkBlock'
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
 
@@ -18,7 +18,7 @@ const Links = () => {
       <form action='' className='w-full mb-4'>
         <div className='space-y-6'>
           {testArr.map((link, index) => {
-            return <LinkBlock index={index} key={index} />
+            return <EditLinkBlock index={index} key={index} />
           })}
         </div>
         <SaveButton />
