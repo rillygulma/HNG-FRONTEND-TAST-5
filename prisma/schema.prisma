@@ -12,7 +12,7 @@ datasource db {
 
 model Link {
   id            String       @default(cuid()) @id
-  title         String       @unique
+  platform      String       @unique
   url           String       @unique
   description   String?
   createdAt     DateTime     @default(now()) @map(name: "created_at")
@@ -26,6 +26,7 @@ model User {
   id            String       @default(cuid()) @id
   name          String?
   email         String       @unique
+  password      String?
   createdAt     DateTime     @default(now()) @map(name: "created_at")
   updatedAt     DateTime     @updatedAt @map(name: "updated_at")
   links         Link[]
