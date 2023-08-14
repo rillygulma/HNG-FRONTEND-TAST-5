@@ -33,22 +33,19 @@ function getLinks() {
       email: 'matt.omalley.west@gmail.com',
       links: [
         {
-          description: 'Fullstack tutorial for GraphQL',
-          url: 'www.howtographql.com',
+          url: 'https://www.linkedin.com/in/matthew-west-342b0965/',
           platform: 'LinkedIn',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          description: 'Prisma turns your database into a GraphQL API',
-          url: 'www.prismagraphql.com',
-          platform: 'Youtube',
+          url: 'https://github.com/matt-o-west',
+          platform: 'Github',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          description: 'The best GraphQL client',
-          url: 'www.apollographql.com/docs/react/',
+          url: 'https://www.frontendmentor.io/profile/matt-o-west',
           platform: 'Frontend Mentor',
           createdAt: new Date(),
           updatedAt: new Date(),
