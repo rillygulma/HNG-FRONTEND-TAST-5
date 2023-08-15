@@ -27,8 +27,6 @@ export const getLinks = async (
       )
     })
   }
-
-  return links
 }
 
 export const getUser = async (

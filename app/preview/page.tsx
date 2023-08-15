@@ -2,9 +2,15 @@ import React from 'react'
 import Button from '../../components/Button'
 import CustomLinkBlock from '../../components/CustomLinkBlock'
 import Link from 'next/link'
+import { getLinks } from '../api/getLinks'
+
+import { db } from '../../prisma/db.server'
 
 const Preview = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
+  const links = getLinks(db, 'matt.omalley.west@gmail.com', 'testpassword')
+
+  console.log(links)
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -28,17 +34,7 @@ const Preview = () => {
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h3>
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>
-        {testArr &&
-          testArr.map((link, index) => {
-            return (
-              <CustomLinkBlock
-                key={index}
-                index={index}
-                link={link}
-                platform='none'
-              />
-            )
-          })}
+        {links}
       </section>
     </main>
   )

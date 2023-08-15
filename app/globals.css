@@ -6,6 +6,51 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --facebook-bg: #3b5998;
+  --x-bg: var(--primary-gray);
+  --linkedin-bg: #2d68ff;
+  --instagram-bg: var(--tertiary-gray);
+  --frontendmentor-bg: #2d2d2d;
+  --codewars-bg: #8a1a50;
+  --freecodecamp-bg: #302267;
+  --twitch-bg: #9146ff;
+  --youtube-bg: #ee3939;
+  --github-bg: #1a1a1a;
+  --website-bg: var(--primary-green);
+}
+
+.facebook-bg {
+  background-color: var(--facebook-bg);
+}
+.x-bg {
+  background-color: var(--x-bg);
+}
+.linkedin-bg {
+  background-color: var(--linkedin-bg);
+}
+.instagram-bg {
+  background-color: var(--instagram-bg);
+}
+.frontendmentor-bg {
+  background-color: var(--frontendmentor-bg);
+}
+.codewars-bg {
+  background-color: var(--codewars-bg);
+}
+.freecodecamp-bg {
+  background-color: var(--freecodecamp-bg);
+}
+.twitch-bg {
+  background-color: var(--twitch-bg);
+}
+.youtube-bg {
+  background-color: var(--youtube-bg);
+}
+.github-bg {
+  background-color: var(--github-bg);
+}
+.website-bg {
+  background-color: var(--website-bg);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -31,6 +31,7 @@ function getLinks() {
     {
       name: 'Matt',
       email: 'matt.omalley.west@gmail.com',
+      password: 'testpassword',
       links: [
         {
           url: 'https://www.linkedin.com/in/matthew-west-342b0965/',
