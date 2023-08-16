@@ -6,7 +6,7 @@ type LinkBlockProps = {
   key: number
 }
 
-const LinkBlock = ({ index, key }: LinkBlockProps) => {
+const EditLinkBlock = ({ index, key }: LinkBlockProps) => {
   return (
     <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-56 w-full my-4'>
       <div className='flex justify-between py-4 px-3'>
@@ -55,4 +55,4 @@ const LinkBlock = ({ index, key }: LinkBlockProps) => {
   )
 }
 
-export default LinkBlock
+export default EditLinkBlock

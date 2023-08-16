@@ -13,7 +13,7 @@ async function seed() {
     if (!user) {
       user = await db.user.create({
         data: {
-          name: linkData.name,
+          username: linkData.username,
           email: linkData.email,
           links: {
             create: linkData.links, // Use the create operator to insert related records
@@ -29,7 +29,7 @@ seed()
 function getLinks() {
   return [
     {
-      name: 'Matt',
+      username: 'Matt',
       email: 'matt.omalley.west@gmail.com',
       password: 'testpassword',
       links: [
