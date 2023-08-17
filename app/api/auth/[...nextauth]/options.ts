@@ -12,11 +12,12 @@ export const options: NextAuthOptions = {
     }),
     CredentialsProvider({
       name: 'Credentials',
+
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'mwest' },
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
+
       async authorize(credentials) {
         //Retrieve user data here.
         //Refer to https://next-auth.js.org/configuration/providers/credentials
@@ -26,7 +27,7 @@ export const options: NextAuthOptions = {
           },
         })
         if (
-          credentials?.username === user?.username &&
+          credentials?.email === user?.email &&
           credentials?.password === user?.password
         ) {
           return user
@@ -36,4 +37,7 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  pages: {
+    signIn: '/api/auth/signin',
+  },
 }
