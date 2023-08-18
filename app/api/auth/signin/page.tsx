@@ -1,3 +1,5 @@
+'use client'
+
 import Image from 'next/image'
 
 export default function Home() {
@@ -6,8 +8,8 @@ export default function Home() {
       <div className='w-full max-w-md desktop:mb-0 phone:mb-16'>
         <div className='flex items-center justify-center mb-6 phone:aboslute phone:top-10'>
           <Image
-            src='/images/logo-devlinks-large.svg'
-            alt=''
+            src='./images/logo-devlinks-large.svg'
+            alt='Devlinks Logo'
             width={200}
             height={200}
             className='mb-1'
