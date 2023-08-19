@@ -2,17 +2,22 @@
 import Image from 'next/image'
 import { signIn, useSession } from 'next-auth/react'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default function SignIn() {
+  const router = useRouter()
   const [data, setData] = useState({
     email: '',
     password: '',
   })
   const loginUser = async (e) => {
     e.preventDefault()
-    signIn('credentials', { ...data, redirect: false }).then(() =>
-      console.log('login successful')
-    )
+    signIn('credentials', {
+      ...data,
+      redirect: false,
+    }).then(() => console.log('login successful'))
+    router.push('/editor')
   }
 
   return (

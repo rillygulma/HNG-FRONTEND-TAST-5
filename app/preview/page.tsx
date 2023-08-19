@@ -8,23 +8,6 @@ import { withSessionSsr } from '../../lib/withSession'
 
 import { db } from '../../prisma/db.server'
 
-export const getServerSideProps = withSessionSsr(async function ({ req, res }) {
-  const { user } = req.session
-
-  if (!user) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: { user },
-  }
-})
-
 const Preview = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
   const links = getLinks(db, 'matt.omalley.west@gmail.com', 'testpassword')

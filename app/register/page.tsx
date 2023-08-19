@@ -3,8 +3,11 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
 import { useState } from 'react'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export default function Register() {
+  const router = useRouter()
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -15,8 +18,13 @@ export default function Register() {
     console.log('Registering user')
     axios
       .post('/api/auth/register', data)
-      .then(() => console.log('user has been registered'))
-      .catch((err) => console.log(err))
+      .then(() => {
+        console.log('user has been registered')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    router.push('/signin')
   }
 
   return (
@@ -93,12 +101,12 @@ export default function Register() {
           </form>
           <div className='flex mt-4 justify-center flex-wrap'>
             <span className='text-black'>Already have an account?</span>
-            <a
-              href='#' // Update this with your login page link
+            <Link
+              href='/signin' // Update this with your login page link
               className='desktop:block phone:flex phone:flex-nowrap justify-center ml-2 text-primary.blue hover:text-secondary.blue'
             >
               Login
-            </a>
+            </Link>
           </div>
         </div>
       </div>

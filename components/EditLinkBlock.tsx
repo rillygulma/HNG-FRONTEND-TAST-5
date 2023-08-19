@@ -3,10 +3,10 @@ import Image from 'next/image'
 
 type LinkBlockProps = {
   index: number
-  key: number
+  key?: number
 }
 
-const EditLinkBlock = ({ index, key }: LinkBlockProps) => {
+const EditLinkBlock = ({ index }: LinkBlockProps) => {
   return (
     <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-56 w-full my-4'>
       <div className='flex justify-between py-4 px-3'>
