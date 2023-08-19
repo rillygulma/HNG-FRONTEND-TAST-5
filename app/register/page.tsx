@@ -11,9 +11,10 @@ export default function Register() {
   })
   const registerUser = async (e) => {
     e.preventDefault()
-    signUp('credentials', { ...data, redirect: false }).then(() =>
-      console.log('registration successful')
-    )
+    axios
+      .post('/api/register', data)
+      .then(() => console.log('user has been registered'))
+      .catch((err) => console.log(err))
   }
 
   return (
