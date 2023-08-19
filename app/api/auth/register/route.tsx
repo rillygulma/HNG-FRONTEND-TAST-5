@@ -2,9 +2,15 @@ import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 import { db } from '../../../../prisma/db.server'
 
+interface Body {
+  email: string
+  password: string
+  username: string
+}
+
 export async function POST(req: Request, res: NextResponse) {
-  const body = req.json()
-  const { email, password, name } = body
+  const body: Body = await req.json()
+  const { email, password, username } = body
 
   const userExists = await db.user.findUnique({
     where: {
@@ -21,9 +27,9 @@ export async function POST(req: Request, res: NextResponse) {
 
   const user = await db.user.create({
     data: {
-      email: email,
+      email,
       password: hash,
-      username: name,
+      username,
     },
   })
 

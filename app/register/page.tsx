@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { signUp, useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
+import { useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -8,11 +8,13 @@ export default function Register() {
   const [data, setData] = useState({
     email: '',
     password: '',
+    username: '',
   })
   const registerUser = async (e) => {
     e.preventDefault()
+    console.log('Registering user')
     axios
-      .post('/api/register', data)
+      .post('/api/auth/register', data)
       .then(() => console.log('user has been registered'))
       .catch((err) => console.log(err))
   }
@@ -34,6 +36,23 @@ export default function Register() {
           <h1 className='text-2xl font-bold text-black mb-6'>Register</h1>
           <form action='' onSubmit={registerUser}>
             <div className='mb-4'>
+              <div className='mb-4'>
+                <label
+                  className='block text-sm font-medium text-black mb-2'
+                  htmlFor='password'
+                >
+                  Username
+                </label>
+                <input
+                  className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+                  id='username'
+                  type='username'
+                  placeholder='Enter your username'
+                  onChange={(e) =>
+                    setData({ ...data, username: e.target.value })
+                  }
+                />
+              </div>
               <label
                 className='block text-sm font-medium text-black mb-2'
                 htmlFor='email'
