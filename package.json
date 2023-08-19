@@ -13,6 +13,7 @@
     "seed": "ts-node --require esbuild-register prisma/seed.ts"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@prisma/client": "^5.1.1",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",

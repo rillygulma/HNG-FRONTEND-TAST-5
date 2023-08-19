@@ -1,10 +1,12 @@
 import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 
 import { db } from '../../../../prisma/db.server'
 
 export const options: NextAuthOptions = {
+  adapter: PrismaAdapter(db),
   providers: [
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -32,6 +34,9 @@ export const options: NextAuthOptions = {
         ) {
           return user
         } else {
+          if (!credentials) {
+            throw new Error('No credentials')
+          }
           return null
         }
       },
@@ -39,5 +44,9 @@ export const options: NextAuthOptions = {
   ],
   pages: {
     signIn: '/api/auth/signin',
+  },
+  secret: process.env.SECRET,
+  session: {
+    strategy: 'jwt',
   },
 }

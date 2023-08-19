@@ -1,17 +1,18 @@
 'use client'
 import Image from 'next/image'
-import { signIn, useSession } from 'next-auth/react'
+import { signUp, useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
 import { useState } from 'react'
+import axios from 'axios'
 
-export default function SignIn() {
+export default function Register() {
   const [data, setData] = useState({
     email: '',
     password: '',
   })
-  const loginUser = async (e) => {
+  const registerUser = async (e) => {
     e.preventDefault()
-    signIn('credentials', { ...data, redirect: false }).then(() =>
-      console.log('login successful')
+    signUp('credentials', { ...data, redirect: false }).then(() =>
+      console.log('registration successful')
     )
   }
 
@@ -29,20 +30,21 @@ export default function SignIn() {
         </div>
 
         <div className='p-6 pb-8 mx-6 phone:mx-2'>
-          <h1 className='text-2xl font-bold text-black mb-6'>Login</h1>
-          <form action='' onSubmit={loginUser}>
+          <h1 className='text-2xl font-bold text-black mb-6'>Register</h1>
+          <form action='' onSubmit={registerUser}>
             <div className='mb-4'>
               <label
                 className='block text-sm font-medium text-black mb-2'
-                htmlFor='username'
+                htmlFor='email'
               >
                 Email
               </label>
               <input
                 className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
-                id='username'
+                id='email'
                 type='text'
-                placeholder='Enter your username'
+                placeholder='Enter your email'
+                onChange={(e) => setData({ ...data, email: e.target.value })}
               />
             </div>
 
@@ -58,6 +60,7 @@ export default function SignIn() {
                 id='password'
                 type='password'
                 placeholder='Enter your password'
+                onChange={(e) => setData({ ...data, password: e.target.value })}
               />
             </div>
 
@@ -65,16 +68,16 @@ export default function SignIn() {
               type='submit'
               className='w-full py-2 px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'
             >
-              Login
+              Register
             </button>
           </form>
           <div className='flex mt-4 justify-center flex-wrap'>
-            <span className='text-black'>Don&apos;t have an account?</span>
+            <span className='text-black'>Already have an account?</span>
             <a
-              href='#'
+              href='#' // Update this with your login page link
               className='desktop:block phone:flex phone:flex-nowrap justify-center ml-2 text-primary.blue hover:text-secondary.blue'
             >
-              Create one
+              Login
             </a>
           </div>
         </div>
