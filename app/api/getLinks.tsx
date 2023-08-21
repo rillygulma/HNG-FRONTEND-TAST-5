@@ -15,7 +15,7 @@ export const getLinks = async (
 
   const user = await getUser(db, email, password)
 
-  if (true /*user (once login action is working)*/) {
+  if (user) {
     return links.map((link, index) => {
       return (
         <CustomLinkBlock

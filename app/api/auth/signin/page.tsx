@@ -15,7 +15,11 @@ export default function SignIn() {
     signIn('credentials', {
       ...data,
       callbackUrl: '/editor',
-    }).then(() => alert('login successful'))
+    }).then(() => console.log('login successful'))
+  }
+
+  const test = () => {
+    console.log('test submission')
   }
 
   return (

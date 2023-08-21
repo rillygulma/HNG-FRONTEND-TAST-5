@@ -62,8 +62,6 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
     return `icon-${social}.svg`
   }
 
-  console.log(social)
-
   return (
     <article
       className={`flex items-center justify-between ${getPlatformStyle(
