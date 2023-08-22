@@ -6,9 +6,13 @@ import { getUser } from '../api/getLinks'
 
 import { db } from '../../prisma/db.server'
 
-const Preview = () => {
-  const links = getLinks(db, 'matt.omalley.west@gmail.com', 'testpassword')
-  const user = getUser(db, 'matt.omalley.west@gmail.com', 'testpassword')
+const Preview = async () => {
+  const links = await getLinks(
+    db,
+    'matt.omalley.west@gmail.com',
+    'testpassword'
+  )
+  const user = await getUser(db, 'matt.omalley.west@gmail.com', 'testpassword')
 
   console.log(user)
 
@@ -27,11 +31,12 @@ const Preview = () => {
       <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16' />
       <h1 className='text-4xl mt-4 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        Name
+        {user?.username}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
       <h3 className='text-xl mt-2 text-black'>
-        <span className='text-primary.blue font-semibold'>{'{'}</span>Email
+        <span className='text-primary.blue font-semibold'>{'{'}</span>
+        {user?.email}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h3>
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>

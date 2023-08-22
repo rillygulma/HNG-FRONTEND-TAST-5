@@ -22,8 +22,6 @@ type PlatformKeys =
   | 'website'
 
 const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
-  const color = 'primary.blue'
-  const icon = 'icon-linkedin.svg'
   const social = platform.toLowerCase().replace(/\s+/g, '')
 
   const platformColors: Record<PlatformKeys, string> = Object.freeze({
