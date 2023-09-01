@@ -7,14 +7,23 @@ import { getUser } from '../api/getLinks'
 import { db } from '../../prisma/db.server'
 
 const Preview = async () => {
-  const links = await getLinks(
-    db,
-    'matt.omalley.west@gmail.com',
-    'testpassword'
-  )
-  const user = await getUser(db, 'matt.omalley.west@gmail.com', 'testpassword')
+  const getData = async () => {
+    const links = await getLinks(
+      db,
+      'matt.omalley.west@gmail.com',
+      'testpassword'
+    )
+    const user = await getUser(
+      db,
+      'matt.omalley.west@gmail.com',
+      'testpassword'
+    )
 
-  console.log(user)
+    return { links, user }
+  }
+  const data = await getData()
+
+  console.log(data.user)
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -31,16 +40,16 @@ const Preview = async () => {
       <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16' />
       <h1 className='text-4xl mt-4 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {user?.username}
+        {data.user?.username}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
       <h3 className='text-xl mt-2 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {user?.email}
+        {data.user?.email}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h3>
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>
-        {links}
+        {data.links}
       </section>
     </main>
   )
