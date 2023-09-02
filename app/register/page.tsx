@@ -14,7 +14,7 @@ export default function Register() {
     password: '',
     username: '',
   })
-  const registerUser = async (e) => {
+  const registerUser = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Registering user')
     axios
@@ -22,8 +22,8 @@ export default function Register() {
       .then(() => {
         toast.success('User registered successfully')
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
+        toast.error('Something went wrong')
       })
     router.push('/')
   }

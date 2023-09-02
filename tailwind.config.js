@@ -17,6 +17,8 @@ module.exports = {
         'primary.blue': '#633CFF',
         'secondary.blue': '#BEADFF',
         'tertiary.blue': '#EFEBFF',
+        'primary.red': '#FF3939',
+        'secondary.red': '#FFBEBE',
         background: '#FAFAFA',
       },
       backgroundImage: {

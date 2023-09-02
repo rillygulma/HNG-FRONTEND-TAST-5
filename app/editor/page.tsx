@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState } from 'react'
-import Nav from '../../components/Nav'
-import Links from '../../components/Links'
-import Profile from '../../components/Profile'
+import Nav from '@/components/Nav'
+import Links from '@/components/Links'
+import Profile from '@/components/Profile'
 import { useSession } from 'next-auth/react'
 
 const Editor = () => {

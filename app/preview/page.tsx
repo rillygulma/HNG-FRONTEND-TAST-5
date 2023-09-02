@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../../components/Button'
+import Button from '@/components/Button'
 import Link from 'next/link'
 import { getLinks } from '../api/getLinks'
 import { getUser } from '../api/getLinks'

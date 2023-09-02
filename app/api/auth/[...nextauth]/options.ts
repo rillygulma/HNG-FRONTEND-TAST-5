@@ -21,9 +21,6 @@ export const options: NextAuthOptions = {
       },
 
       async authorize(credentials) {
-        //Retrieve user data here.
-        //Refer to https://next-auth.js.org/configuration/providers/credentials
-
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Enter your credentials')
         }
@@ -39,25 +36,15 @@ export const options: NextAuthOptions = {
         }
 
         const passwordMatch = await bcrypt.compare(
-          credentials?.password,
-          user?.password
+          credentials.password,
+          user.password
         )
 
         if (!passwordMatch) {
           throw new Error('Incorrect password')
         }
 
-        if (
-          credentials?.email === user?.email &&
-          credentials?.password === user?.password
-        ) {
-          return user
-        } else {
-          if (!credentials) {
-            throw new Error('No credentials')
-          }
-          return null
-        }
+        return user
       },
     }),
   ],
