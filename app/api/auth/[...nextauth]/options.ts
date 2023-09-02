@@ -2,6 +2,7 @@ import type { NextAuthOptions } from 'next-auth'
 import GitHubProvider from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import bcrypt from 'bcrypt'
 
 import { db } from '../../../../prisma/db.server'
 
@@ -24,7 +25,7 @@ export const options: NextAuthOptions = {
         //Refer to https://next-auth.js.org/configuration/providers/credentials
 
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('No credentials')
+          throw new Error('Enter your credentials')
         }
 
         const user = await db.user.findUnique({
@@ -32,6 +33,19 @@ export const options: NextAuthOptions = {
             email: credentials?.email,
           },
         })
+
+        if (!user || !user?.password) {
+          throw new Error('No user')
+        }
+
+        const passwordMatch = await bcrypt.compare(
+          credentials?.password,
+          user?.password
+        )
+
+        if (!passwordMatch) {
+          throw new Error('Incorrect password')
+        }
 
         if (
           credentials?.email === user?.email &&

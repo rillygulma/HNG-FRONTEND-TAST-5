@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
 
 export default function SignIn() {
   const [data, setData] = useState({
@@ -15,7 +16,14 @@ export default function SignIn() {
     signIn('credentials', {
       ...data,
       callbackUrl: '/editor',
-    }).then(() => console.log('login successful'))
+    }).then((callback) => {
+      if (callback?.error) {
+        toast.error(callback?.error)
+      }
+      if (callback?.ok) {
+        toast.success('Login successful')
+      }
+    })
   }
 
   const test = () => {

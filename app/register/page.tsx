@@ -5,6 +5,7 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
 
 export default function Register() {
   const router = useRouter()
@@ -19,12 +20,12 @@ export default function Register() {
     axios
       .post('/api/auth/register', data)
       .then(() => {
-        console.log('user has been registered')
+        toast.success('User registered successfully')
       })
       .catch((err) => {
         console.log(err)
       })
-    router.push('/signin')
+    router.push('/')
   }
 
   return (

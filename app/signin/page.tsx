@@ -1,21 +1,35 @@
 'use client'
 import Image from 'next/image'
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import Link from 'next/link'
+import { toast } from 'react-hot-toast'
 
 export default function SignIn() {
   const [data, setData] = useState({
     email: '',
     password: '',
   })
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl') || '/editor'
+  const loginError = searchParams.get('error') || null
+  const [error, setSerror] = useState<string>(loginError || '')
+
   const loginUser = async (e) => {
     e.preventDefault()
     console.log('login function runs')
     signIn('credentials', {
       ...data,
-      callbackUrl: '/editor',
-    }).then(() => console.log('login successful'))
+      callbackUrl,
+    }).then((callback) => {
+      if (callback?.error) {
+        toast.error(callback?.error)
+      }
+      if (callback?.ok) {
+        toast.success('Login successful')
+      }
+    })
   }
 
   const test = () => {
