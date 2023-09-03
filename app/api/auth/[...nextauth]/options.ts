@@ -32,7 +32,7 @@ export const options: NextAuthOptions = {
         })
 
         if (!user || !user?.password) {
-          throw new Error('No user')
+          throw new Error("User doesn't exist")
         }
 
         const passwordMatch = await bcrypt.compare(

@@ -74,6 +74,8 @@ export default function Register() {
                 type='text'
                 placeholder='Enter your email'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
+                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                required
               />
             </div>
 

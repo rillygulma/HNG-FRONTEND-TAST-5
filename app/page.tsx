@@ -12,8 +12,12 @@ export default function SignIn() {
     password: '',
     redirect: false,
   })
-  const router = useRouter()
+  const searchParams = useSearchParams()
+  const loginError = searchParams.get('error') || null
+  const [error, setSerror] = useState<string>(loginError || '')
   const { data: session, status } = useSession()
+  const router = useRouter()
+
   useEffect(() => {
     if (status === 'authenticated') {
       router.push('/editor')
@@ -64,6 +68,9 @@ export default function SignIn() {
                 type='text'
                 placeholder='Enter your username'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
+                value={data.email}
+                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                required
               />
             </div>
 
@@ -80,6 +87,9 @@ export default function SignIn() {
                 type='password'
                 placeholder='Enter your password'
                 onChange={(e) => setData({ ...data, password: e.target.value })}
+                minLength={5}
+                value={data.password}
+                required
               />
             </div>
 

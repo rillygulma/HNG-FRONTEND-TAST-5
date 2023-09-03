@@ -33,7 +33,7 @@ export default function SignIn() {
       if (callback?.error) {
         toast.error(callback?.error)
       }
-      if (callback?.ok) {
+      if (callback?.ok && !callback?.error) {
         toast.success('Login successful')
       }
     })
@@ -69,6 +69,8 @@ export default function SignIn() {
                 placeholder='Enter your username'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
                 value={data.email}
+                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+                required
               />
             </div>
 
@@ -85,7 +87,9 @@ export default function SignIn() {
                 type='password'
                 placeholder='Enter your password'
                 onChange={(e) => setData({ ...data, password: e.target.value })}
+                minLength={5}
                 value={data.password}
+                required
               />
             </div>
 

@@ -10,6 +10,7 @@ import { options } from '../../api/auth/[...nextauth]/options'
 
 const Preview = async () => {
   const session = await getServerSession(options)
+  console.log(session)
 
   if (!session) {
     redirect('/signin')
