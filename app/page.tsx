@@ -29,7 +29,7 @@ export default function SignIn() {
       if (callback?.error) {
         toast.error(callback?.error)
       }
-      if (callback?.ok) {
+      if (callback?.ok && !callback?.error) {
         toast.success('Login successful')
       }
     })
