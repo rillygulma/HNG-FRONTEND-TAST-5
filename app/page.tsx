@@ -1,7 +1,8 @@
 'use client'
 import Image from 'next/image'
-import { signIn } from 'next-auth/react'
-import { useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 
@@ -9,13 +10,21 @@ export default function SignIn() {
   const [data, setData] = useState({
     email: '',
     password: '',
+    redirect: false,
   })
-  const loginUser = async (e) => {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/editor')
+    }
+  }, [session, status])
+
+  const loginUser = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('login function runs')
-    signIn('credentials', {
+    await signIn('credentials', {
       ...data,
-      callbackUrl: '/editor',
     }).then((callback) => {
       if (callback?.error) {
         toast.error(callback?.error)

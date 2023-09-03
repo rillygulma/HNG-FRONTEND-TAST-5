@@ -1,12 +1,20 @@
 import React from 'react'
 import Button from '@/components/Button'
 import Link from 'next/link'
-import { getLinks } from '../api/getLinks'
-import { getUser } from '../api/getLinks'
-
-import { db } from '../../prisma/db.server'
+import { getLinks } from '../../api/getLinks'
+import { getUser } from '../../api/getLinks'
+import { redirect } from 'next/navigation'
+import { db } from '../../../prisma/db.server'
+import { getServerSession } from 'next-auth/next'
+import { options } from '../../api/auth/[...nextauth]/options'
 
 const Preview = async () => {
+  const session = await getServerSession(options)
+
+  if (!session) {
+    redirect('/signin')
+  }
+
   const getData = async () => {
     const links = await getLinks(
       db,

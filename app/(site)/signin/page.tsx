@@ -1,8 +1,8 @@
 'use client'
 import Image from 'next/image'
-import { signIn } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { signIn, useSession } from 'next-auth/react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 
@@ -10,18 +10,25 @@ export default function SignIn() {
   const [data, setData] = useState({
     email: '',
     password: '',
+    redirect: false,
   })
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl') || '/editor'
   const loginError = searchParams.get('error') || null
   const [error, setSerror] = useState<string>(loginError || '')
+  const { data: session, status } = useSession()
+  const router = useRouter()
 
-  const loginUser = async (e) => {
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/editor')
+    }
+  }, [session, status])
+
+  const loginUser = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('login function runs')
-    signIn('credentials', {
+    await signIn('credentials', {
       ...data,
-      callbackUrl,
     }).then((callback) => {
       if (callback?.error) {
         toast.error(callback?.error)
@@ -30,10 +37,6 @@ export default function SignIn() {
         toast.success('Login successful')
       }
     })
-  }
-
-  const test = () => {
-    console.log('test submission')
   }
 
   return (
@@ -65,6 +68,7 @@ export default function SignIn() {
                 type='text'
                 placeholder='Enter your username'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
+                value={data.email}
               />
             </div>
 
@@ -81,6 +85,7 @@ export default function SignIn() {
                 type='password'
                 placeholder='Enter your password'
                 onChange={(e) => setData({ ...data, password: e.target.value })}
+                value={data.password}
               />
             </div>
 

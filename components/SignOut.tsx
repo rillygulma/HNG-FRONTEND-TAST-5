@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
+import { signOut } from 'next-auth/react'
 
 const SignOut = () => {
   return (
     <button
-      type='submit'
+      onClick={() => signOut()}
       className='flex justify-start bg-primary.red hover:bg-secondary.red text-white font-bold border-primary.red border-2 rounded-md px-4 py-2 mt-4 w-full'
     >
       <div className='w-full tertiary.gray mr-4'>
