@@ -14,18 +14,44 @@ export default function Register() {
     password: '',
     username: '',
   })
+  const { data: session, status } = useSession()
+  const [error, setError] = useState('Something went wrong')
+  const [errorType, setErrorType] = useState('TOAST_ERROR')
+
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Registering user')
-    axios
+    await axios
       .post('/api/auth/register', data)
       .then(() => {
         toast.success('User registered successfully')
+        router.push('/signin') // Only redirect if successful
       })
-      .catch(() => {
-        toast.error('Something went wrong')
+      .catch((err) => {
+        setError(err.response.data.error)
+        setErrorType(err.response.data.errorType)
+        console.log(errorType)
+        switch (errorType) {
+          case 'TOAST_ERROR':
+            toast.error(error)
+            break
+          case 'PASSWORD':
+            setError(error)
+            setErrorType('PASSWORD')
+            break
+          case 'EMAIL':
+            setError(error)
+            setErrorType('EMAIL')
+            break
+          case 'USERNAME':
+            setError(error)
+            setErrorType('USERNAME')
+            break
+          case 'REDIRECT':
+            router.push('/signin')
+            break
+        }
       })
-    router.push('/')
   }
 
   return (
@@ -61,6 +87,9 @@ export default function Register() {
                     setData({ ...data, username: e.target.value })
                   }
                 />
+                {error === 'USERNAME' && (
+                  <p className='form-validation-error'>{error}</p>
+                )}
               </div>
               <label
                 className='block text-sm font-medium text-black mb-2'
@@ -69,16 +98,20 @@ export default function Register() {
                 Email
               </label>
               <input
-                className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+                className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                  error === 'EMAIL' ? 'error-container' : null
+                }`}
                 id='email'
                 type='text'
                 placeholder='Enter your email'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
-                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                 required
               />
+              {error === 'EMAIL' && <p className='form-validation-error'></p>}
             </div>
-
+            {error === 'EMAIL' && (
+              <p className='form-validation-error'>{error}</p>
+            )}
             <div className='mb-4'>
               <label
                 className='block text-sm font-medium text-black mb-2'
@@ -87,12 +120,18 @@ export default function Register() {
                 Password
               </label>
               <input
-                className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+                className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                  error === 'PASSWORD' ? 'error-container' : null
+                }`}
                 id='password'
                 type='password'
                 placeholder='Enter your password'
+                minLength={5}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
               />
+              {error === 'PASSWORD' && (
+                <p className='form-validation-error'>{error}</p>
+              )}
             </div>
 
             <button

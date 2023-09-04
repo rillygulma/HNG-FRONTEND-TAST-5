@@ -69,7 +69,6 @@ export default function SignIn() {
                 placeholder='Enter your username'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
                 value={data.email}
-                pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
                 required
               />
             </div>

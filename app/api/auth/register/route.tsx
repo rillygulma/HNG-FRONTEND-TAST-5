@@ -15,10 +15,13 @@ export async function POST(req: Request, res: NextResponse) {
   // Email Validation
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   if (!emailPattern.test(email)) {
-    return NextResponse.json({
-      errorType: 'EMAIL',
-      error: 'Invalid email format.',
-    })
+    return NextResponse.json(
+      {
+        errorType: 'EMAIL',
+        error: 'Invalid email format.',
+      },
+      { status: 400 }
+    )
   }
 
   // Password Validation
@@ -26,24 +29,60 @@ export async function POST(req: Request, res: NextResponse) {
   const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
   if (!passwordPattern.test(password)) {
-    return NextResponse.json({
-      errorType: 'PASSWORD',
-      error:
-        'Password must have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
-    })
+    return NextResponse.json(
+      {
+        errorType: 'PASSWORD',
+        error:
+          'Password must have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
+      },
+      { status: 400 }
+    )
   }
 
-  const userExists = await db.user.findUnique({
+  // Username Validation
+  // Minimum five characters, at least one letter and one number
+  const usernamePattern = /^[a-zA-Z0-9_]{5,}[a-zA-Z]+[0-9]*$/
+  if (!usernamePattern.test(username)) {
+    return NextResponse.json(
+      {
+        errorType: 'USERNAME',
+        error:
+          'Username must have minimum five characters, at least one letter and one number.',
+      },
+      { status: 400 }
+    )
+  }
+
+  const userEmailExists = await db.user.findUnique({
     where: {
       email: email,
     },
   })
 
-  if (userExists) {
-    return NextResponse.json({
-      errorType: 'TOAST_ERROR',
-      error: `User ${userExists.email} already exists`,
-    })
+  const usernameExists = await db.user.findUnique({
+    where: {
+      username: username,
+    },
+  })
+
+  if (userEmailExists) {
+    return NextResponse.json(
+      {
+        errorType: 'TOAST_ERROR',
+        error: `Email ${userEmailExists.email} already exists`,
+      },
+      { status: 409 }
+    )
+  }
+
+  if (usernameExists) {
+    return NextResponse.json(
+      {
+        errorType: 'TOAST_ERROR',
+        error: `Username ${usernameExists.username} already exists`,
+      },
+      { status: 409 }
+    )
   }
 
   const salt = await bcrypt.genSalt(10)
@@ -57,5 +96,5 @@ export async function POST(req: Request, res: NextResponse) {
     },
   })
 
-  return NextResponse.json(user)
+  return NextResponse.json(user, { status: 201 })
 }
