@@ -15,6 +15,14 @@ export async function POST(req: Request, res: NextResponse) {
   // Email Validation
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   if (!emailPattern.test(email)) {
+    const response = NextResponse.json(
+      {
+        errorType: 'EMAIL',
+        error: 'Invalid email format.',
+      },
+      { status: 400 }
+    )
+    console.log(response)
     return NextResponse.json(
       {
         errorType: 'EMAIL',
