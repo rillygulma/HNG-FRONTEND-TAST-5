@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -16,41 +16,48 @@ export default function Register() {
   })
   const { data: session, status } = useSession()
   const [error, setError] = useState('Something went wrong')
-  const [errorType, setErrorType] = useState('TOAST_ERROR')
+  const [errorType, setErrorType] = useState('')
 
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Registering user')
-    await axios
+    axios
       .post('/api/auth/register', data)
       .then(() => {
         toast.success('User registered successfully')
         router.push('/signin') // Only redirect if successful
       })
       .catch((err) => {
-        setError(err.response.data.error)
-        setErrorType(err.response.data.errorType)
-        console.log(errorType)
-        switch (errorType) {
+        const localErrorType = err.response.data.errorType
+        const localError = err.response.data.error
+        switch (localErrorType) {
           case 'TOAST_ERROR':
-            toast.error(error)
-            break
-          case 'PASSWORD':
-            setError(error)
-            setErrorType('PASSWORD')
+            toast.error(localError)
             break
           case 'EMAIL':
-            setError(error)
-            setErrorType('EMAIL')
+            console.log(localErrorType)
+            setErrorType(localErrorType)
+            console.log(errorType)
+            break
+          case 'PASSWORD':
+            setError(localError)
+            setErrorType('PASSWORD')
             break
           case 'USERNAME':
-            setError(error)
+            setError(localError)
             setErrorType('USERNAME')
             break
           case 'REDIRECT':
             router.push('/signin')
             break
+          default:
+            toast.error('Something went wrong.')
         }
+        setData({
+          ...data,
+          email: '',
+          password: '',
+        })
       })
   }
 
@@ -105,6 +112,7 @@ export default function Register() {
                 type='text'
                 placeholder='Enter your email'
                 onChange={(e) => setData({ ...data, email: e.target.value })}
+                value={data.email}
                 required
               />
               {error === 'EMAIL' && <p className='form-validation-error'></p>}
@@ -128,6 +136,8 @@ export default function Register() {
                 placeholder='Enter your password'
                 minLength={5}
                 onChange={(e) => setData({ ...data, password: e.target.value })}
+                value={data.password}
+                required
               />
               {error === 'PASSWORD' && (
                 <p className='form-validation-error'>{error}</p>

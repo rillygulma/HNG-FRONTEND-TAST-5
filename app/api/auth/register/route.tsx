@@ -22,7 +22,7 @@ export async function POST(req: Request, res: NextResponse) {
       },
       { status: 400 }
     )
-    console.log(response)
+
     return NextResponse.json(
       {
         errorType: 'EMAIL',
@@ -41,7 +41,7 @@ export async function POST(req: Request, res: NextResponse) {
       {
         errorType: 'PASSWORD',
         error:
-          'Password must have minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.',
+          'You need a minimum of eight characters, one number and one special character.',
       },
       { status: 400 }
     )
