@@ -31,14 +31,13 @@ export default function Register() {
         const localError = err.response.data.error
         console.error(localErrorType, localError)
 
-        // Reset form if the error type warrants it
         if (
           localErrorType === 'EMAIL' ||
           localErrorType === 'PASSWORD' ||
           localErrorType === 'USERNAME'
         ) {
-          setErrorType(localErrorType) // assuming localErrorType is a string
-          setError(localError) // assuming localError is a string
+          setErrorType(localErrorType)
+          setError(localError)
           setData({
             ...data,
             email: '',
@@ -46,7 +45,6 @@ export default function Register() {
           })
         }
 
-        // Further handling based on the error type, if needed
         if (localErrorType === 'REDIRECT') {
           router.push('/signin')
         } else if (localErrorType === 'TOAST_ERROR') {

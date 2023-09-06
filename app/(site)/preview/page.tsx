@@ -10,7 +10,7 @@ import { options } from '../../api/auth/[...nextauth]/options'
 
 const Preview = async () => {
   const session = await getServerSession(options)
-  console.log(session)
+  console.log(session?.user?.name)
 
   if (!session) {
     redirect('/signin')
@@ -32,7 +32,7 @@ const Preview = async () => {
   }
   const data = await getData()
 
-  console.log(data.user)
+  //console.log(data.user?.username)
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -49,12 +49,12 @@ const Preview = async () => {
       <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16' />
       <h1 className='text-4xl mt-4 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {data.user?.username}
+        {session?.user?.name || 'Your username here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
       <h3 className='text-xl mt-2 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {data.user?.email}
+        {session?.user?.email || 'Your email here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h3>
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>

@@ -53,6 +53,5 @@ function getLinks() {
         },
       ],
     },
-    // You can add more users and links here
   ]
 }
