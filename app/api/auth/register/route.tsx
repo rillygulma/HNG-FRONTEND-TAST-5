@@ -15,14 +15,6 @@ export async function POST(req: Request, res: NextResponse) {
   // Email Validation
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   if (!emailPattern.test(email)) {
-    const response = NextResponse.json(
-      {
-        errorType: 'EMAIL',
-        error: 'Invalid email format.',
-      },
-      { status: 400 }
-    )
-
     return NextResponse.json(
       {
         errorType: 'EMAIL',
@@ -36,6 +28,8 @@ export async function POST(req: Request, res: NextResponse) {
   // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character
   const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
+  console.log('Password to test:', password)
   if (!passwordPattern.test(password)) {
     return NextResponse.json(
       {

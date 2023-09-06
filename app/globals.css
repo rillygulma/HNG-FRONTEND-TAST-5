@@ -91,11 +91,11 @@ h1 {
 /* Error states */
 .form-validation-error {
   margin: 0;
-  margin-top: 0.25em;
   color: red;
   font-size: 0.8rem;
 }
 
 .error-container {
   border-color: red;
+  border-width: 0.16rem;
 }

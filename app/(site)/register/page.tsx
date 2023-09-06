@@ -16,11 +16,10 @@ export default function Register() {
   })
   const { data: session, status } = useSession()
   const [error, setError] = useState('Something went wrong')
-  const [errorType, setErrorType] = useState('')
+  const [errorType, setErrorType] = useState('TOAST_ERROR')
 
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Registering user')
     axios
       .post('/api/auth/register', data)
       .then(() => {
@@ -30,36 +29,33 @@ export default function Register() {
       .catch((err) => {
         const localErrorType = err.response.data.errorType
         const localError = err.response.data.error
-        switch (localErrorType) {
-          case 'TOAST_ERROR':
-            toast.error(localError)
-            break
-          case 'EMAIL':
-            console.log(localErrorType)
-            setErrorType(localErrorType)
-            console.log(errorType)
-            break
-          case 'PASSWORD':
-            setError(localError)
-            setErrorType('PASSWORD')
-            break
-          case 'USERNAME':
-            setError(localError)
-            setErrorType('USERNAME')
-            break
-          case 'REDIRECT':
-            router.push('/signin')
-            break
-          default:
-            toast.error('Something went wrong.')
+        console.error(localErrorType, localError)
+
+        // Reset form if the error type warrants it
+        if (
+          localErrorType === 'EMAIL' ||
+          localErrorType === 'PASSWORD' ||
+          localErrorType === 'USERNAME'
+        ) {
+          setErrorType(localErrorType) // assuming localErrorType is a string
+          setError(localError) // assuming localError is a string
+          setData({
+            ...data,
+            email: '',
+            password: '',
+          })
         }
-        setData({
-          ...data,
-          email: '',
-          password: '',
-        })
+
+        // Further handling based on the error type, if needed
+        if (localErrorType === 'REDIRECT') {
+          router.push('/signin')
+        } else if (localErrorType === 'TOAST_ERROR') {
+          toast.error(localError)
+        }
       })
   }
+
+  console.log('Error:' + error, ' ', 'Error type:' + errorType)
 
   return (
     <main className='min-h-screen flex items-center justify-center bg-background'>
@@ -94,7 +90,7 @@ export default function Register() {
                     setData({ ...data, username: e.target.value })
                   }
                 />
-                {error === 'USERNAME' && (
+                {errorType === 'USERNAME' && (
                   <p className='form-validation-error'>{error}</p>
                 )}
               </div>
@@ -106,7 +102,7 @@ export default function Register() {
               </label>
               <input
                 className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
-                  error === 'EMAIL' ? 'error-container' : null
+                  errorType === 'EMAIL' ? 'error-container' : null
                 }`}
                 id='email'
                 type='text'
@@ -115,11 +111,10 @@ export default function Register() {
                 value={data.email}
                 required
               />
-              {error === 'EMAIL' && <p className='form-validation-error'></p>}
+              {errorType === 'EMAIL' && (
+                <p className='form-validation-error'>{error}</p>
+              )}
             </div>
-            {error === 'EMAIL' && (
-              <p className='form-validation-error'>{error}</p>
-            )}
             <div className='mb-4'>
               <label
                 className='block text-sm font-medium text-black mb-2'
@@ -129,7 +124,7 @@ export default function Register() {
               </label>
               <input
                 className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
-                  error === 'PASSWORD' ? 'error-container' : null
+                  errorType === 'PASSWORD' ? 'error-container' : null
                 }`}
                 id='password'
                 type='password'
@@ -139,11 +134,10 @@ export default function Register() {
                 value={data.password}
                 required
               />
-              {error === 'PASSWORD' && (
+              {errorType === 'PASSWORD' && (
                 <p className='form-validation-error'>{error}</p>
               )}
             </div>
-
             <button
               type='submit'
               className='w-full py-2 px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'
