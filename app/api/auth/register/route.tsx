@@ -29,7 +29,6 @@ export async function POST(req: Request, res: NextResponse) {
   const passwordPattern =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
-  console.log('Password to test:', password)
   if (!passwordPattern.test(password)) {
     return NextResponse.json(
       {
@@ -42,14 +41,13 @@ export async function POST(req: Request, res: NextResponse) {
   }
 
   // Username Validation
-  // Minimum five characters, at least one letter and one number
-  const usernamePattern = /^[a-zA-Z0-9_]{5,}[a-zA-Z]+[0-9]*$/
+  // Minimum three characters
+  const usernamePattern = /^[a-zA-Z0-9_]{3,}$/
   if (!usernamePattern.test(username)) {
     return NextResponse.json(
       {
         errorType: 'USERNAME',
-        error:
-          'Username must have minimum five characters, at least one letter and one number.',
+        error: 'Username must have minimum three characters.',
       },
       { status: 400 }
     )
@@ -71,7 +69,7 @@ export async function POST(req: Request, res: NextResponse) {
     return NextResponse.json(
       {
         errorType: 'TOAST_ERROR',
-        error: `Email ${userEmailExists.email} already exists`,
+        error: `Email ${userEmailExists.email} already exists.`,
       },
       { status: 409 }
     )
@@ -81,7 +79,7 @@ export async function POST(req: Request, res: NextResponse) {
     return NextResponse.json(
       {
         errorType: 'TOAST_ERROR',
-        error: `Username ${usernameExists.username} already exists`,
+        error: `Username ${usernameExists.username} already exists.`,
       },
       { status: 409 }
     )
