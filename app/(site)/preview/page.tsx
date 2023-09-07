@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { getLinks } from '../../api/getLinks'
 import { getUser } from '../../api/getLinks'
 import { redirect } from 'next/navigation'
-import { db } from '../../../prisma/db.server'
 import { getServerSession } from 'next-auth/next'
 import { options } from '../../api/auth/[...nextauth]/options'
+
+import { db } from '../../../prisma/db.server'
 
 const Preview = async () => {
   const session = await getServerSession(options)
@@ -17,16 +18,8 @@ const Preview = async () => {
   }
 
   const getData = async () => {
-    const links = await getLinks(
-      db,
-      'matt.omalley.west@gmail.com',
-      'testpassword'
-    )
-    const user = await getUser(
-      db,
-      'matt.omalley.west@gmail.com',
-      'testpassword'
-    )
+    const links = await getLinks(db, 'matt.omalley.west@gmail.com')
+    const user = await getUser(db, 'matt.omalley.west@gmail.com')
 
     return { links, user }
   }

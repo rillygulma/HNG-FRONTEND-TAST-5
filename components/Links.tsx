@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import EditLinkBlock from './EditLinkBlock'
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
+import axios from 'axios'
 
 const Links = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
   console.log(testArr.length)
+  const [links, setLinks] = useState([])
+
+  useEffect(() => {
+    const getLinks = async () => {
+      axios
+        .get('/app/api/links')
+        .then((response) => response.data)
+        .then((data) => {
+          console.log(data.links)
+          setLinks(data.links)
+        })
+        .catch((error) => {
+          console.log(error) // create error boundary if links are corrupted, or display graphic if user has no links
+        })
+    }
+
+    getLinks()
+  }, [])
 
   return (
     <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>

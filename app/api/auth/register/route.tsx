@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
-import { db } from '../../../../prisma/db.server'
+import { db } from '@/prisma/db.server'
 
 interface Body {
   email: string
@@ -8,7 +8,10 @@ interface Body {
   username: string
 }
 
-export async function POST(req: Request, res: NextResponse) {
+export async function POST(
+  req: Request,
+  res: NextResponse
+): Promise<NextResponse> {
   const body = await req.json()
   const { email, password, username } = body
 

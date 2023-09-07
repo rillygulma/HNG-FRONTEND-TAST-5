@@ -1,19 +1,14 @@
-import { db } from '../../prisma/db.server'
 import { PrismaClient } from '@prisma/client'
 import CustomLinkBlock from '@/components/CustomLinkBlock'
 
-export const getLinks = async (
-  db: PrismaClient,
-  email: string,
-  password: string
-) => {
+export const getLinks = async (db: PrismaClient, email: string) => {
   const links = await db.link.findMany({
     include: {
       user: true,
     },
   })
 
-  const user = await getUser(db, email, password)
+  const user = await getUser(db, email)
 
   if (user) {
     return links.map((link, index) => {
@@ -29,13 +24,9 @@ export const getLinks = async (
   }
 }
 
-export const getUser = async (
-  db: PrismaClient,
-  email: string,
-  password: string
-) => {
+export const getUser = async (db: PrismaClient, email: string) => {
   const user = await db.user.findUnique({
-    where: { email, password },
+    where: { email },
     include: {
       links: true,
     },

@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcrypt'
+
 const db = new PrismaClient()
 
 async function seed() {
@@ -11,10 +13,13 @@ async function seed() {
     })
 
     if (!user) {
+      const hashedPassword = await bcrypt.hash(linkData.password, 10)
+
       user = await db.user.create({
         data: {
           username: linkData.username,
           email: linkData.email,
+          password: hashedPassword,
           links: {
             create: linkData.links, // Use the create operator to insert related records
           },
@@ -31,7 +36,7 @@ function getLinks() {
     {
       username: 'Matt',
       email: 'matt.omalley.west@gmail.com',
-      password: 'testpassword',
+      password: 'TestPassword04*',
       links: [
         {
           url: 'https://www.linkedin.com/in/matthew-west-342b0965/',
