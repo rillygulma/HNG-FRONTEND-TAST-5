@@ -88,6 +88,13 @@ h1 {
   margin-bottom: 1rem;
 }
 
+h2 {
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
 /* Error states */
 .form-validation-error {
   margin: 0;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import EditLinkBlock from './EditLinkBlock'
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
+import Image from 'next/image'
 import axios from 'axios'
 
 const Links = () => {
@@ -12,10 +13,10 @@ const Links = () => {
   useEffect(() => {
     const getLinks = async () => {
       axios
-        .get('/app/api/links')
+        .get('/api/links')
         .then((response) => response.data)
         .then((data) => {
-          console.log(data.links)
+          console.log(data)
           setLinks(data.links)
         })
         .catch((error) => {
@@ -36,11 +37,31 @@ const Links = () => {
       <AddLinkButton />
       <form action='' className='w-full mb-4'>
         <div className='space-y-6'>
-          {testArr.map((link, index) => {
+          {links.length === 0 && (
+            <article className='flex flex-col justify-center items-center py-6 text-primary.gray text-sm z-50 bg-background rounded-md phone:min-h-72 w-full my-4'>
+              <Image
+                src='./images/illustration-empty.svg'
+                alt='No links'
+                width='110'
+                height='110'
+              />
+              <h2 className='mt-4'>Let&apos;s get you started!</h2>
+              <p className='text-center text-gray-400 mx-3'>
+                Use the &quot;Add Link&quot; button to get started. Once you
+                have more than one link, you can reorder and edit them. Then,
+                share your profiles with the world!
+              </p>
+            </article>
+          )}
+          {/*testArr.map((link, index) => {
             return <EditLinkBlock index={index} key={index} />
-          })}
+          })*/}
+          {links.length > 0 &&
+            links.map((link, index) => {
+              return <EditLinkBlock index={index} key={index} />
+            })}
         </div>
-        <SaveButton />
+        {links.length > 0 && <SaveButton />}
       </form>
     </section>
   )

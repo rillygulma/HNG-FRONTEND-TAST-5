@@ -5,7 +5,7 @@ import { options } from '../../api/auth/[...nextauth]/options'
 
 import { db } from '@/prisma/db.server'
 
-export async function GET(request: Request): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   const session = await getServerSession(options)
 
   const user = await db.user.findUnique({
