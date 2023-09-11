@@ -43,7 +43,13 @@ const EditLinkBlock = ({
             Link #{index + 1}
           </span>
         </div>
-        <span className='mr-2 pt-0.5 text-primary.gray'>Remove</span>
+        <button
+          onClick={() => removeLink(index)}
+          className='mr-2 pt-0.5 text-primary.gray'
+          type='button'
+        >
+          Remove
+        </button>
       </div>
       <div className='px-4 space-y-4'>
         <div>

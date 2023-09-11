@@ -23,6 +23,10 @@ const Links = () => {
   console.log(testArr.length)
   const [links, setLinks] = useState<Link[]>([])
 
+  useEffect(() => {
+    console.log(links)
+  }, [links])
+
   const addLink = () => {
     const newLink = {
       id: '',

@@ -9,6 +9,7 @@ const AddLinkButton = ({ addLink }: AddLinkProps) => {
     <button
       onClick={addLink}
       className='bg-transparent hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4'
+      type='button'
     >
       <div className='w-full pr-2'>
         <svg
