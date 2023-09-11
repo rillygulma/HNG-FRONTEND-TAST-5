@@ -1,12 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-
-type LinkBlockProps = {
-  index: number
-  key?: number
+interface Link {
+  id: string
+  url: string
+  platform: string
 }
 
-const EditLinkBlock = ({ index }: LinkBlockProps) => {
+type LinkBlockProps = {
+  link: Link
+  index: number
+  key?: number
+  updateLink: (index: number, link: Link) => void
+  removeLink: (index: number) => void
+}
+
+const EditLinkBlock = ({
+  link,
+  index,
+  updateLink,
+  removeLink,
+}: LinkBlockProps) => {
+  const [platform, setPlatform] = useState(link.platform)
+  const [url, setUrl] = useState(link.url)
+
+  useEffect(() => {
+    updateLink(index, { id: link.id, platform, url })
+  }, [platform, url])
+
   return (
     <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-56 w-full my-4'>
       <div className='flex justify-between py-4 px-3'>
@@ -31,24 +51,35 @@ const EditLinkBlock = ({ index }: LinkBlockProps) => {
           <select
             name='platform'
             className='w-full px-4 py-2 border rounded-md  text-black placeholder-primary.gray bg-tertiary.gray'
+            value={platform}
+            onChange={(e) => setPlatform(e.target.value)}
           >
             <option value=''>Select a platform</option>
-            <option value=''>Category 1</option>
-            <option value=''>Category 2</option>
-            <option value=''>Category 3</option>
+            <option value=''>GitHub</option>
+            <option value=''>Frontend Mentor</option>
+            <option value=''>X</option>
+            <option value=''>LinkedIn</option>
+            <option value=''>YouTube</option>
+            <option value=''>Facebook</option>
+            <option value=''>Twitch</option>
+            <option value=''>Dev.to</option>
+            <option value=''>Codewars</option>
+            <option value=''>Codepen</option>
+            <option value=''>freeCodeCamp</option>
+            <option value=''>GitLab</option>
+            <option value=''>Hashnode</option>
+            <option value=''>Stack Overflow</option>
           </select>
         </div>
         <div>
           <label htmlFor='link'> Link</label>
-          <select
+          <input
             name='link'
+            type='url'
             className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
-          >
-            <option value=''>Select a category</option>
-            <option value=''>Category 1</option>
-            <option value=''>Category 2</option>
-            <option value=''>Category 3</option>
-          </select>
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
         </div>
       </div>
     </article>

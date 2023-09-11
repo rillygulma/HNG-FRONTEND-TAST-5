@@ -1,8 +1,15 @@
 import React from 'react'
 
-const AddLinkButton = () => {
+interface AddLinkProps {
+  addLink: () => void
+}
+
+const AddLinkButton = ({ addLink }: AddLinkProps) => {
   return (
-    <button className='bg-transparent hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4'>
+    <button
+      onClick={addLink}
+      className='bg-transparent hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4'
+    >
       <div className='w-full pr-2'>
         <svg
           className='inline-block align-middle w-4 h-4 mx-2 mb-0.5 text-blue dark:text-white'

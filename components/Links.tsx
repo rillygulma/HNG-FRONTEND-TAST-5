@@ -5,10 +5,45 @@ import AddLinkButton from './AddLinkButton'
 import Image from 'next/image'
 import axios from 'axios'
 
+interface Link {
+  id: string
+  url: string
+  platform: string
+}
+
+interface User {
+  username: string
+  email: string
+  password: string // Please note storing password like this is not secure in a real application
+  links: Link[]
+}
+
 const Links = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
   console.log(testArr.length)
-  const [links, setLinks] = useState([])
+  const [links, setLinks] = useState<Link[]>([])
+
+  const addLink = () => {
+    const newLink = {
+      id: '',
+      url: '',
+      platform: '',
+    }
+    const arr = new Array(...(links || [])).concat(newLink)
+    setLinks(arr)
+  }
+
+  const updateLink = (index: number, updatedLink: Link) => {
+    const newLinks = [...links]
+    newLinks[index] = updatedLink
+    setLinks(newLinks)
+  }
+
+  const removeLink = (index: number) => {
+    const newLinks = [...links]
+    newLinks.splice(index, 1)
+    setLinks(newLinks)
+  }
 
   useEffect(() => {
     const getLinks = async () => {
@@ -34,7 +69,7 @@ const Links = () => {
       <p className='text-sm text-gray-500'>
         Add, edit, or remove links below, then share your collated links.
       </p>
-      <AddLinkButton />
+      <AddLinkButton addLink={addLink} />
       <form action='' className='w-full mb-4'>
         <div className='space-y-6'>
           {links.length === 0 && (
@@ -58,7 +93,15 @@ const Links = () => {
           })*/}
           {links.length > 0 &&
             links.map((link, index) => {
-              return <EditLinkBlock index={index} key={index} />
+              return (
+                <EditLinkBlock
+                  link={link}
+                  index={index}
+                  key={index}
+                  updateLink={updateLink}
+                  removeLink={removeLink}
+                />
+              )
             })}
         </div>
         {links.length > 0 && <SaveButton />}

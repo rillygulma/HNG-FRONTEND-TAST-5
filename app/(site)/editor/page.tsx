@@ -27,7 +27,7 @@ const Editor = () => {
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
-      <main className='flex justify-center bg-background w-screen h-full'>
+      <main className='flex justify-center bg-background w-screen min-h-screen'>
         {activeButton === 'links' && <Links />}
         {activeButton === 'profile' && <Profile />}
       </main>
