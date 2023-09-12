@@ -4,6 +4,7 @@ import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
 import Image from 'next/image'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 
 interface Link {
   id: string
@@ -29,7 +30,7 @@ const Links = () => {
 
   const addLink = () => {
     const newLink = {
-      id: '',
+      id: uuidv4(),
       url: '',
       platform: '',
     }
@@ -47,6 +48,19 @@ const Links = () => {
     const newLinks = [...links]
     newLinks.splice(index, 1)
     setLinks(newLinks)
+  }
+
+  const handleUpdateLinks = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Sending the following links to server:', links)
+    axios
+      .post('/api/links', { links: links })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error) // create error boundary if links are corrupted, or display graphic if user has no links
+      })
   }
 
   useEffect(() => {
@@ -74,7 +88,7 @@ const Links = () => {
         Add, edit, or remove links below, then share your collated links.
       </p>
       <AddLinkButton addLink={addLink} />
-      <form action='' className='w-full mb-4'>
+      <form action='' className='w-full mb-4' onSubmit={handleUpdateLinks}>
         <div className='space-y-6'>
           {links.length === 0 && (
             <article className='flex flex-col justify-center items-center py-6 text-primary.gray text-sm z-50 bg-background rounded-md phone:min-h-72 w-full my-4'>

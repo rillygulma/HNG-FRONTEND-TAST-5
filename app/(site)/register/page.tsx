@@ -1,7 +1,6 @@
 'use client'
 import Image from 'next/image'
-import { useSession } from 'next-auth/react' // Make sure to define a signUp function or use another function for registration
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -14,7 +13,6 @@ export default function Register() {
     password: '',
     username: '',
   })
-  const { data: session, status } = useSession()
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 

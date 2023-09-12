@@ -121,7 +121,7 @@ const EditLinkBlock = ({
           <input
             name='link'
             type='url'
-            className='input-with-icon w-full px-4 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white'
+            className='input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white'
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
