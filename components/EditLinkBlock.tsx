@@ -105,12 +105,12 @@ const EditLinkBlock = ({
           >
             {keys.map((key, i) => (
               <option value={key} key={i}>
-                <Image
+                {/*<Image
                   src={`./images/icon-${key}.svg`}
                   width={22}
                   height={22}
                   alt=''
-                />
+                />*/}
                 {platformOptions[key]}
               </option>
             ))}
