@@ -51,8 +51,6 @@ export default function Register() {
       })
   }
 
-  console.log('Error:' + error, ' ', 'Error type:' + errorType)
-
   return (
     <main className='min-h-screen flex items-center justify-center bg-background'>
       <div className='w-full max-w-md desktop:mb-0 phone:mb-16'>

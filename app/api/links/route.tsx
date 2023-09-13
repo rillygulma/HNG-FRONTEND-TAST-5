@@ -6,9 +6,10 @@ import { options } from '../../api/auth/[...nextauth]/options'
 import { db } from '@/prisma/db.server'
 import { NextApiRequest } from 'next'
 
-export async function POST(req: NextApiRequest): Promise<NextResponse> {
+export async function POST(req: Request) {
   const session = await getServerSession(options)
-  console.log(req.body)
+  const res = await req.json()
+  console.log(res.links)
 
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },
@@ -21,7 +22,7 @@ export async function POST(req: NextApiRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   }
 
-  const updatedLinks = req.body.links
+  const updatedLinks = res.links
   console.log(updatedLinks)
 
   if (!Array.isArray(updatedLinks) || updatedLinks.length === 0) {
@@ -32,7 +33,13 @@ export async function POST(req: NextApiRequest): Promise<NextResponse> {
   }
 
   for (let updatedLink of updatedLinks) {
-    if (!updatedLink.id) {
+    const linkExists = await db.link.findUnique({
+      where: {
+        id: updatedLink.id,
+      },
+    })
+
+    if (!linkExists) {
       await db.link.create({
         data: {
           url: updatedLink.url,
@@ -40,7 +47,7 @@ export async function POST(req: NextApiRequest): Promise<NextResponse> {
           userId: user.id,
         },
       })
-    } else {
+    } else if (linkExists) {
       await db.link.update({
         where: {
           id: updatedLink.id,
@@ -51,6 +58,11 @@ export async function POST(req: NextApiRequest): Promise<NextResponse> {
           updatedAt: new Date(),
         },
       })
+    } else {
+      return NextResponse.json(
+        { error: 'No valid links provided' },
+        { status: 400 }
+      )
     }
   }
 

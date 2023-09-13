@@ -50,13 +50,15 @@ const Links = () => {
     setLinks(newLinks)
   }
 
-  const handleUpdateLinks = (e: React.FormEvent) => {
+  const handleUpdateLinks = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('Sending the following links to server:', links)
     axios
-      .post('/api/links', { links: links })
-      .then((response) => {
-        console.log(response)
+      .post('/api/links', {
+        links: links,
+      })
+      .then(() => {
+        console.log('links sent to server')
       })
       .catch((error) => {
         console.log(error) // create error boundary if links are corrupted, or display graphic if user has no links
