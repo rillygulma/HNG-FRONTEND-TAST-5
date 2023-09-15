@@ -95,6 +95,34 @@ h2 {
   margin-bottom: 1rem;
 }
 
+.custom-dropdown {
+  position: relative;
+}
+
+.selected-item {
+  cursor: pointer;
+}
+
+.dropdown-items {
+  display: none;
+  position: absolute;
+  top: 100%;
+  z-index: 1;
+}
+
+.custom-dropdown:hover .dropdown-items {
+  display: block;
+}
+
+.dropdown-item {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: #eee;
+}
+
 /* Form Elements */
 .input-with-icon {
   background-image: url('/images/icon-link.svg');

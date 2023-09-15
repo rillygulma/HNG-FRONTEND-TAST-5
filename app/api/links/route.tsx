@@ -8,8 +8,8 @@ import { NextApiRequest } from 'next'
 
 export async function POST(req: Request) {
   const session = await getServerSession(options)
-  const res = await req.json()
-  console.log(res.links)
+  const body = await req.json()
+  console.log(body.links)
 
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },
@@ -19,15 +19,17 @@ export async function POST(req: Request) {
   })
 
   if (!user) {
-    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    return NextResponse.json(
+      { error: 'User not found', errorType: 'TOAST_ERROR' },
+      { status: 404 }
+    )
   }
 
-  const updatedLinks = res.links
-  console.log(updatedLinks)
+  const updatedLinks = body.links
 
   if (!Array.isArray(updatedLinks) || updatedLinks.length === 0) {
     return NextResponse.json(
-      { error: 'No valid links provided' },
+      { error: 'No valid links provided', errorType: 'TOAST_ERROR' },
       { status: 400 }
     )
   }
@@ -40,6 +42,25 @@ export async function POST(req: Request) {
     })
 
     if (!linkExists) {
+      const urlPattern = new RegExp(
+        '^(https?:\\/\\/)?' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+          '(\\:\\d+)?' + // port
+          '(\\/[-a-z\\d%@_.~+&:]*)*' + // path
+          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$',
+        'i'
+      ) // fragment locator
+
+      if (!urlPattern.test(updatedLink.url)) {
+        console.log('Invalid URL triggered: ' + updatedLink.url)
+        return NextResponse.json(
+          { error: 'Not a valid URL.', errorType: 'URL' },
+          { status: 400 }
+        )
+      }
+
       await db.link.create({
         data: {
           url: updatedLink.url,

@@ -23,6 +23,8 @@ const Links = () => {
   const testArr = Array.from({ length: 3 }) as Array<string>
   console.log(testArr.length)
   const [links, setLinks] = useState<Link[]>([])
+  const [error, setError] = useState('Something went wrong')
+  const [errorType, setErrorType] = useState('TOAST_ERROR')
 
   useEffect(() => {
     console.log(links)
@@ -60,8 +62,15 @@ const Links = () => {
       .then(() => {
         console.log('links sent to server')
       })
-      .catch((error) => {
-        console.log(error) // create error boundary if links are corrupted, or display graphic if user has no links
+      .catch((err) => {
+        const localErrorType = err.response.data.errorType
+        const localError = err.response.data.error
+        console.error(localErrorType, localError)
+
+        if (localErrorType === 'URL') {
+          setErrorType(localErrorType)
+          setError(localError)
+        }
       })
   }
 
@@ -120,6 +129,8 @@ const Links = () => {
                   key={index}
                   updateLink={updateLink}
                   removeLink={removeLink}
+                  error={error}
+                  errorType={errorType}
                 />
               )
             })}

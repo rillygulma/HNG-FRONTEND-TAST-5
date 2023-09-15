@@ -12,6 +12,8 @@ type LinkBlockProps = {
   key?: number
   updateLink: (index: number, link: Link) => void
   removeLink: (index: number) => void
+  error?: string
+  errorType?: string
 }
 
 type PlatformKeys =
@@ -58,6 +60,8 @@ const EditLinkBlock = ({
   index,
   updateLink,
   removeLink,
+  error,
+  errorType,
 }: LinkBlockProps) => {
   const [platform, setPlatform] = useState(link.platform || '')
   const [url, setUrl] = useState(link.url || '')
@@ -105,12 +109,6 @@ const EditLinkBlock = ({
           >
             {keys.map((key, i) => (
               <option value={key} key={i}>
-                {/*<Image
-                  src={`./images/icon-${key}.svg`}
-                  width={22}
-                  height={22}
-                  alt=''
-                />*/}
                 {platformOptions[key]}
               </option>
             ))}
@@ -120,11 +118,16 @@ const EditLinkBlock = ({
           <label htmlFor='link'> Link</label>
           <input
             name='link'
-            type='url'
-            className='input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white'
+            type='text'
+            className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white ${
+              errorType === 'URL' ? 'error-container' : null
+            }`}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
+          {errorType === 'URL' && (
+            <p className='form-validation-error'>{error}</p>
+          )}
         </div>
       </div>
     </article>
