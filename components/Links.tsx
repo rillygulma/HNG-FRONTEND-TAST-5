@@ -63,13 +63,22 @@ const Links = () => {
         console.log('links sent to server')
       })
       .catch((err) => {
-        const localErrorType = err.response.data.errorType
-        const localError = err.response.data.error
-        console.error(localErrorType, localError)
+        console.error(err.response.data.errors)
+        if (err.response && err.response.data && err.response.data.errors) {
+          setErrorType('URL')
 
-        if (localErrorType === 'URL') {
-          setErrorType(localErrorType)
-          setError(localError)
+          const errorArray = err.response.data.errors // Assuming this is an array of error objects
+          const updatedLinks = links.map((link, index) => {
+            const errorForThisLink = errorArray.find(
+              (err) => err.url === link.url
+            )
+            return {
+              ...link,
+              error: errorForThisLink ? errorForThisLink.error : null,
+            }
+          })
+
+          setLinks(updatedLinks) // Update the state with the new error messages
         }
       })
   }

@@ -9,7 +9,7 @@ import { NextApiRequest } from 'next'
 export async function POST(req: Request) {
   const session = await getServerSession(options)
   const body = await req.json()
-  console.log(body.links)
+  let errors = []
 
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },
@@ -55,10 +55,9 @@ export async function POST(req: Request) {
 
       if (!urlPattern.test(updatedLink.url)) {
         console.log('Invalid URL triggered: ' + updatedLink.url)
-        return NextResponse.json(
-          { error: 'Not a valid URL.', errorType: 'URL' },
-          { status: 400 }
-        )
+        // Instead of returning, just push an error message
+        errors.push({ url: updatedLink.url, error: 'Not a valid URL.' })
+        continue // skip the rest of the loop and go to the next iteration
       }
 
       await db.link.create({
@@ -85,6 +84,10 @@ export async function POST(req: Request) {
         { status: 400 }
       )
     }
+  }
+
+  if (errors.length > 0) {
+    return NextResponse.json({ errors }, { status: 400 })
   }
 
   return NextResponse.json(updatedLinks)

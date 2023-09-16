@@ -4,6 +4,7 @@ interface Link {
   id: string
   url: string
   platform: string
+  error?: string
 }
 
 type LinkBlockProps = {
@@ -120,14 +121,12 @@ const EditLinkBlock = ({
             name='link'
             type='text'
             className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white ${
-              errorType === 'URL' ? 'error-container' : null
+              link.error ? 'error-container' : null
             }`}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-          {errorType === 'URL' && (
-            <p className='form-validation-error'>{error}</p>
-          )}
+          {link.error && <p className='form-validation-error'>{link.error}</p>}
         </div>
       </div>
     </article>
