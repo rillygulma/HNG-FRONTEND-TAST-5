@@ -34,6 +34,27 @@ export async function POST(req: Request) {
     )
   }
 
+  // Fetch all the links associated with this user from the database
+  const existingLinks = await db.link.findMany({
+    where: {
+      userId: user.id,
+    },
+  })
+
+  const existingLinkIds = new Set(existingLinks.map((link) => link.id))
+
+  const updatedLinkIds = new Set(updatedLinks.map((link) => link.id))
+
+  const idsToDelete = Array.from(existingLinkIds).filter(
+    (id) => !updatedLinkIds.has(id)
+  )
+
+  for (const id of idsToDelete) {
+    await db.link.delete({
+      where: { id },
+    })
+  }
+
   for (let updatedLink of updatedLinks) {
     const linkExists = await db.link.findUnique({
       where: {

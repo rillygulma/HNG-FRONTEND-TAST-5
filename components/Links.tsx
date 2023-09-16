@@ -5,7 +5,7 @@ import AddLinkButton from './AddLinkButton'
 import Image from 'next/image'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
-
+import { toast } from 'react-hot-toast'
 interface Link {
   id: string
   url: string
@@ -60,13 +60,13 @@ const Links = () => {
         links: links,
       })
       .then(() => {
+        toast.success('Links saved.')
         console.log('links sent to server')
       })
       .catch((err) => {
-        console.error(err.response.data.errors)
         if (err.response && err.response.data && err.response.data.errors) {
           setErrorType('URL')
-
+          toast.error("Couldn't save links, check your URLs.")
           const errorArray = err.response.data.errors // Assuming this is an array of error objects
           const updatedLinks = links.map((link, index) => {
             const errorForThisLink = errorArray.find(
