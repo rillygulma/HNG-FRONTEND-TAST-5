@@ -10,7 +10,7 @@ interface Link {
 type LinkBlockProps = {
   link: Link
   index: number
-  key?: number
+  key?: string
   updateLink: (index: number, link: Link) => void
   removeLink: (index: number) => void
   error?: string

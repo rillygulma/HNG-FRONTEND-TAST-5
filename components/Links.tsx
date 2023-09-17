@@ -134,7 +134,7 @@ const Links = () => {
                 <EditLinkBlock
                   link={link}
                   index={index}
-                  key={index}
+                  key={link.id}
                   updateLink={updateLink}
                   removeLink={removeLink}
                   error={error}
