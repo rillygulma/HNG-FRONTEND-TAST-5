@@ -20,8 +20,7 @@ interface User {
 }
 
 const Links = () => {
-  const testArr = Array.from({ length: 3 }) as Array<string>
-  console.log(testArr.length)
+  //const testArr = Array.from({ length: 3 }) as Array<string>
   const [links, setLinks] = useState<Link[]>([])
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
@@ -47,8 +46,8 @@ const Links = () => {
   }
 
   const removeLink = (index: number) => {
-    const newLinks = [...links]
-    newLinks.splice(index, 1)
+    console.log('remove link at index ' + index)
+    const newLinks = [...links].filter((link) => link.id !== links[index].id)
     setLinks(newLinks)
   }
 

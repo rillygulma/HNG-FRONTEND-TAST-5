@@ -12,10 +12,8 @@ const Editor = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
-  console.log(status)
 
   useEffect(() => {
-    console.log('test')
     if (status === 'unauthenticated') {
       router.push('/signin')
     }
