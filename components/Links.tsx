@@ -82,6 +82,7 @@ const Links = () => {
       })
   }
 
+  // useSWR with this instead
   useEffect(() => {
     const getLinks = async () => {
       axios

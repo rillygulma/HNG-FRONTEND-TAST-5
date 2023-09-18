@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
 interface Link {
   id: string
   url: string
@@ -7,10 +10,10 @@ interface Link {
   error?: string
 }
 
-type LinkBlockProps = {
+interface LinkBlockProps {
   link: Link
   index: number
-  key?: string
+  key: string
   updateLink: (index: number, link: Link) => void
   removeLink: (index: number) => void
   error?: string
@@ -64,8 +67,15 @@ const EditLinkBlock = ({
   error,
   errorType,
 }: LinkBlockProps) => {
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: link.id })
   const [platform, setPlatform] = useState(link.platform || '')
   const [url, setUrl] = useState(link.url || '')
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
 
   useEffect(() => {
     updateLink(index, { id: link.id, platform, url })
@@ -76,7 +86,13 @@ const EditLinkBlock = ({
   >
 
   return (
-    <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-60 w-full my-4'>
+    <article
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className='text-primary.gray text-sm z-50 bg-background rounded-md h-60 w-full my-4'
+    >
       <div className='flex justify-between py-4 px-3'>
         <div className=' flex w-full'>
           <Image
