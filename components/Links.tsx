@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react'
-import EditLinkBlock from './EditLinkBlock'
+import EditLinkBlock from './EditLinkBlock' // sortable item
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
 import Image from 'next/image'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-hot-toast'
+
+// dnd-kit imports
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
 interface Link {
   id: string
   url: string
@@ -21,13 +38,33 @@ interface User {
 
 const Links = () => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
   const [links, setLinks] = useState<Link[]>([])
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 
-  useEffect(() => {
-    console.log(links)
-  }, [links])
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over) {
+      const activeLink = links.find((item) => item.id === active.id)
+      const overLink = links.find((item) => item.id === over.id)
+
+      if (activeLink && overLink) {
+        setLinks((prevLinks) => {
+          const oldIndex = prevLinks.indexOf(activeLink)
+          const newIndex = prevLinks.indexOf(overLink)
+          return arrayMove(prevLinks, oldIndex, newIndex)
+        })
+      }
+    }
+  }
 
   const addLink = () => {
     const newLink = {
@@ -129,20 +166,32 @@ const Links = () => {
           {/*testArr.map((link, index) => {
             return <EditLinkBlock index={index} key={index} />
           })*/}
-          {links.length > 0 &&
-            links.map((link, index) => {
-              return (
-                <EditLinkBlock
-                  link={link}
-                  index={index}
-                  key={link.id}
-                  updateLink={updateLink}
-                  removeLink={removeLink}
-                  error={error}
-                  errorType={errorType}
-                />
-              )
-            })}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={links}
+              strategy={verticalListSortingStrategy}
+            >
+              {links.length > 0 &&
+                links.map((link, index) => {
+                  return (
+                    <EditLinkBlock
+                      link={link}
+                      index={index}
+                      key={link.id}
+                      id={link.id}
+                      updateLink={updateLink}
+                      removeLink={removeLink}
+                      error={error}
+                      errorType={errorType}
+                    />
+                  )
+                })}
+            </SortableContext>
+          </DndContext>
         </div>
         {links.length > 0 && <SaveButton />}
       </form>

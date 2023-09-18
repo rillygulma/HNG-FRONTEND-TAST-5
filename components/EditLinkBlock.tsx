@@ -14,6 +14,7 @@ interface LinkBlockProps {
   link: Link
   index: number
   key: string
+  id: string
   updateLink: (index: number, link: Link) => void
   removeLink: (index: number) => void
   error?: string
