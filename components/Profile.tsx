@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SaveButton from './SaveButton'
 import Image from 'next/image'
 
 const Profile = () => {
+  const [error, setError] = useState('Something went wrong')
+  const [errorType, setErrorType] = useState('TOAST_ERROR')
+
   return (
     <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>
       <h1 className='py-4'>Profile Details</h1>
