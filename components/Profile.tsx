@@ -39,6 +39,9 @@ const Profile = () => {
           console.log(err.response.data.errors)
           setErrors(err.response.data.errors)
           toast.error("Couldn't save profile, check your info.")
+          setTimeout(() => {
+            setErrors([])
+          }, 6000)
         }
       })
   }

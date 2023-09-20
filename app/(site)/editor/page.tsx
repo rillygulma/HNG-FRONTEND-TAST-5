@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Nav from '@/components/Nav'
 import Links from '@/components/Links'
 import Profile from '@/components/Profile'
