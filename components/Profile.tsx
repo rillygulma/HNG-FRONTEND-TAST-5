@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import SaveButton from './SaveButton'
-import Image from 'next/image'
+import ImageDropzone from './ImageDropzone'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 
 const Profile = () => {
+  const [image, setImage] = useState<File | null>(null)
   const [errors, setErrors] = useState([])
   const [profile, setProfile] = useState({
     firstname: '',
     lastname: '',
     email: '',
+    image: image,
   })
 
   useEffect(() => {
@@ -55,18 +57,7 @@ const Profile = () => {
       </p>
       <article className='flex flex-col justify-center align-middle text-primary.gray text-sm z-50 bg-background rounded-md h-auto w-full my-4 p-4'>
         <h2 className='ml-2'>Profile Picture</h2>
-        <div className='flex flex-col items-center align-middle h-40 w-50 bg-tertiary.blue rounded-md m-2 mr-8 pt-6 pb-8'>
-          <Image
-            src='./images/icon-upload-image.svg'
-            alt='profile picture'
-            width={36}
-            height={36}
-            className='rounded-full mt-4 mb-2'
-          />
-          <p className='font-bold text-primary.blue'>
-            <span>+</span> Upload Image
-          </p>
-        </div>
+        <ImageDropzone setImage={setImage} image={image} />
         <p className='text-xs text-gray-500 ml-2'>
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>
