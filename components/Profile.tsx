@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SaveButton from './SaveButton'
 import Image from 'next/image'
 import axios from 'axios'
@@ -12,12 +12,20 @@ const Profile = () => {
     email: '',
   })
 
+  useEffect(() => {
+    console.log('profile:', profile)
+  }, [profile])
+
+  useEffect(() => {
+    console.log('errors:', errors)
+  }, [errors])
+
   const nameError = errors.find((item) => item.errorType === 'NAME')
   const emailError = errors.find((item) => item.errorType === 'EMAIL')
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Sending the following links to server:', profile)
+    console.log('Sending profile to server:', profile)
     axios
       .post('/api/profile', {
         profile: profile,
@@ -28,6 +36,7 @@ const Profile = () => {
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
+          console.log(err.response.data.errors)
           setErrors(err.response.data.errors)
           toast.error("Couldn't save profile, check your info.")
         }
@@ -59,7 +68,7 @@ const Profile = () => {
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>
       </article>
-      <form action='' className='w-full mb-4'>
+      <form action='' className='w-full mb-4' onSubmit={handleUpdateProfile}>
         <article className='text-primary.gray text-sm z-50 bg-background rounded-md h-auto w-full my-4 p-6'>
           <div className='mb-4'>
             <label
@@ -69,11 +78,19 @@ const Profile = () => {
               First name*
             </label>
             <input
-              className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+              className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                nameError ? 'error-container' : null
+              }`}
               id='firstname'
               type='text'
               placeholder='Enter your first name'
+              onChange={(e) =>
+                setProfile({ ...profile, firstname: e.target.value })
+              }
             />
+            {nameError && (
+              <p className='form-validation-error'>{nameError.error}</p>
+            )}
           </div>
 
           <div className='mb-4'>
@@ -84,11 +101,19 @@ const Profile = () => {
               Last name*
             </label>
             <input
-              className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+              className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                nameError ? 'error-container' : null
+              }`}
               id='lastname'
               type='text'
               placeholder='Enter your last name'
+              onChange={(e) =>
+                setProfile({ ...profile, lastname: e.target.value })
+              }
             />
+            {nameError && (
+              <p className='form-validation-error'>{nameError.error}</p>
+            )}
           </div>
 
           <div className='mb-4'>
@@ -99,11 +124,19 @@ const Profile = () => {
               Email
             </label>
             <input
-              className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+              className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                emailError ? 'error-container' : null
+              }`}
               id='email'
               type='text'
               placeholder='Enter your email'
+              onChange={(e) =>
+                setProfile({ ...profile, email: e.target.value })
+              }
             />
+            {emailError && (
+              <p className='form-validation-error'>{emailError.error}</p>
+            )}
           </div>
         </article>
         <SaveButton />

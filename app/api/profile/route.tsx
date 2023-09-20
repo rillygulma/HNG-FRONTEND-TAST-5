@@ -9,6 +9,8 @@ import { NextApiRequest } from 'next'
 export async function POST(req: Request) {
   const session = await getServerSession(options)
   const body = await req.json()
+  const profile = body.profile
+  console.log(profile.email)
   let errors = []
 
   const user = await db.user.findUnique({
@@ -25,27 +27,27 @@ export async function POST(req: Request) {
     )
   }
 
-  const firstName = body.firstname
-  const lastName = body.lastname
-  const email = body.email
+  const firstName = profile.firstname
+  const lastName = profile.lastname
+  const email = profile.email
 
   if (!firstName || !lastName) {
     errors.push({
-      error: 'First and last name are required',
+      error: 'First and last name are required.',
       errorType: 'NAME',
     })
   }
 
   if (firstName.length > 20 || lastName.length > 20) {
     errors.push({
-      error: 'First and last name must be less than 20 characters',
+      error: 'First and last name must be less than 20 characters.',
       errorType: 'NAME',
     })
   }
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   if (!emailPattern.test(email)) {
-    return errors.push({
+    errors.push({
       errorType: 'EMAIL',
       error: 'Please enter a valid email.',
     })
