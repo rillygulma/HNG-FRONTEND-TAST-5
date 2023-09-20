@@ -36,9 +36,9 @@ export async function POST(req: Request) {
     })
   }
 
-  if (firstName.length > 50 || lastName.length > 50) {
+  if (firstName.length > 20 || lastName.length > 20) {
     errors.push({
-      error: 'First and last name must be less than 50 characters',
+      error: 'First and last name must be less than 20 characters',
       errorType: 'NAME',
     })
   }

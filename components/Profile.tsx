@@ -1,10 +1,38 @@
 import React, { useState } from 'react'
 import SaveButton from './SaveButton'
 import Image from 'next/image'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
 
 const Profile = () => {
-  const [error, setError] = useState('Something went wrong')
-  const [errorType, setErrorType] = useState('TOAST_ERROR')
+  const [errors, setErrors] = useState([])
+  const [profile, setProfile] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+  })
+
+  const nameError = errors.find((item) => item.errorType === 'NAME')
+  const emailError = errors.find((item) => item.errorType === 'EMAIL')
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Sending the following links to server:', profile)
+    axios
+      .post('/api/profile', {
+        profile: profile,
+      })
+      .then(() => {
+        toast.success('Profile saved.')
+        console.log('profile sent to server')
+      })
+      .catch((err) => {
+        if (err.response && err.response.data && err.response.data.errors) {
+          setErrors(err.response.data.errors)
+          toast.error("Couldn't save profile, check your info.")
+        }
+      })
+  }
 
   return (
     <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>
