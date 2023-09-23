@@ -5,8 +5,59 @@ import { options } from '../../api/auth/[...nextauth]/options'
 
 import { db } from '@/prisma/db.server'
 import { NextApiRequest } from 'next'
+import multer from 'multer'
+import { s3Client } from '@/libs/awsClient.js'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+import { S3RequestPresigner, getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 
-export async function POST(req: Request) {
+import nextConnect from 'next-connect'
+
+const upload = multer({ storage: multer.memoryStorage() })
+
+const uploadFile = async (file: Express.Multer.File) => {
+  const params = {
+    Bucket: process.env.AWS_BUCKET,
+    Key: file.originalname,
+    Body: file.buffer,
+  }
+
+  try {
+    await s3Client.send(new PutObjectCommand(params))
+    return { success: true }
+  } catch (err) {
+    return { success: false, error: err }
+  }
+}
+
+const handler = nextConnect()
+  .use(upload.single('file'))
+  .post(async (req, res) => {
+    const file = req.file
+    const key = Date.now().toString() + '-' + file.originalname
+
+    const putParams = {
+      Bucket: process.env.S3_BUCKET_NAME,
+      Key: key,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      ACL: 'public-read',
+    }
+
+    try {
+      await s3Client.send(new PutObjectCommand(putParams))
+
+      const signedUrl = await createRequestPresigner(s3Client)
+      const url = signedUrl(putParams, { expiresIn: 60 * 60 * 1000 }) // 1 hour
+
+      res.status(200).json({ url })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ error: 'Error uploading file to S3' })
+    }
+  })
+
+export async function POST(req: Request, res: Response) {
   const session = await getServerSession(options)
   const body = await req.json()
   const profile = body.profile
