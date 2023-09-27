@@ -41,10 +41,10 @@ export async function POST(req: NextRequest, res: Response) {
     return NextResponse.json({ error: 'No image provided.' }, { status: 400 })
   }
 
-  if (buffer) {
+  if (buffer && user) {
     const putObjectParams = {
       Bucket: process.env.AWS_BUCKET,
-      Key: file.name,
+      Key: user.email,
       Body: buffer,
     }
     const putObjectCommand = new PutObjectCommand(putObjectParams)
@@ -70,7 +70,9 @@ export async function POST(req: NextRequest, res: Response) {
           profileImage: signedUrl,
         },
       })
-      return signedUrl
+      return NextResponse.json({ status: 200 }, { url: signedUrl })
     }
   }
+
+  return NextResponse.json({ status: 200 })
 }
