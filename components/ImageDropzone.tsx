@@ -20,12 +20,23 @@ const ImageDropzone = ({ setImage, image }) => {
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop: (acceptedFiles: File[]) => {
+    onDrop: async (acceptedFiles: File[]) => {
       // Do something with the files
       console.log(acceptedFiles.length) // is 0
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0] // or whatever logic you use to select a file
         console.log(file)
+        const formData = new FormData()
+        formData.append('file', file)
+        const response = await axios
+          .post('/api/imageUpload', formData)
+          .then((response) => {
+            console.log(response.data)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+
         setPreview(Object.assign(file, { preview: URL.createObjectURL(file) }))
       }
     },

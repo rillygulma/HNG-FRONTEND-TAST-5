@@ -4,13 +4,9 @@ import { options } from '../auth/[...nextauth]/options'
 import { s3Client } from '../../../libs/awsClient'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
-import multer from 'multer'
 import { Request, Response } from 'express'
 
 import { db } from '../../../prisma/db.server'
-
-const upload = multer({ storage: multer.memoryStorage() })
-const multerUpload = upload.single('file')
 
 export async function POST(req: NextRequest, res: Response) {
   const session = await getServerSession(options)
@@ -21,12 +17,12 @@ export async function POST(req: NextRequest, res: Response) {
     return NextResponse.json({ error: 'No image provided.' }, { status: 400 })
   }
 
-  console.log('File: ' + file)
+  console.log('File: ' + file.name)
   //console.log('Request body: ' + req)
 
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
-
+  console.log(typeof buffer)
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },
     include: {
@@ -45,7 +41,7 @@ export async function POST(req: NextRequest, res: Response) {
     return NextResponse.json({ error: 'No image provided.' }, { status: 400 })
   }
 
-  if (file) {
+  if (buffer) {
     const putObjectParams = {
       Bucket: process.env.AWS_BUCKET,
       Key: file.name,
