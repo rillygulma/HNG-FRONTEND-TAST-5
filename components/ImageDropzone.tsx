@@ -5,44 +5,31 @@ import Dropzone from 'react-dropzone'
 import { useDropzone } from 'react-dropzone'
 
 const ImageDropzone = ({ setImage, image }) => {
+  const [preview, setPreview] = useState({})
+
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       // Do something with the files
       if (acceptedFiles.length > 0) {
         const file = acceptedFiles[0] // or whatever logic you use to select a file
-        setImage(file)
+        console.log(file)
+        setPreview(Object.assign(file, { preview: URL.createObjectURL(file) }))
       }
     },
     [image]
   )
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      accept: {
-        'image/png': ['.png'],
-        'text/html': ['.html', '.htm'],
-      },
-      onDrop: async (acceptedFiles) => {
-        setImage(acceptedFiles[0]) // replace this with handler function, use image to deliver the file to the server in parent component post action
-        handleImageDrop(acceptedFiles[0])
-      },
-    })
-
-  const handleImageDrop = async (file) => {
-    const formData = new FormData()
-    formData.append('image', file)
-
-    try {
-      const response = await axios.post('/api/profile', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (acceptedFiles: File[]) => {
+      // Do something with the files
+      console.log(acceptedFiles.length) // is 0
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0] // or whatever logic you use to select a file
+        console.log(file)
+        setPreview(Object.assign(file, { preview: URL.createObjectURL(file) }))
+      }
+    },
+  })
 
   return (
     <div
