@@ -55,7 +55,7 @@ export async function POST(req: NextRequest, res: Response) {
     // signed url error
     if (!signedUrl) {
       return NextResponse.json(
-        { error: 'Could not upload image', errorType: 'TOAST_ERROR' },
+        { error: 'Could not upload image.', errorType: 'TOAST_ERROR' },
         { status: 500 }
       )
     }
