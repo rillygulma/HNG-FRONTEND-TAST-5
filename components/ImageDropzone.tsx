@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
-import Dropzone from 'react-dropzone'
+import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 
 const ImageDropzone = ({ setImage, image }) => {
@@ -31,6 +31,7 @@ const ImageDropzone = ({ setImage, image }) => {
         const response = await axios
           .post('/api/imageUpload', formData)
           .then((response) => {
+            toast.success('Image uploaded successfully.')
             console.log(response.data)
           })
           .catch((error) => {

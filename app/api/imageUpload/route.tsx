@@ -44,33 +44,20 @@ export async function POST(req: NextRequest, res: Response) {
   if (buffer && user) {
     const putObjectParams = {
       Bucket: process.env.AWS_BUCKET,
-      Key: user.email,
+      Key: file.name,
       Body: buffer,
     }
     const putObjectCommand = new PutObjectCommand(putObjectParams)
-    const signedUrl = await getSignedUrl(s3Client, putObjectCommand, {
-      expiresIn: 3600,
-    })
 
-    // signed url error
-    if (!signedUrl) {
+    try {
+      const data = await s3Client.send(putObjectCommand)
+      console.log(data)
+      return NextResponse.json(data, { status: 200 })
+    } catch {
       return NextResponse.json(
         { error: 'Could not upload image.', errorType: 'TOAST_ERROR' },
         { status: 500 }
       )
-    }
-
-    // signed url that gets saved to db
-    if (signedUrl) {
-      await db.user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          profileImage: signedUrl,
-        },
-      })
-      return NextResponse.json({ status: 200 }, { url: signedUrl })
     }
   }
 
