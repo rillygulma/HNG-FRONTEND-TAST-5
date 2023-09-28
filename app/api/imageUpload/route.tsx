@@ -17,17 +17,11 @@ export async function POST(req: NextRequest, res: Response) {
     return NextResponse.json({ error: 'No image provided.' }, { status: 400 })
   }
 
-  console.log('File: ' + file.name)
-  //console.log('Request body: ' + req)
-
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
-  console.log(typeof buffer)
+
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },
-    include: {
-      links: true,
-    },
   })
 
   if (!user) {
@@ -42,17 +36,29 @@ export async function POST(req: NextRequest, res: Response) {
   }
 
   if (buffer && user) {
+    const uniqueS3Key = `${user.id}/${file.name}` // unique identifier for each user
     const putObjectParams = {
       Bucket: process.env.AWS_BUCKET,
-      Key: file.name,
+      Key: uniqueS3Key,
       Body: buffer,
     }
+
     const putObjectCommand = new PutObjectCommand(putObjectParams)
 
     try {
       const data = await s3Client.send(putObjectCommand)
       console.log(data)
-      return NextResponse.json(data, { status: 200 })
+      const s3FileUrl = `https://${process.env.AWS_BUCKET}.s3.amazonaws.com/${uniqueS3Key}`
+      await db.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          profileImage: s3FileUrl,
+        },
+      })
+
+      return NextResponse.json({ url: s3FileUrl }, { status: 200 })
     } catch {
       return NextResponse.json(
         { error: 'Could not upload image.', errorType: 'TOAST_ERROR' },
@@ -60,6 +66,4 @@ export async function POST(req: NextRequest, res: Response) {
       )
     }
   }
-
-  return NextResponse.json({ status: 200 })
 }
