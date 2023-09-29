@@ -5,19 +5,7 @@ import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 
 const ImageDropzone = ({ setImage, image }) => {
-  const [preview, setPreview] = useState({})
-
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      // Do something with the files
-      if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0] // or whatever logic you use to select a file
-        console.log(file)
-        setPreview(Object.assign(file, { preview: URL.createObjectURL(file) }))
-      }
-    },
-    [image]
-  )
+  const [preview, setPreview] = useState<Object | null>(null)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
@@ -33,12 +21,13 @@ const ImageDropzone = ({ setImage, image }) => {
           .then((response) => {
             toast.success('Image uploaded successfully.')
             console.log(response.data)
+            setPreview(
+              Object.assign(file, { preview: URL.createObjectURL(file) })
+            )
           })
           .catch((error) => {
             console.log(error)
           })
-
-        setPreview(Object.assign(file, { preview: URL.createObjectURL(file) }))
       }
     },
   })
@@ -50,17 +39,35 @@ const ImageDropzone = ({ setImage, image }) => {
         isDragActive && 'border-secondary.blue border-2'
       }`}
     >
-      <input {...getInputProps()} />
-      <Image
-        src='./images/icon-upload-image.svg'
-        alt='profile picture'
-        width={36}
-        height={36}
-        className='rounded-full mt-4 mb-2'
-      />
-      <p className='font-bold text-primary.blue'>
-        <span>+</span> Upload Image
-      </p>
+      {preview && (
+        <div className='flex flex-col items-center align-middle'>
+          <Image
+            src={preview.preview}
+            alt='profile picture'
+            width={100}
+            height={100}
+          />
+          <p className='font-bold text-primary.blue'>
+            <span>+</span> Upload Image
+          </p>
+        </div>
+      )}
+      {!preview && (
+        <>
+          <input {...getInputProps()} />
+          <Image
+            src='./images/icon-upload-image.svg'
+            alt='profile picture'
+            width={36}
+            height={36}
+            className='rounded-full mt-4 mb-2'
+          />
+          <p className='font-bold text-primary.blue'>
+            <span>+</span> Upload Image
+          </p>
+        </>
+      )}
+
       {isDragActive ? <p>Drop your file here</p> : null}
     </div>
   )
