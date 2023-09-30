@@ -32,6 +32,10 @@ const ImageDropzone = ({ setImage, image }) => {
     },
   })
 
+  const dropZoneStyle = `flex flex-col items-center align-middle h-40 w-50 rounded-md m-2 mr-8 pt-6 pb-8 ${
+    preview ? 'backdrop-blur-sm' : 'bg-tertiary.blue'
+  } ${isDragActive && 'border-secondary.blue border-2'}`
+
   return (
     <div
       {...getRootProps()}
@@ -47,9 +51,6 @@ const ImageDropzone = ({ setImage, image }) => {
             width={100}
             height={100}
           />
-          <p className='font-bold text-primary.blue'>
-            <span>+</span> Upload Image
-          </p>
         </div>
       )}
       {!preview && (
