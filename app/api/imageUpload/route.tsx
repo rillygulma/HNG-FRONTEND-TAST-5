@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, res: Response) {
   }
 
   if (buffer && user) {
-    const uniqueS3Key = `${user.id}/${file.name}` // unique identifier for each user
+    const uniqueS3Key = user.id // unique identifier for each user
     const putObjectParams = {
       Bucket: process.env.AWS_BUCKET,
       Key: uniqueS3Key,

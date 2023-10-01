@@ -32,26 +32,25 @@ const ImageDropzone = ({ setImage, image }) => {
     },
   })
 
-  const dropZoneStyle = `flex flex-col items-center align-middle h-40 w-50 rounded-md m-2 mr-8 pt-6 pb-8 ${
-    preview ? 'backdrop-blur-sm' : 'bg-tertiary.blue'
-  } ${isDragActive && 'border-secondary.blue border-2'}`
+  const dropZoneStyle = `${
+    preview
+      ? 'flex flex-col items-center '
+      : 'flex flex-col items-center align-middle h-40 w-50 rounded-md m-2 mr-8 py-8 bg-tertiary.blue hover:border-2 hover:border-secondary.blue'
+  } ${isDragActive && 'border-secondary.blue border-2 '}`
 
   return (
-    <div
-      {...getRootProps()}
-      className={`flex flex-col items-center align-middle h-40 w-50 bg-tertiary.blue rounded-md m-2 mr-8 pt-6 pb-8 ${
-        isDragActive && 'border-secondary.blue border-2'
-      }`}
-    >
+    <div {...getRootProps()} className={dropZoneStyle}>
       {preview && (
-        <div className='flex flex-col items-center align-middle'>
-          <Image
-            src={preview.preview}
-            alt='profile picture'
-            width={100}
-            height={100}
-          />
-        </div>
+        <Image
+          src={preview.preview}
+          alt='profile picture'
+          width={160}
+          height={160}
+          className={`border-blue border-2 w-auto ${
+            isDragActive &&
+            'border-secondary.blue border-2 blur hover:blur-sm hover:opacity-80'
+          }`}
+        />
       )}
       {!preview && (
         <>
@@ -69,7 +68,11 @@ const ImageDropzone = ({ setImage, image }) => {
         </>
       )}
 
-      {isDragActive ? <p>Drop your file here</p> : null}
+      {isDragActive && (
+        <p className={`absolute text-md ${preview && 'text-lg'} mt-20`}>
+          Drop your file here
+        </p>
+      )}
     </div>
   )
 }
