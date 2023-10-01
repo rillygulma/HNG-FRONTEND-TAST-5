@@ -60,6 +60,10 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
     return `icon-${social}.svg`
   }
 
+  const getPlatform = (platform: string) => {
+    return platforms[platform as PlatformKeys]
+  }
+
   return (
     <article
       className={`flex items-center justify-between ${getPlatformStyle(
@@ -80,7 +84,9 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
             height={10}
             alt=''
           />
-          <span className='text-lg mt-1 ml-6 font-semibold'>{platform}</span>
+          <span className='text-lg mt-1 ml-6 font-semibold'>
+            {getPlatform(platform)}
+          </span>
         </div>
         <Image
           src='./images/icon-arrow-right.svg'

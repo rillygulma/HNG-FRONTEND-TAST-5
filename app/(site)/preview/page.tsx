@@ -18,14 +18,17 @@ const Preview = async () => {
   }
 
   const getData = async () => {
-    const links = await getLinks(db, 'matt.omalley.west@gmail.com')
-    const user = await getUser(db, 'matt.omalley.west@gmail.com')
+    const links = await getLinks(db)
+    const user = await getUser(db)
 
     return { links, user }
   }
   const data = await getData()
 
   //console.log(data.user?.username)
+
+  console.log(data.links)
+  console.log(data.user)
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
