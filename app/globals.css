@@ -12,10 +12,11 @@
   --instagram-bg: var(--tertiary-gray);
   --frontendmentor-bg: #2d2d2d;
   --codewars-bg: #8a1a50;
+  --codepen-bg: #5760db;
   --freecodecamp-bg: #302267;
   --twitch-bg: #9146ff;
   --youtube-bg: #ee3939;
-  --github-bg: #1a1a1a;
+  --github-bg: #2b3137;
   --website-bg: var(--primary-green);
 }
 
@@ -36,6 +37,9 @@
 }
 .codewars-bg {
   background-color: var(--codewars-bg);
+}
+.codepen-bg {
+  background-color: var(--codepen-bg);
 }
 .freecodecamp-bg {
   background-color: var(--freecodecamp-bg);

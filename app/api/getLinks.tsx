@@ -5,14 +5,17 @@ import { options } from '../api/auth/[...nextauth]/options'
 
 export const getLinks = async (db: PrismaClient) => {
   const session = await getServerSession(options)
+  const user = await getUser(db)
+  console.log(user)
 
   const links = await db.link.findMany({
+    where: {
+      userId: user?.id, // Only find links where the userId matches
+    },
     include: {
       user: true,
     },
   })
-
-  const user = await getUser(db)
 
   if (user) {
     return links.map((link, index) => {
