@@ -6,6 +6,7 @@ import { getUser } from '../../api/getLinks'
 import { redirect } from 'next/navigation'
 import { getServerSession } from 'next-auth/next'
 import { options } from '../../api/auth/[...nextauth]/options'
+import Image from 'next/image'
 
 import { db } from '../../../prisma/db.server'
 
@@ -42,7 +43,17 @@ const Preview = async () => {
         <Button text='Share Link' style='filled' />
       </nav>
 
-      <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16' />
+      <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16'>
+        {data.user?.profileImage && (
+          <Image
+            src={data.user?.profileImage}
+            alt='Profile Image'
+            width={128}
+            height={128}
+            className='w-auto rounded-full'
+          />
+        )}
+      </div>
       <h1 className='text-4xl mt-4 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
         {session?.user?.name || 'Your username here'}
