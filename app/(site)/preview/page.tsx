@@ -11,11 +11,17 @@ import Image from 'next/image'
 import { db } from '../../../prisma/db.server'
 
 const Preview = async () => {
+  const [isOpen, setIsOpen] = useState(false)
   const session = await getServerSession(options)
+
   console.log(session?.user?.name)
 
   if (!session) {
     redirect('/signin')
+  }
+
+  const onClose = () => {
+    setIsOpen(false)
   }
 
   const getData = async () => {
@@ -25,11 +31,9 @@ const Preview = async () => {
     return { links, user }
   }
   const data = await getData()
-
-  //console.log(data.user?.username)
-
-  console.log(data.links)
-  console.log(data.user)
+  const uniqueUrl = `http://localhost:3000/${
+    data.user?.username || data.user?.id
+  }`
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>

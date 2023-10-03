@@ -86,7 +86,7 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
             height={10}
             alt=''
           />
-          <span className='text-lg mt-1 ml-6 font-semibold'>
+          <span className='text-xl mt-0.5 ml-4 font-semibold'>
             {getPlatform(platform)}
           </span>
         </div>
