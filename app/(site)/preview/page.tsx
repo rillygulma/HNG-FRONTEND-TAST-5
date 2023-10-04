@@ -44,7 +44,7 @@ const Preview = () => {
     getProfile()
     getUniqueUrl()
     console.log(profile?.username)
-  }, [profile])
+  }, [])
 
   const onClose = () => {
     setIsOpen(false)

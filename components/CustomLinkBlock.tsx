@@ -4,7 +4,11 @@ import Link from 'next/link'
 
 type CustomLinkBlockProps = {
   index: number
-  link: string
+  link: {
+    id: string
+    url: string
+    platform: string
+  }
   platform: string
 }
 
@@ -66,6 +70,8 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
     return platforms[platform as PlatformKeys]
   }
 
+  console.log(link.url)
+
   return (
     <article
       className={`flex items-center justify-between ${getPlatformStyle(
@@ -73,7 +79,7 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
       )} m-5 w-full h-[4.55rem] rounded-md`}
     >
       <Link
-        href={link}
+        href={link.url}
         target='_blank'
         rel='noopener noreferrer'
         className='flex items-center justify-between w-full'
