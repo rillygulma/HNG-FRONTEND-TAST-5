@@ -43,11 +43,11 @@ const Preview = () => {
 
     getProfile()
     getUniqueUrl()
-    console.log(profile?.username)
   }, [])
 
-  const onClose = () => {
-    setIsOpen(false)
+  const toggleModal = () => {
+    console.log('toggling modal...')
+    setIsOpen(!isOpen)
   }
 
   return (
@@ -59,10 +59,16 @@ const Preview = () => {
         >
           Back to Editor
         </Link>
-        <Button text='Share Link' style='filled' />{' '}
+        <Button text='Share Link' style='filled' handler={toggleModal} />{' '}
         {/*we need to connect the state to this, to hide and show ShareModal*/}
       </nav>
-      <ShareModal isOpen={true} onClose={() => {}} uniqueUrl={uniqueUrl} />
+      {isOpen && (
+        <ShareModal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          uniqueUrl={uniqueUrl}
+        />
+      )}
       {renderProfile(profile)}
     </main>
   )

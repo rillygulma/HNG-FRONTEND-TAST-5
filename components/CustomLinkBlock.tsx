@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type CustomLinkBlockProps = {
+interface CustomLinkBlockProps {
   index: number
   link: {
     id: string
