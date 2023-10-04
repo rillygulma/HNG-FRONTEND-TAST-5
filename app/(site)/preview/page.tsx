@@ -1,31 +1,54 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState, useCallback } from 'react'
 import Button from '@/components/Button'
 import Link from 'next/link'
-import { getLinks } from '../../api/getLinks'
-import { getUser } from '../../api/getLinks'
-import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth/next'
-import { options } from '../../api/auth/[...nextauth]/options'
 import Image from 'next/image'
+import ShareModal from '@/components/ShareLinkModal'
+import axios from 'axios'
+import ProfilePreview from '@/components/ProfilePreview'
 
-import { db } from '../../../prisma/db.server'
+interface User {
+  links: React.JSX.Element[] | undefined
+  id: string
+  platform: string
+  url: string
+  createdAt: Date
+  userId: string
+  username: string
+  email: string
+  profileImage: string
+  updatedAt: Date
+}
 
-const Preview = async () => {
-  const session = await getServerSession(options)
+const Preview = () => {
+  const [profile, setProfile] = useState<User>({ links: undefined, user: null })
+  const [uniqueUrl, setUniqueUrl] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const renderProfile = useCallback((profile) => {
+    return <ProfilePreview profile={profile} />
+  }, [])
 
-  console.log(session?.user?.name)
+  useEffect(() => {
+    // Fetch data when component mounts
+    const getProfile = async () => {
+      const fetchedData = await axios.get('/api/profile')
+      const { links, user } = fetchedData.data
+      console.log(user)
+      setProfile(fetchedData.data)
+    }
+    const getUniqueUrl = () => {
+      const url = `${window.location.origin}/${profile.username}`
+      setUniqueUrl(url)
+    }
 
-  if (!session) {
-    redirect('/signin')
+    getProfile()
+    getUniqueUrl()
+    console.log(profile?.username)
+  }, [profile])
+
+  const onClose = () => {
+    setIsOpen(false)
   }
-
-  const getData = async () => {
-    const links = await getLinks(db)
-    const user = await getUser(db)
-
-    return { links, user }
-  }
-  const data = await getData()
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -36,33 +59,11 @@ const Preview = async () => {
         >
           Back to Editor
         </Link>
-        <Button text='Share Link' style='filled' />
+        <Button text='Share Link' style='filled' />{' '}
+        {/*we need to connect the state to this, to hide and show ShareModal*/}
       </nav>
-
-      <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16'>
-        {data.user?.profileImage && (
-          <Image
-            src={data.user?.profileImage}
-            alt='Profile Image'
-            width={128}
-            height={128}
-            className='w-auto rounded-full'
-          />
-        )}
-      </div>
-      <h1 className='text-4xl mt-4 text-black'>
-        <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {data?.user?.username || 'Your username here'}
-        <span className='text-primary.blue font-semibold'>{'}'}</span>
-      </h1>
-      <h3 className='text-xl mt-2 text-black'>
-        <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {data?.user?.email || 'Your email here'}
-        <span className='text-primary.blue font-semibold'>{'}'}</span>
-      </h3>
-      <section className='flex flex-col w-72 mt-10 justify-center items-center'>
-        {data.links}
-      </section>
+      <ShareModal isOpen={true} onClose={() => {}} uniqueUrl={uniqueUrl} />
+      {renderProfile(profile)}
     </main>
   )
 }

@@ -15,7 +15,6 @@ export async function POST(req: Request, res: Response) {
   const session = await getServerSession(options)
   const body = await req.json()
   const profile = body.profile
-  console.log(profile.email)
   let errors = []
 
   const user = await db.user.findUnique({
@@ -112,6 +111,27 @@ export async function POST(req: Request, res: Response) {
 
   if (errors.length > 0) {
     return NextResponse.json({ errors }, { status: 400 })
+  }
+
+  return NextResponse.json(user)
+}
+
+export async function GET(): Promise<NextResponse> {
+  const session = await getServerSession(options)
+
+  const user = await db.user.findUnique({
+    where: { email: session?.user?.email as string },
+    include: {
+      links: true,
+    },
+  })
+
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  }
+
+  if (!user.links) {
+    return NextResponse.json({ error: 'No links found' }, { status: 404 })
   }
 
   return NextResponse.json(user)
