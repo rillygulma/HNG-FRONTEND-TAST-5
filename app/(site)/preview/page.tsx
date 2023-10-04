@@ -11,17 +11,12 @@ import Image from 'next/image'
 import { db } from '../../../prisma/db.server'
 
 const Preview = async () => {
-  const [isOpen, setIsOpen] = useState(false)
   const session = await getServerSession(options)
 
   console.log(session?.user?.name)
 
   if (!session) {
     redirect('/signin')
-  }
-
-  const onClose = () => {
-    setIsOpen(false)
   }
 
   const getData = async () => {
@@ -31,9 +26,6 @@ const Preview = async () => {
     return { links, user }
   }
   const data = await getData()
-  const uniqueUrl = `http://localhost:3000/${
-    data.user?.username || data.user?.id
-  }`
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -60,12 +52,12 @@ const Preview = async () => {
       </div>
       <h1 className='text-4xl mt-4 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {session?.user?.name || 'Your username here'}
+        {data?.user?.username || 'Your username here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
       <h3 className='text-xl mt-2 text-black'>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {session?.user?.email || 'Your email here'}
+        {data?.user?.email || 'Your email here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h3>
       <section className='flex flex-col w-72 mt-10 justify-center items-center'>
