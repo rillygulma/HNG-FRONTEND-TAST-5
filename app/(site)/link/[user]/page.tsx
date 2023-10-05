@@ -6,29 +6,36 @@ import Image from 'next/image'
 import CustomLinkBlock from '@/components/CustomLinkBlock'
 import { db } from '../../../../prisma/db.server'
 
-interface Params {
-  userLinks: any
-  userImage: string
-  userName: string
-  userEmail: string
+interface DevLinksProps {
+  id: string
+  email: string
+  username: string
+  profileImage: string
+  links: [
+    {
+      id: string
+      url: string
+      platform: string
+    }
+  ]
 }
 
-export async function generateStaticParams() {
-  const user = await axios.get('/api/profile')
-  const userLinks = user.data.links
-  const userImage = user.data.profileImage
-  const userName = user.data.username
-  const userEmail = user.data.email
+const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
+  const user = params.user
+  //console.log(user)
 
-  return { userLinks, userImage, userName, userEmail }
-}
+  const { data } = await axios.post('http://localhost:3000/api/devLink', {
+    user: user,
+  })
+  console.log(data.links)
 
-const DevLinks = async (params: Params) => {
-  const { userLinks, userImage, userName, userEmail } =
-    await generateStaticParams()
+  const userLinks = data?.links || ''
+  const userName = data?.username || ''
+  const userEmail = data?.email || ''
+  const userImage = data?.profileImage || ''
 
   return (
-    <>
+    <div className='flex flex-col bg-background items-center'>
       <div className='flex justify-center items-center border-4 border-primary.blue rounded-full h-32 w-32 mt-16'>
         {userImage && (
           <Image
@@ -60,7 +67,7 @@ const DevLinks = async (params: Params) => {
           />
         ))}
       </section>
-    </>
+    </div>
   )
 }
 

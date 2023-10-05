@@ -42,7 +42,7 @@ const Preview = () => {
   useEffect(() => {
     // Generate the unique URL only when profile is available
     if (profile.username) {
-      const url = `${window.location.origin}/${profile.username}`
+      const url = `${window.location.origin}/link/${profile.username}`
       setUniqueUrl(url)
     }
   }, [profile])
