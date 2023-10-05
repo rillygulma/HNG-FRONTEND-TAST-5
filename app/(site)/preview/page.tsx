@@ -24,26 +24,28 @@ const Preview = () => {
   const [profile, setProfile] = useState<User>({ links: undefined, user: null })
   const [uniqueUrl, setUniqueUrl] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+
   const renderProfile = useCallback((profile) => {
     return <ProfilePreview profile={profile} />
   }, [])
 
   useEffect(() => {
-    // Fetch data when component mounts
+    // Fetch data when the component mounts
     const getProfile = async () => {
       const fetchedData = await axios.get('/api/profile')
-      const { links, user } = fetchedData.data
-      console.log(user)
       setProfile(fetchedData.data)
-    }
-    const getUniqueUrl = () => {
-      const url = `${window.location.origin}/${profile.username}`
-      setUniqueUrl(url)
     }
 
     getProfile()
-    getUniqueUrl()
   }, [])
+
+  useEffect(() => {
+    // Generate the unique URL only when profile is available
+    if (profile.username) {
+      const url = `${window.location.origin}/${profile.username}`
+      setUniqueUrl(url)
+    }
+  }, [profile])
 
   const toggleModal = () => {
     console.log('toggling modal...')
