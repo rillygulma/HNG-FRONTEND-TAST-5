@@ -73,7 +73,7 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
   console.log(link.url)
 
   return (
-    <article
+    <div
       className={`flex items-center justify-between ${getPlatformStyle(
         social
       )} m-5 w-full h-[4.55rem] rounded-md`}
@@ -86,7 +86,7 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
       >
         <div className='flex items-center'>
           <Image
-            src={`./images/${getIcon(social)}`}
+            src={`/images/${getIcon(social)}`}
             className='z-20 w-10 h-10 ml-4 fill-white'
             width={10}
             height={10}
@@ -97,14 +97,14 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
           </span>
         </div>
         <Image
-          src='./images/icon-arrow-right.svg'
+          src='/images/icon-arrow-right.svg'
           className='z-20 w-7 h-7 pr-0.5 mr-4 mt-0.5 fill-white'
           width={10}
           height={10}
           alt=''
         />
       </Link>
-    </article>
+    </div>
   )
 }
 
