@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const MobilePreview = () => {
   return (
-    <div className='col-span-1'>
+    <div className='col-span-1 mt-10 p-2'>
       <Image
         src='/images/illustration-phone-mockup.svg'
         alt='Profile Image'

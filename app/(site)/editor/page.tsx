@@ -15,6 +15,7 @@ const Editor = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
+  const gridStyle = isMobile ? 'flex flex-col items-center' : 'grid grid-cols-2'
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -29,9 +30,7 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${
-          isMobile && 'flex justify-center'
-        } grid-cols-2 space-y-2 bg-background w-screen min-h-screen`}
+        className={`${gridStyle} justify-items-center space-y-2 bg-background w-screen min-h-screen`}
       >
         {!isMobile && <MobilePreview />}
         {activeButton === 'links' && <Links />}
