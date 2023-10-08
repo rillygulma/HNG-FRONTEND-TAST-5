@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import useMobileDetect from '@/hooks/useMobileDetect'
 import EditLinkBlock from './EditLinkBlock' // sortable item
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
@@ -45,6 +46,7 @@ const Links = () => {
     })
   )
 
+  const isMobile = useMobileDetect()
   const [links, setLinks] = useState<Link[]>([])
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
@@ -138,7 +140,7 @@ const Links = () => {
   }, [])
 
   return (
-    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>
+    <section className='flex flex-col col-span-1 col-start-2 justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 phone:w-80 phone:h-full rounded-md'>
       <h1 className='py-4'>Customize your links</h1>
 
       <p className='text-sm text-gray-500'>

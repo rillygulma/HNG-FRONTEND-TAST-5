@@ -6,9 +6,12 @@ import Links from '@/components/Links'
 import Profile from '@/components/Profile'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import useMobileDetect from '@/hooks/useMobileDetect'
+import MobilePreview from '@/components/MobilePreview'
 
 const Editor = () => {
   // State to manage the active button in the toggle
+  const isMobile = useMobileDetect()
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
@@ -25,7 +28,12 @@ const Editor = () => {
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
-      <main className='flex justify-center bg-background w-screen min-h-screen'>
+      <main
+        className={`${
+          isMobile && 'flex justify-center'
+        } grid-cols-2 space-y-2 bg-background w-screen min-h-screen`}
+      >
+        {!isMobile && <MobilePreview />}
         {activeButton === 'links' && <Links />}
         {activeButton === 'profile' && <Profile />}
       </main>
