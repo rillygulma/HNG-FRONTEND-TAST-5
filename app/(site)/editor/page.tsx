@@ -6,16 +6,20 @@ import Links from '@/components/Links'
 import Profile from '@/components/Profile'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import useTabletDetect from '@/hooks/useTabletDetect'
 import useMobileDetect from '@/hooks/useMobileDetect'
 import MobilePreview from '@/components/MobilePreview'
 
 const Editor = () => {
   // State to manage the active button in the toggle
+  const isTablet = useTabletDetect()
   const isMobile = useMobileDetect()
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
-  const gridStyle = isMobile ? 'flex flex-col items-center' : 'grid grid-cols-2'
+  const gridStyle = isTablet
+    ? 'flex flex-col items-center w-auto'
+    : 'grid grid-cols-2'
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -30,9 +34,9 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${gridStyle} justify-items-center space-y-2 bg-background w-screen min-h-screen`}
+        className={`${gridStyle} justify-items-center space-y-2 bg-background min-w-screen pb-10 desktop:px-0 tablet:px-10`}
       >
-        {!isMobile && <MobilePreview />}
+        {!isTablet && <MobilePreview />}
         {activeButton === 'links' && <Links />}
         {activeButton === 'profile' && <Profile />}
       </main>

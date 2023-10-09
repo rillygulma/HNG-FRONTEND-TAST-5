@@ -3,8 +3,10 @@ import axios from 'axios'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
+import useMobileDetect from '@/hooks/useMobileDetect'
 
 const ImageDropzone = ({ setImage, image }) => {
+  const isMobile = useMobileDetect()
   const [preview, setPreview] = useState<Object | null>(null)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -36,7 +38,9 @@ const ImageDropzone = ({ setImage, image }) => {
     preview
       ? 'flex flex-col items-center '
       : 'flex flex-col items-center align-middle h-40 w-50 rounded-md m-2 mr-8 py-8 bg-tertiary.blue hover:border-2 hover:border-secondary.blue'
-  } ${isDragActive && 'border-secondary.blue border-2 '}`
+  } ${isDragActive && 'border-secondary.blue border-2'} ${
+    !isMobile && 'min-w-full mx-6'
+  }`
 
   return (
     <div {...getRootProps()} className={dropZoneStyle}>
