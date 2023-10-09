@@ -55,7 +55,7 @@ const Profile = () => {
     : 'grid grid-cols-3 justify-center place-items-center'
 
   return (
-    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 desktop:w-full desktop:mr-20 tablet:w-auto tablet:mr-6 phone:w-80 phone:h-full rounded-md'>
+    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 desktop:w-full desktop:mr-20 tablet:w-full tablet:mr-6 phone:w-80 phone:h-full rounded-md'>
       <h1 className='py-4'>Profile Details</h1>
 
       <p className='text-sm text-gray-500'>
@@ -64,9 +64,11 @@ const Profile = () => {
       <article
         className={`${gridStyle} align-middle text-primary.gray text-sm z-50 bg-background rounded-md h-auto w-full my-4 p-4`}
       >
-        <h2 className='ml-2 tablet:justify-self-start'>Profile Picture</h2>
+        <h2 className='desktop:ml-2 tablet:ml-2 tablet:justify-self-start'>
+          Profile Picture
+        </h2>
         <ImageDropzone setImage={setImage} image={image} />
-        <p className='text-xs text-gray-500 ml-2'>
+        <p className='text-xs text-gray-500 desktop:ml-2 tablet:ml-6'>
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>
       </article>

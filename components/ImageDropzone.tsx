@@ -36,10 +36,10 @@ const ImageDropzone = ({ setImage, image }) => {
 
   const dropZoneStyle = `${
     preview
-      ? 'flex flex-col items-center '
-      : 'flex flex-col items-center align-middle h-40 w-50 rounded-md m-2 mr-8 py-8 bg-tertiary.blue hover:border-2 hover:border-secondary.blue'
+      ? 'flex flex-col items-center'
+      : 'flex flex-col items-center align-middle h-40  rounded-md m-2 mr-8 py-8 bg-tertiary.blue hover:border-2 hover:border-secondary.blue'
   } ${isDragActive && 'border-secondary.blue border-2'} ${
-    !isMobile && 'min-w-full mx-6'
+    !isMobile && 'min-w-full w-48'
   }`
 
   return (
