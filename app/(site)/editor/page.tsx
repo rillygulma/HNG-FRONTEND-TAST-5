@@ -10,6 +10,19 @@ import useTabletDetect from '@/hooks/useTabletDetect'
 import useMobileDetect from '@/hooks/useMobileDetect'
 import MobilePreview from '@/components/MobilePreview'
 
+interface Link {
+  id: string
+  url: string
+  platform: string
+}
+
+interface User {
+  username: string
+  email: string
+  password: string // Please note storing password like this is not secure in a real application
+  links: Link[]
+}
+
 const Editor = () => {
   // State to manage the active button in the toggle
   const isTablet = useTabletDetect()
@@ -17,6 +30,7 @@ const Editor = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
+  const [links, setLinks] = useState<Link[]>([])
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
     : 'grid grid-cols-2'
@@ -37,7 +51,9 @@ const Editor = () => {
         className={`${gridStyle} justify-items-center space-y-2 bg-background min-w-screen pb-10 desktop:px-0 tablet:px-10`}
       >
         {!isTablet && <MobilePreview />}
-        {activeButton === 'links' && <Links />}
+        {activeButton === 'links' && (
+          <Links links={links} setLinks={setLinks} />
+        )}
         {activeButton === 'profile' && <Profile />}
       </main>
     </>

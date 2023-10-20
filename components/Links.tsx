@@ -30,14 +30,7 @@ interface Link {
   platform: string
 }
 
-interface User {
-  username: string
-  email: string
-  password: string // Please note storing password like this is not secure in a real application
-  links: Link[]
-}
-
-const Links = () => {
+const Links = ({ links, setLinks }) => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -47,7 +40,7 @@ const Links = () => {
   )
 
   const isMobile = useMobileDetect()
-  const [links, setLinks] = useState<Link[]>([])
+
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 
