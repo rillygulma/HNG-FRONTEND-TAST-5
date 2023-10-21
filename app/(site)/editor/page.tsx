@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Nav from '@/components/Nav'
 import Links from '@/components/Links'
 import Profile from '@/components/Profile'
@@ -9,7 +9,8 @@ import { useRouter } from 'next/navigation'
 import useTabletDetect from '@/hooks/useTabletDetect'
 import useMobileDetect from '@/hooks/useMobileDetect'
 import MobilePreview from '@/components/MobilePreview'
-
+import ProfilePreview from '@/components/ProfilePreview'
+import axios from 'axios'
 interface Link {
   id: string
   url: string
@@ -17,10 +18,16 @@ interface Link {
 }
 
 interface User {
+  links: React.JSX.Element[] | undefined
+  id: string
+  platform: string
+  url: string
+  createdAt: Date
+  userId: string
   username: string
   email: string
-  password: string // Please note storing password like this is not secure in a real application
-  links: Link[]
+  profileImage: string
+  updatedAt: Date
 }
 
 const Editor = () => {
@@ -30,7 +37,19 @@ const Editor = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
-  const [links, setLinks] = useState<Link[]>([])
+  const [profile, setProfile] = useState<User>({
+    links: [],
+    id: '',
+    platform: '',
+    url: '',
+    createdAt: new Date(),
+    userId: '',
+    username: '',
+    email: '',
+    profileImage: '',
+    updatedAt: new Date(),
+  })
+
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
     : 'grid grid-cols-2'
@@ -44,15 +63,25 @@ const Editor = () => {
     }
   }, [session, status])
 
+  useEffect(() => {
+    // Fetch data when the component mounts
+    const getProfile = async () => {
+      const fetchedData = await axios.get('/api/profile')
+      setProfile(fetchedData.data)
+    }
+
+    getProfile()
+  }, [])
+
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
         className={`${gridStyle} justify-items-center space-y-2 bg-background min-w-screen pb-10 desktop:px-0 tablet:px-10`}
       >
-        {!isTablet && <MobilePreview />}
+        {!isTablet && <MobilePreview profile={profile} />}
         {activeButton === 'links' && (
-          <Links links={links} setLinks={setLinks} />
+          <Links profile={profile} setProfile={setProfile} />
         )}
         {activeButton === 'profile' && <Profile />}
       </main>

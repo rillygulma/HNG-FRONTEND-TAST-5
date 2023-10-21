@@ -30,7 +30,7 @@ interface Link {
   platform: string
 }
 
-const Links = ({ links, setLinks }) => {
+const Links = ({ profile, setProfile }) => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -38,7 +38,7 @@ const Links = ({ links, setLinks }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-
+  const [links, setLinks] = useState(profile.links)
   const isMobile = useMobileDetect()
 
   const [error, setError] = useState('Something went wrong')
@@ -113,6 +113,15 @@ const Links = ({ links, setLinks }) => {
         }
       })
   }
+
+  useEffect(() => {
+    setProfile((prevProfile) => {
+      return {
+        ...prevProfile,
+        links: links,
+      }
+    })
+  }, [links])
 
   // useSWR with this instead
   useEffect(() => {

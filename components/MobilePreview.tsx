@@ -1,7 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
+import ProfilePreview from '@/components/ProfilePreview'
 
-const MobilePreview = () => {
+const MobilePreview = ({ profile }) => {
+  console.log(profile.links)
   return (
     <div className='col-span-1 mt-10 p-2'>
       <Image

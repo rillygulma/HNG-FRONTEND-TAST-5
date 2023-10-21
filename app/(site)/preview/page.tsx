@@ -21,7 +21,18 @@ interface User {
 }
 
 const Preview = () => {
-  const [profile, setProfile] = useState<User>({ links: undefined, user: null })
+  const [profile, setProfile] = useState<User>({
+    links: [],
+    id: '',
+    platform: '',
+    url: '',
+    createdAt: new Date(),
+    userId: '',
+    username: '',
+    email: '',
+    profileImage: '',
+    updatedAt: new Date(),
+  })
   const [uniqueUrl, setUniqueUrl] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 

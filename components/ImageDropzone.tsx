@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
