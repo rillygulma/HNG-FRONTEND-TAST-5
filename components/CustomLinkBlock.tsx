@@ -10,6 +10,7 @@ interface CustomLinkBlockProps {
     platform: string
   }
   platform: string
+  shape: string | null
 }
 
 type PlatformKeys =
@@ -25,7 +26,12 @@ type PlatformKeys =
   | 'github'
   | 'website'
 
-const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
+const CustomLinkBlock = ({
+  index,
+  link,
+  platform,
+  shape = 'w-72 h-[4.55rem]',
+}: CustomLinkBlockProps) => {
   const social = platform.toLowerCase().replace(/\s+/g, '')
 
   const platformColors: Record<PlatformKeys, string> = Object.freeze({
@@ -76,7 +82,7 @@ const CustomLinkBlock = ({ index, link, platform }: CustomLinkBlockProps) => {
     <div
       className={`flex items-center justify-between ${getPlatformStyle(
         social
-      )} m-5 w-full h-[4.55rem] rounded-md`}
+      )} m-5 ${shape} rounded-md`}
     >
       <Link
         href={link.url}

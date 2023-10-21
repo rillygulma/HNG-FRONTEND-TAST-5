@@ -3,9 +3,8 @@ import Image from 'next/image'
 import ProfilePreview from '@/components/ProfilePreview'
 
 const MobilePreview = ({ profile }) => {
-  console.log(profile.links)
   return (
-    <div className='col-span-1 mt-10 p-2'>
+    <div className='flex flex-col col-span-1 mt-10 p-2 relative'>
       <Image
         src='/images/illustration-phone-mockup.svg'
         alt='Profile Image'
@@ -13,6 +12,9 @@ const MobilePreview = ({ profile }) => {
         height={128}
         className='w-auto'
       />
+      <div className='absolute z-10 flex flex-col items-center'>
+        <ProfilePreview profile={profile} isOverlay={true} />
+      </div>
     </div>
   )
 }
