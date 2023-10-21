@@ -9,7 +9,7 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
     <div
       className={`${
         isOverlay
-          ? 'w-full mt-10 mx-4 flex flex-col items-center justify-center bg-white'
+          ? 'w-64 mt-10 mx-1 flex flex-col items-center justify-center bg-white'
           : 'flex flex-col items-center justify-center'
       }`}
     >
