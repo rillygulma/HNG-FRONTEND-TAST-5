@@ -127,14 +127,6 @@ h2 {
   background-color: #eee;
 }
 
-.non-draggable {
-  pointer-events: none;
-}
-
-.non-draggable button {
-  pointer-events: auto;
-}
-
 /* Form Elements */
 .input-with-icon {
   background-image: url('/images/icon-link.svg');

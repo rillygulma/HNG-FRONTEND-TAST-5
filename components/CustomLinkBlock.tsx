@@ -34,7 +34,7 @@ const CustomLinkBlock = ({
   shape = 'w-72 h-[4.55rem]',
   isOverlay,
 }: CustomLinkBlockProps) => {
-  const social = platform.toLowerCase().replace(/\s+/g, '')
+  const social = platform?.toLowerCase().replace(/\s+/g, '')
 
   const platformColors: Record<PlatformKeys, string> = Object.freeze({
     facebook: 'facebook-bg',
@@ -78,39 +78,41 @@ const CustomLinkBlock = ({
     return platforms[platform as PlatformKeys]
   }
 
-  console.log(link.url)
-
   return (
     <div
-      className={`flex items-center justify-between ${getPlatformStyle(
-        social
-      )} m-5 ${shape} rounded-md`}
+      className={`flex items-center justify-between ${
+        platform ? getPlatformStyle(social) : 'bg-secondary.gray'
+      } ${isOverlay ? 'm-2' : 'm-5'} ${shape} rounded-md`}
     >
       <Link
-        href={link.url}
+        href={link ? link.url : ''}
         target='_blank'
         rel='noopener noreferrer'
         className='flex items-center justify-between w-full'
       >
         <div className='flex items-center'>
-          <Image
-            src={`/images/${getIcon(social)}`}
-            className='z-20 w-10 h-10 ml-4 fill-white'
-            width={10}
-            height={10}
-            alt=''
-          />
+          {platform && (
+            <Image
+              src={`/images/${getIcon(social)}`}
+              className='z-20 w-10 h-10 ml-4 fill-white'
+              width={10}
+              height={10}
+              alt=''
+            />
+          )}
           <span className='text-xl mt-0.5 ml-4 font-semibold'>
             {getPlatform(platform)}
           </span>
         </div>
-        <Image
-          src='/images/icon-arrow-right.svg'
-          className='z-20 w-7 h-7 pr-0.5 mr-4 mt-0.5 fill-white'
-          width={10}
-          height={10}
-          alt=''
-        />
+        {platform && (
+          <Image
+            src='/images/icon-arrow-right.svg'
+            className='z-20 w-7 h-7 pr-0.5 mr-4 mt-0.5 fill-white'
+            width={10}
+            height={10}
+            alt=''
+          />
+        )}
       </Link>
     </div>
   )
