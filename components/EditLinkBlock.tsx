@@ -90,8 +90,6 @@ const EditLinkBlock = ({
     <article
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className='text-primary.gray text-sm z-50 bg-background rounded-md h-60 w-full my-4'
     >
       <div className='flex justify-between py-4 px-3'>
@@ -102,6 +100,8 @@ const EditLinkBlock = ({
             width={22}
             height={22}
             className='my-2 mx-2 pt-0.5'
+            {...attributes}
+            {...listeners}
           />
 
           <span className='font-semibold text-primary.gray ml-3 mt-1'>

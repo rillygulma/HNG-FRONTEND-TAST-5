@@ -11,6 +11,7 @@ interface CustomLinkBlockProps {
   }
   platform: string
   shape: string | null
+  isOverlay: boolean
 }
 
 type PlatformKeys =
@@ -31,6 +32,7 @@ const CustomLinkBlock = ({
   link,
   platform,
   shape = 'w-72 h-[4.55rem]',
+  isOverlay,
 }: CustomLinkBlockProps) => {
   const social = platform.toLowerCase().replace(/\s+/g, '')
 
