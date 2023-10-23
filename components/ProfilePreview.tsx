@@ -4,11 +4,11 @@ import CustomLinkBlock from './CustomLinkBlock'
 
 const ProfilePreview = ({ profile, isOverlay = false }) => {
   const shape = isOverlay ? 'w-60 h-[3.75rem]' : 'w-72 h-[4.55rem]'
-  const fullLinksArray = [
-    ...profile.links,
-    ...Array(3 - profile.links.length).fill(null),
-  ]
-
+  const placeholderLink = {
+    id: 'placeholder',
+    url: '',
+    platform: '',
+  }
   return (
     <div
       className={`${
@@ -59,7 +59,8 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
             />
           ))}
         {isOverlay &&
-          fullLinksArray.map((link, index) => (
+          profile.links.length >= 3 &&
+          profile.links.map((link, index) => (
             <CustomLinkBlock
               key={link?.id}
               index={index}
@@ -69,6 +70,33 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
               isOverlay={isOverlay}
             />
           ))}
+        {isOverlay && profile.links.length < 3 && (
+          <>
+            {profile.links.map((link, index) => (
+              <CustomLinkBlock
+                key={link?.id}
+                index={index}
+                link={link}
+                platform={link?.platform}
+                shape={shape}
+                isOverlay={isOverlay}
+              />
+            ))}
+
+            {Array.from({ length: 3 - profile.links.length }).map(
+              (link, index) => (
+                <CustomLinkBlock
+                  key={`placeholder-${index}`}
+                  index={index}
+                  link={placeholderLink}
+                  platform={''}
+                  shape={shape}
+                  isOverlay={isOverlay}
+                />
+              )
+            )}
+          </>
+        )}
       </section>
     </div>
   )
