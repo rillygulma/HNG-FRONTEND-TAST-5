@@ -5,16 +5,10 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import useMobileDetect from '@/hooks/useMobileDetect'
 
-const Profile = () => {
+const Profile = ({ profile, setProfile }) => {
   const isMobile = useMobileDetect()
   const [image, setImage] = useState<File | null>(null)
   const [errors, setErrors] = useState([])
-  const [profile, setProfile] = useState({
-    firstname: '',
-    lastname: '',
-    email: '',
-    image: image,
-  })
 
   useEffect(() => {
     console.log('profile:', profile)

@@ -147,6 +147,8 @@ const Links = ({ profile, setProfile }) => {
 
       <p className='text-sm text-gray-500'>
         Add, edit, or remove links below, then share your collated links.
+        Reorder your links by clicking and dragging the handle in the top left
+        corner of each link block.
       </p>
       <AddLinkButton addLink={addLink} />
       <form action='' className='w-full mb-4' onSubmit={handleUpdateLinks}>

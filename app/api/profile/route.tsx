@@ -44,7 +44,7 @@ export async function POST(req: Request, res: Response) {
   }
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-  if (!emailPattern.test(email)) {
+  if (email && !emailPattern.test(email)) {
     errors.push({
       errorType: 'EMAIL',
       error: 'Please enter a valid email.',
@@ -55,7 +55,15 @@ export async function POST(req: Request, res: Response) {
     return NextResponse.json({ errors }, { status: 400 })
   }
 
-  return NextResponse.json(user)
+  const updatedUser = await db.user.update({
+    where: { email: session?.user?.email as string },
+    data: {
+      username: firstName + ' ' + lastName,
+      email: email,
+    },
+  })
+
+  return NextResponse.json(updatedUser)
 }
 
 export async function GET(): Promise<NextResponse> {

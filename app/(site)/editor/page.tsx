@@ -83,7 +83,9 @@ const Editor = () => {
         {activeButton === 'links' && (
           <Links profile={profile} setProfile={setProfile} />
         )}
-        {activeButton === 'profile' && <Profile />}
+        {activeButton === 'profile' && (
+          <Profile profile={profile} setProfile={setProfile} />
+        )}
       </main>
     </>
   )
