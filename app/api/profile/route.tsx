@@ -58,16 +58,18 @@ export async function POST(req: Request, res: Response) {
   const updatedUser = await db.user.update({
     where: { email: session?.user?.email as string },
     data: {
-      username: firstName + ' ' + lastName,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
     },
   })
 
-  return NextResponse.json(updatedUser)
+  return NextResponse.json(user)
 }
 
 export async function GET(): Promise<NextResponse> {
   const session = await getServerSession(options)
+  console.log(session)
 
   const user = await db.user.findUnique({
     where: { email: session?.user?.email as string },

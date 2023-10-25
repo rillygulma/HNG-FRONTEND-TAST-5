@@ -10,6 +10,8 @@ import useTabletDetect from '@/hooks/useTabletDetect'
 import useMobileDetect from '@/hooks/useMobileDetect'
 import MobilePreview from '@/components/MobilePreview'
 import ProfilePreview from '@/components/ProfilePreview'
+import toast from 'react-hot-toast'
+import { signOut } from 'next-auth/react'
 import axios from 'axios'
 interface Link {
   id: string
@@ -25,6 +27,8 @@ interface User {
   createdAt: Date
   userId: string
   username: string
+  firstName: string
+  lastName: string
   email: string
   profileImage: string
   updatedAt: Date
@@ -35,6 +39,8 @@ const Editor = () => {
   const isTablet = useTabletDetect()
   const isMobile = useMobileDetect()
   const { data: session, status } = useSession()
+  const [hasFetchedWithError, setHasFetchedWithError] = useState(false)
+
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [profile, setProfile] = useState<User>({
@@ -45,6 +51,8 @@ const Editor = () => {
     createdAt: new Date(),
     userId: '',
     username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     profileImage: '',
     updatedAt: new Date(),
@@ -66,12 +74,32 @@ const Editor = () => {
   useEffect(() => {
     // Fetch data when the component mounts
     const getProfile = async () => {
-      const fetchedData = await axios.get('/api/profile')
-      setProfile(fetchedData.data)
+      try {
+        const response = await axios.get('/api/profile')
+
+        if (response.data.error) {
+          throw new Error(response.data.error)
+        }
+
+        setProfile(response.data)
+      } catch (err) {
+        if (!hasFetchedWithError) {
+          setHasFetchedWithError(true)
+          toast.error(
+            err.response.data.error || 'An unexpected error occurred.'
+          )
+        }
+      }
     }
 
-    getProfile()
-  }, [])
+    if (hasFetchedWithError) {
+      signOut()
+    }
+
+    if (!hasFetchedWithError) {
+      getProfile()
+    }
+  }, [hasFetchedWithError])
 
   return (
     <>

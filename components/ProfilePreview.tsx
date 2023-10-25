@@ -9,6 +9,7 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
     url: '',
     platform: '',
   }
+
   return (
     <div
       className={`${

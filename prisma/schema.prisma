@@ -12,8 +12,8 @@ datasource db {
 
 model Link {
   id            String       @default(cuid()) @id
-  platform      String       @unique
-  url           String       @unique
+  platform      String       
+  url           String       
   createdAt     DateTime     @default(now()) @map(name: "created_at")
   updatedAt     DateTime     @updatedAt @map(name: "updated_at")
   user          User         @relation(fields: [userId], references: [id])
@@ -24,6 +24,8 @@ model Link {
 model User {
   id            String       @default(cuid()) @id
   username      String?      @unique
+  firstName     String?
+  lastName      String?
   email         String       @unique
   password      String?
   profileImage  String?

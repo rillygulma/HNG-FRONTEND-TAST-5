@@ -6,7 +6,8 @@ import Image from 'next/image'
 import ShareModal from '@/components/ShareLinkModal'
 import axios from 'axios'
 import ProfilePreview from '@/components/ProfilePreview'
-
+import toast from 'react-hot-toast'
+import { signOut } from 'next-auth/react'
 interface User {
   links: React.JSX.Element[] | undefined
   id: string
@@ -15,12 +16,15 @@ interface User {
   createdAt: Date
   userId: string
   username: string
+  firstName: string
+  lastName: string
   email: string
   profileImage: string
   updatedAt: Date
 }
 
 const Preview = () => {
+  const [hasFetchedWithError, setHasFetchedWithError] = useState(false)
   const [profile, setProfile] = useState<User>({
     links: [],
     id: '',
@@ -29,6 +33,8 @@ const Preview = () => {
     createdAt: new Date(),
     userId: '',
     username: '',
+    firstName: '',
+    lastName: '',
     email: '',
     profileImage: '',
     updatedAt: new Date(),
@@ -40,28 +46,40 @@ const Preview = () => {
     return <ProfilePreview profile={profile} />
   }, [])
 
-  useEffect(() => {
-    // Fetch data when the component mounts
-    const getProfile = async () => {
-      const fetchedData = await axios.get('/api/profile')
-      setProfile(fetchedData.data)
-    }
-
-    getProfile()
-  }, [])
-
-  useEffect(() => {
-    // Generate the unique URL only when profile is available
-    if (profile.username) {
-      const url = `${window.location.origin}/link/${profile.username}`
-      setUniqueUrl(url)
-    }
-  }, [profile])
-
   const toggleModal = () => {
     console.log('toggling modal...')
     setIsOpen(!isOpen)
   }
+
+  useEffect(() => {
+    // Fetch data when the component mounts
+    const getProfile = async () => {
+      try {
+        const response = await axios.get('/api/profile')
+
+        if (response.data.error) {
+          throw new Error(response.data.error)
+        }
+
+        setProfile(response.data)
+      } catch (err) {
+        if (!hasFetchedWithError) {
+          setHasFetchedWithError(true)
+          toast.error(
+            err.response.data.error || 'An unexpected error occurred.'
+          )
+        }
+      }
+    }
+
+    if (hasFetchedWithError) {
+      signOut()
+    }
+
+    if (!hasFetchedWithError) {
+      getProfile()
+    }
+  }, [hasFetchedWithError])
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
@@ -72,8 +90,7 @@ const Preview = () => {
         >
           Back to Editor
         </Link>
-        <Button text='Share Link' style='filled' handler={toggleModal} />{' '}
-        {/*we need to connect the state to this, to hide and show ShareModal*/}
+        <Button text='Share Link' style='filled' handler={toggleModal} />
       </nav>
       {isOpen && (
         <ShareModal

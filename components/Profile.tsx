@@ -9,6 +9,11 @@ const Profile = ({ profile, setProfile }) => {
   const isMobile = useMobileDetect()
   const [image, setImage] = useState<File | null>(null)
   const [errors, setErrors] = useState([])
+  const [details, setDetails] = useState({
+    firstname: '',
+    lastname: '',
+    email: '',
+  })
 
   useEffect(() => {
     console.log('profile:', profile)
@@ -26,10 +31,22 @@ const Profile = ({ profile, setProfile }) => {
     console.log('Sending profile to server:', profile)
     axios
       .post('/api/profile', {
-        profile: profile,
+        profile: {
+          ...profile,
+          firstname: details.firstname,
+          lastname: details.lastname,
+          email: details.email,
+        },
       })
       .then(() => {
         toast.success('Profile saved.')
+        setProfile({
+          ...profile,
+          firstname: details.firstname,
+          lastname: details.lastname,
+          email: details.email,
+        })
+        console.log(profile)
         console.log('profile sent to server')
       })
       .catch((err) => {
@@ -83,7 +100,7 @@ const Profile = ({ profile, setProfile }) => {
               type='text'
               placeholder='Enter your first name'
               onChange={(e) =>
-                setProfile({ ...profile, firstname: e.target.value })
+                setDetails({ ...details, firstname: e.target.value })
               }
             />
             {nameError && (
@@ -106,7 +123,7 @@ const Profile = ({ profile, setProfile }) => {
               type='text'
               placeholder='Enter your last name'
               onChange={(e) =>
-                setProfile({ ...profile, lastname: e.target.value })
+                setDetails({ ...details, lastname: e.target.value })
               }
             />
             {nameError && (
@@ -129,7 +146,7 @@ const Profile = ({ profile, setProfile }) => {
               type='text'
               placeholder='Enter your email'
               onChange={(e) =>
-                setProfile({ ...profile, email: e.target.value })
+                setDetails({ ...details, email: e.target.value })
               }
             />
             {emailError && (
