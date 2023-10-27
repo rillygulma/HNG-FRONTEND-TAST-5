@@ -1,7 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Providers from '@/context/Providers'
-import ProfileContext from '@/context/ProfileContext'
 import { Instrument_Sans } from 'next/font/google'
 
 const instrument = Instrument_Sans({ subsets: ['latin'] })

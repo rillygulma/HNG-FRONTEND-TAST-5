@@ -33,9 +33,9 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
           />
         )}
       </div>
-      <h1 className='text-4xl mt-4 text-black'>
+      <h1 className={`${isOverlay ? 'text-3xl' : 'text-4xl'} mt-4 text-black`}>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {profile?.username || 'Your username here'}
+        {profile?.firstName + ' ' + profile?.lastName || profile?.username}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
       <h3 className='text-xl mt-2 text-black'>

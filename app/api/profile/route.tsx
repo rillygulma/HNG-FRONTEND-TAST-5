@@ -55,14 +55,24 @@ export async function POST(req: Request, res: Response) {
     return NextResponse.json({ errors }, { status: 400 })
   }
 
-  const updatedUser = await db.user.update({
-    where: { email: session?.user?.email as string },
-    data: {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-    },
-  })
+  if (!email) {
+    await db.user.update({
+      where: { email: session?.user?.email as string },
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+      },
+    })
+  } else {
+    await db.user.update({
+      where: { email: session?.user?.email as string },
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      },
+    })
+  }
 
   return NextResponse.json(user)
 }
