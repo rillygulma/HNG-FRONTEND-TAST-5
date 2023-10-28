@@ -19,7 +19,7 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
       }`}
     >
       <div
-        className={`border-4 border-primary.blue rounded-full mt-16 ${
+        className={`border-4 border-primary.blue rounded-full mt-16 relative ${
           isOverlay ? 'w-24 h-24' : 'h-32 w-32 '
         }`}
       >
@@ -27,12 +27,13 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
           <Image
             src={profile.profileImage}
             alt='Profile Image'
-            width={128}
-            height={128}
-            className='w-auto rounded-full'
+            layout='fill'
+            objectFit='cover'
+            className='rounded-full absolute top-0 left-0'
           />
         )}
       </div>
+
       <h1 className={`${isOverlay ? 'text-3xl' : 'text-4xl'} mt-4 text-black`}>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
         {profile?.firstName + ' ' + profile?.lastName || profile?.username}
