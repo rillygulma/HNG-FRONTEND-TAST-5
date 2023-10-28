@@ -142,7 +142,7 @@ const Links = ({ profile, setProfile }) => {
   }, [])
 
   return (
-    <section className='flex flex-col col-span-1 col-start-2 justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 desktop:w-full desktop:mr-20 tablet:w-full phone:w-80 phone:h-full rounded-md'>
+    <section className='flex flex-col col-span-1 col-start-2 row-span-1 row-start-1 self-start justify-start z-20 bg-white text-black px-4 pt-2 mt-8 desktop:w-full desktop:mr-20 tablet:w-full phone:w-80 phone:h-full rounded-md'>
       <h1 className='py-4'>Customize your links</h1>
 
       <p className='text-sm text-gray-500'>
@@ -154,7 +154,7 @@ const Links = ({ profile, setProfile }) => {
       <form action='' className='w-full mb-4' onSubmit={handleUpdateLinks}>
         <div className='space-y-6'>
           {links.length === 0 && (
-            <article className='flex flex-col justify-center items-center py-6 text-primary.gray text-sm z-50 bg-background rounded-md phone:min-h-72 w-full my-4'>
+            <article className='flex flex-col justify-center items-center py-8 pb-20 text-primary.gray text-sm z-50 bg-background rounded-md desktop:h-full phone:min-h-72 w-full my-4'>
               <Image
                 src='./images/illustration-empty.svg'
                 alt='No links'

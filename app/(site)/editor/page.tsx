@@ -60,7 +60,7 @@ const Editor = () => {
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
-    : 'grid grid-cols-2'
+    : 'grid grid-cols-2 '
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -109,7 +109,7 @@ const Editor = () => {
       >
         {!isTablet && <MobilePreview profile={profile} />}
         {activeButton === 'links' && (
-          <div className='flex flex-col pb-20'>
+          <div className='flex flex-col pb-32 mr-10'>
             <Links profile={profile} setProfile={setProfile} />
           </div>
         )}
