@@ -105,11 +105,13 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${gridStyle} justify-items-center space-y-2 bg-background min-w-screen pb-10 desktop:px-0 tablet:px-10`}
+        className={`${gridStyle} justify-items-center space-y-2 bg-background max-h-screen pb-10 desktop:px-0 tablet:px-10`}
       >
         {!isTablet && <MobilePreview profile={profile} />}
         {activeButton === 'links' && (
-          <Links profile={profile} setProfile={setProfile} />
+          <div className='flex flex-col pb-20'>
+            <Links profile={profile} setProfile={setProfile} />
+          </div>
         )}
         {activeButton === 'profile' && (
           <Profile profile={profile} setProfile={setProfile} />
