@@ -169,9 +169,6 @@ const Links = ({ profile, setProfile }) => {
               </p>
             </article>
           )}
-          {/*testArr.map((link, index) => {
-            return <EditLinkBlock index={index} key={index} />
-          })*/}
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}

@@ -62,16 +62,18 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
           ))}
         {isOverlay &&
           profile.links.length >= 3 &&
-          profile.links.map((link, index) => (
-            <CustomLinkBlock
-              key={link?.id}
-              index={index}
-              link={link}
-              platform={link?.platform}
-              shape={shape}
-              isOverlay={isOverlay}
-            />
-          ))}
+          profile.links
+            .slice(0, 3)
+            .map((link, index) => (
+              <CustomLinkBlock
+                key={link?.id}
+                index={index}
+                link={link}
+                platform={link?.platform}
+                shape={shape}
+                isOverlay={isOverlay}
+              />
+            ))}
         {isOverlay && profile.links.length < 3 && (
           <>
             {profile.links.map((link, index) => (

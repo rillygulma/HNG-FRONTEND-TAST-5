@@ -15,14 +15,6 @@ const Profile = ({ profile, setProfile }) => {
     email: '',
   })
 
-  useEffect(() => {
-    console.log('profile:', profile)
-  }, [profile])
-
-  useEffect(() => {
-    console.log('errors:', errors)
-  }, [errors])
-
   const nameError = errors.find((item) => item.errorType === 'NAME')
   const emailError = errors.find((item) => item.errorType === 'EMAIL')
 
@@ -33,8 +25,8 @@ const Profile = ({ profile, setProfile }) => {
       .post('/api/profile', {
         profile: {
           ...profile,
-          firstname: details.firstname,
-          lastname: details.lastname,
+          firstName: details.firstname,
+          lastName: details.lastname,
           email: details.email,
         },
       })
@@ -42,8 +34,8 @@ const Profile = ({ profile, setProfile }) => {
         toast.success('Profile saved.')
         setProfile({
           ...profile,
-          firstname: details.firstname,
-          lastname: details.lastname,
+          firstName: details.firstname,
+          lastName: details.lastname,
           email: details.email,
         })
         console.log(profile)

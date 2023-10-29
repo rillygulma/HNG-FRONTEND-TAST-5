@@ -59,7 +59,7 @@ const CustomLinkBlock = ({
     frontendmentor: 'Frontend Mentor',
     codewars: 'Codewars',
     codepen: 'CodePen',
-    freecodecamp: 'FreeCodeCamp',
+    freecodecamp: 'freeCodeCamp',
     twitch: 'Twitch',
     youtube: 'YouTube',
     github: 'GitHub',
@@ -82,7 +82,7 @@ const CustomLinkBlock = ({
     <div
       className={`flex items-center justify-between ${
         platform ? getPlatformStyle(social) : 'bg-secondary.gray'
-      } ${isOverlay ? 'm-2' : 'm-5'} ${shape} rounded-md`}
+      } ${isOverlay ? 'm-2 text-md' : 'm-5 text-xl'} ${shape} rounded-md`}
     >
       <Link
         href={link ? link.url : ''}
@@ -100,7 +100,7 @@ const CustomLinkBlock = ({
               alt=''
             />
           )}
-          <span className='text-xl mt-0.5 ml-4 font-semibold'>
+          <span className=' mt-0.5 ml-4 font-semibold'>
             {getPlatform(platform)}
           </span>
         </div>
