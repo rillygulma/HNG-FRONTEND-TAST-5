@@ -92,10 +92,6 @@ const Editor = () => {
       }
     }
 
-    if (hasFetchedWithError) {
-      signOut()
-    }
-
     if (!hasFetchedWithError) {
       getProfile()
     }
