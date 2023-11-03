@@ -83,6 +83,7 @@ export default function Register() {
                   onChange={(e) =>
                     setData({ ...data, username: e.target.value })
                   }
+                  required
                 />
                 {errorType === 'USERNAME' && (
                   <p className='form-validation-error'>{error}</p>
@@ -142,7 +143,7 @@ export default function Register() {
           <div className='flex mt-4 justify-center flex-wrap'>
             <span className='text-black'>Already have an account?</span>
             <Link
-              href='/signin' // Update this with your login page link
+              href='/signin'
               className='desktop:block phone:flex phone:flex-nowrap justify-center ml-2 text-primary.blue hover:text-secondary.blue'
             >
               Login
