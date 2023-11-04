@@ -27,8 +27,8 @@ interface User {
   createdAt: Date
   userId: string
   username: string
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   email: string
   profileImage: string
   updatedAt: Date
@@ -51,8 +51,8 @@ const Editor = () => {
     createdAt: new Date(),
     userId: '',
     username: '',
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     profileImage: '',
     updatedAt: new Date(),

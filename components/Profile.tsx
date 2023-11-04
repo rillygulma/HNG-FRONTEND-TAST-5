@@ -25,8 +25,8 @@ const Profile = ({ profile, setProfile }) => {
       .post('/api/profile', {
         profile: {
           ...profile,
-          firstName: details.firstname,
-          lastName: details.lastname,
+          firstname: details.firstname,
+          lastname: details.lastname,
           email: details.email,
         },
       })
@@ -34,8 +34,8 @@ const Profile = ({ profile, setProfile }) => {
         toast.success('Profile saved.')
         setProfile({
           ...profile,
-          firstName: details.firstname,
-          lastName: details.lastname,
+          firstname: details.firstname,
+          lastname: details.lastname,
           email: details.email,
         })
         console.log(profile)
