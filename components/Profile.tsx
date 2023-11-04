@@ -86,6 +86,7 @@ const Profile = ({ profile, setProfile, preview, setPreview }) => {
           image={image}
           setPreview={setPreview}
           preview={preview}
+          setProfile={setProfile}
         />
         <p className='text-xs text-gray-500 desktop:ml-2 tablet:ml-6'>
           Image must be below 1024x1024px. Use PNG or JPG format.

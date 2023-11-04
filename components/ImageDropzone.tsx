@@ -5,31 +5,49 @@ import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 import useMobileDetect from '@/hooks/useMobileDetect'
 
-const ImageDropzone = ({ setImage, image, setPreview, preview }) => {
+const ImageDropzone = ({
+  setImage,
+  image,
+  setPreview,
+  preview,
+  setProfile,
+}) => {
   const isMobile = useMobileDetect()
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
-      // Do something with the files
-      console.log(acceptedFiles.length) // is 0
       if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0] // or whatever logic you use to select a file
-        console.log(file)
+        const file = acceptedFiles[0] // Assume single file upload for simplicity
+
+        // Immediately update the preview state with the local file URL
+        const previewUrl = URL.createObjectURL(file)
+        setPreview({ preview: previewUrl })
+
+        // Now, upload the file to the server
         const formData = new FormData()
         formData.append('file', file)
-        const response = await axios
-          .post('/api/imageUpload', formData)
-          .then((response) => {
-            toast.success('Image uploaded successfully.')
-            console.log(response.data)
-            setPreview(
-              Object.assign(file, { preview: URL.createObjectURL(file) })
-            )
-            console.log(preview.preview)
-          })
-          .catch((error) => {
-            console.log(error)
-          })
+
+        try {
+          const response = await axios.post('/api/imageUpload', formData)
+
+          // If the image is uploaded successfully, update the profile image
+          setProfile((prevProfile) => ({
+            ...prevProfile,
+            profileImage: response.data.imageUrl, // Assuming `imageUrl` is the property where the URL is stored
+          }))
+
+          toast.success('Image uploaded successfully.')
+
+          // Now that the image is uploaded and the profile is updated, you can revoke the preview URL
+          URL.revokeObjectURL(previewUrl)
+        } catch (error) {
+          // If the upload fails, handle errors here
+          toast.error('Image upload failed.')
+          console.error(error)
+
+          // It's also a good practice to revoke the preview URL if the upload fails
+          URL.revokeObjectURL(previewUrl)
+        }
       }
     },
   })
