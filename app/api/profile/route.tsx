@@ -59,16 +59,16 @@ export async function POST(req: Request, res: Response) {
     await db.user.update({
       where: { email: session?.user?.email as string },
       data: {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstName,
+        lastname: lastName,
       },
     })
   } else {
     await db.user.update({
       where: { email: session?.user?.email as string },
       data: {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstName,
+        lastname: lastName,
         email: email,
       },
     })

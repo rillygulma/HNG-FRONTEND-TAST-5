@@ -40,6 +40,11 @@ const Profile = ({ profile, setProfile }) => {
         })
         console.log(profile)
         console.log('profile sent to server')
+        setDetails({
+          firstname: '',
+          lastname: '',
+          email: '',
+        })
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
