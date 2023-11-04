@@ -5,9 +5,8 @@ import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 import useMobileDetect from '@/hooks/useMobileDetect'
 
-const ImageDropzone = ({ setImage, image }) => {
+const ImageDropzone = ({ setImage, image, setPreview, preview }) => {
   const isMobile = useMobileDetect()
-  const [preview, setPreview] = useState<Object | null>(null)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
@@ -26,6 +25,7 @@ const ImageDropzone = ({ setImage, image }) => {
             setPreview(
               Object.assign(file, { preview: URL.createObjectURL(file) })
             )
+            console.log(preview.preview)
           })
           .catch((error) => {
             console.log(error)

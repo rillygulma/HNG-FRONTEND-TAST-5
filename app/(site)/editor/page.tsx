@@ -37,12 +37,12 @@ interface User {
 const Editor = () => {
   // State to manage the active button in the toggle
   const isTablet = useTabletDetect()
-  const isMobile = useMobileDetect()
   const { data: session, status } = useSession()
   const [hasFetchedWithError, setHasFetchedWithError] = useState(false)
 
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
+  const [preview, setPreview] = useState<Object | null>(null)
   const [profile, setProfile] = useState<User>({
     links: [],
     id: '',
@@ -82,7 +82,7 @@ const Editor = () => {
         }
 
         setProfile(response.data)
-      } catch (err) {
+      } catch (err: any) {
         if (!hasFetchedWithError) {
           setHasFetchedWithError(true)
           toast.error(
@@ -103,14 +103,19 @@ const Editor = () => {
       <main
         className={`${gridStyle} justify-items-center space-y-2 bg-background max-h-screen pb-10 desktop:px-0 tablet:px-10`}
       >
-        {!isTablet && <MobilePreview profile={profile} />}
+        {!isTablet && <MobilePreview profile={profile} preview={preview} />}
         {activeButton === 'links' && (
           <div className='flex flex-col pb-32 mr-10'>
             <Links profile={profile} setProfile={setProfile} />
           </div>
         )}
         {activeButton === 'profile' && (
-          <Profile profile={profile} setProfile={setProfile} />
+          <Profile
+            profile={profile}
+            setProfile={setProfile}
+            preview={preview}
+            setPreview={setPreview}
+          />
         )}
       </main>
     </>

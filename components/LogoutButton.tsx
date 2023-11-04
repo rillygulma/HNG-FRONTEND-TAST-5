@@ -9,7 +9,7 @@ const LogoutButton = () => {
     <button onClick={() => signOut({ callbackUrl: '/signin' })}>
       <div className='flex'>
         {!isMobile && (
-          <p className='text-primary.gray pl-2 font-semibold'>Logout</p>
+          <p className='text-primary.gray pl-2 font-medium'>Logout</p>
         )}
         {isMobile && (
           <svg

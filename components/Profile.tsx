@@ -5,10 +5,15 @@ import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import useMobileDetect from '@/hooks/useMobileDetect'
 
-const Profile = ({ profile, setProfile }) => {
+interface ValidError extends Error {
+  error: string
+  errorType: string
+}
+
+const Profile = ({ profile, setProfile, preview, setPreview }) => {
   const isMobile = useMobileDetect()
   const [image, setImage] = useState<File | null>(null)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState<ValidError[]>([])
   const [details, setDetails] = useState({
     firstname: '',
     lastname: '',
@@ -73,10 +78,15 @@ const Profile = ({ profile, setProfile }) => {
       <article
         className={`${gridStyle} align-middle text-primary.gray text-sm z-50 bg-background rounded-md h-auto w-full my-4 p-4`}
       >
-        <h2 className='desktop:ml-2 tablet:ml-2 tablet:justify-self-start'>
+        <h2 className='desktop:ml-2 tablet:justify-self-start'>
           Profile Picture
         </h2>
-        <ImageDropzone setImage={setImage} image={image} />
+        <ImageDropzone
+          setImage={setImage}
+          image={image}
+          setPreview={setPreview}
+          preview={preview}
+        />
         <p className='text-xs text-gray-500 desktop:ml-2 tablet:ml-6'>
           Image must be below 1024x1024px. Use PNG or JPG format.
         </p>

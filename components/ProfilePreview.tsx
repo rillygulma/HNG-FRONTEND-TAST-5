@@ -2,13 +2,14 @@ import React from 'react'
 import Image from 'next/image'
 import CustomLinkBlock from './CustomLinkBlock'
 
-const ProfilePreview = ({ profile, isOverlay = false }) => {
+const ProfilePreview = ({ profile, isOverlay = false, preview }) => {
   const shape = isOverlay ? 'w-60 h-[3.75rem]' : 'w-72 h-[4.55rem]'
   const placeholderLink = {
     id: 'placeholder',
     url: '',
     platform: '',
   }
+  const imageSrc = preview?.preview || profile.profileImage
 
   return (
     <div
@@ -23,9 +24,9 @@ const ProfilePreview = ({ profile, isOverlay = false }) => {
           isOverlay ? 'w-24 h-24' : 'h-32 w-32 '
         }`}
       >
-        {profile.profileImage && (
+        {imageSrc && (
           <Image
-            src={profile.profileImage}
+            src={imageSrc}
             alt='Profile Image'
             layout='fill'
             objectFit='cover'
