@@ -6,7 +6,7 @@ const LogoutButton = () => {
   const isMobile = useMobileDetect()
 
   return (
-    <button onClick={() => signOut({ callbackUrl: '/signin' })} className=''>
+    <button onClick={() => signOut({ callbackUrl: '/signin' })}>
       <div className='flex'>
         {!isMobile && (
           <p className='text-primary.gray pl-2 font-semibold'>Logout</p>

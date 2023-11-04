@@ -70,7 +70,6 @@ const Nav = ({ activeButton, setActiveButton }: NavProps) => {
         </button>
       </div>
 
-      {/* We want this button to justify itse */}
       <div className='flex justify-end space-x-5'>
         <Link
           href='/preview'
