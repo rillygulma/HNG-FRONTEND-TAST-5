@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import useMobileDetect from '@/hooks/useMobileDetect'
+import LogoutButton from './LogoutButton'
 
 type NavProps = {
   activeButton: string
@@ -69,23 +70,27 @@ const Nav = ({ activeButton, setActiveButton }: NavProps) => {
         </button>
       </div>
 
-      {/* Preview button */}
-      <Link
-        href='/preview'
-        className='px-2 py-1 text-white border-primary.blue rounded-md border-2 hover:bg-tertiary.blue'
-      >
-        {isMobile ? (
-          <Image
-            src='/images/icon-preview-header.svg'
-            alt='Preview Icon'
-            className='h-6 w-auto'
-            width={100}
-            height={100}
-          />
-        ) : (
-          <p className='text-primary.blue font-semibold px-2 py-1'>Preview</p>
-        )}
-      </Link>
+      {/* We want this button to justify itse */}
+      <div className='flex justify-end space-x-5'>
+        <Link
+          href='/preview'
+          className='px-2 py-1 text-white border-primary.blue rounded-md border-2 hover:bg-tertiary.blue'
+        >
+          {isMobile ? (
+            <Image
+              src='/images/icon-preview-header.svg'
+              alt='Preview Icon'
+              className='h-6 w-auto'
+              width={100}
+              height={100}
+            />
+          ) : (
+            <p className='text-primary.blue font-semibold px-2 py-1'>Preview</p>
+          )}
+        </Link>
+
+        <LogoutButton />
+      </div>
     </nav>
   )
 }

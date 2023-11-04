@@ -45,6 +45,7 @@ const Profile = ({ profile, setProfile }) => {
           lastname: '',
           email: '',
         })
+        console.log(details)
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
@@ -99,6 +100,7 @@ const Profile = ({ profile, setProfile }) => {
               onChange={(e) =>
                 setDetails({ ...details, firstname: e.target.value })
               }
+              value={details.firstname}
             />
             {nameError && (
               <p className='form-validation-error'>{nameError.error}</p>
@@ -122,6 +124,7 @@ const Profile = ({ profile, setProfile }) => {
               onChange={(e) =>
                 setDetails({ ...details, lastname: e.target.value })
               }
+              value={details.lastname}
             />
             {nameError && (
               <p className='form-validation-error'>{nameError.error}</p>
@@ -145,6 +148,7 @@ const Profile = ({ profile, setProfile }) => {
               onChange={(e) =>
                 setDetails({ ...details, email: e.target.value })
               }
+              value={details.email}
             />
             {emailError && (
               <p className='form-validation-error'>{emailError.error}</p>

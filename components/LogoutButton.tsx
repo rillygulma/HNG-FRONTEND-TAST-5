@@ -9,11 +9,11 @@ const LogoutButton = () => {
     <button onClick={() => signOut({ callbackUrl: '/signin' })} className=''>
       <div className='flex'>
         {!isMobile && (
-          <p className='text-primary.red pl-2 font-semibold'>Logout</p>
+          <p className='text-primary.gray pl-2 font-semibold'>Logout</p>
         )}
         {isMobile && (
           <svg
-            className='w-6 h-6 text-gray-800 dark:text-white'
+            className='w-6 h-6 text-primary.gray dark:text-white'
             aria-hidden='true'
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
