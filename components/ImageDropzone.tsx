@@ -17,13 +17,12 @@ const ImageDropzone = ({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0] // Assume single file upload for simplicity
+        const file = acceptedFiles[0]
 
         // Immediately update the preview state with the local file URL
         const previewUrl = URL.createObjectURL(file)
         setPreview({ preview: previewUrl })
 
-        // Now, upload the file to the server
         const formData = new FormData()
         formData.append('file', file)
 
@@ -33,19 +32,13 @@ const ImageDropzone = ({
           // If the image is uploaded successfully, update the profile image
           setProfile((prevProfile) => ({
             ...prevProfile,
-            profileImage: response.data.imageUrl, // Assuming `imageUrl` is the property where the URL is stored
+            profileImage: response.data.imageUrl,
           }))
 
           toast.success('Image uploaded successfully.')
-
-          // Now that the image is uploaded and the profile is updated, you can revoke the preview URL
           URL.revokeObjectURL(previewUrl)
         } catch (error) {
-          // If the upload fails, handle errors here
           toast.error('Image upload failed.')
-          console.error(error)
-
-          // It's also a good practice to revoke the preview URL if the upload fails
           URL.revokeObjectURL(previewUrl)
         }
       }

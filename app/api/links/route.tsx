@@ -6,6 +6,26 @@ import { options } from '../../api/auth/[...nextauth]/options'
 import { db } from '@/prisma/db.server'
 import { NextApiRequest } from 'next'
 
+interface BaseUrlMap {
+  [platform: string]: string
+}
+
+const baseUrlMap: BaseUrlMap = {
+  github: 'https://github.com/',
+  frontendmentor: 'https://frontendmentor.io/',
+  linkedin: 'https://linkedin.com/in/',
+  youtube: 'https://youtube.com/',
+  facebook: 'https://facebook.com/',
+  twitch: 'https://twitch.tv/',
+  devto: 'https://dev.to/',
+  codewars: 'https://www.codewars.com/users/',
+  codepen: 'https://codepen.io/',
+  freecodecamp: 'https://www.freecodecamp.org/',
+  gitlab: 'https://gitlab.com/',
+  hashnode: 'https://hashnode.com/@',
+  stackoverflow: 'https://stackoverflow.com/users/',
+}
+
 export async function POST(req: Request) {
   const session = await getServerSession(options)
   const body = await req.json()
@@ -62,6 +82,8 @@ export async function POST(req: Request) {
       },
     })
 
+    const base = baseUrlMap[updatedLink.platform]
+
     if (!linkExists) {
       const urlPattern = new RegExp(
         '^(https?:\\/\\/)?' + // protocol
@@ -79,6 +101,15 @@ export async function POST(req: Request) {
         // Instead of returning, just push an error message
         errors.push({ url: updatedLink.url, error: 'Not a valid URL.' })
         continue // skip the rest of the loop and go to the next iteration
+      }
+
+      // If there's a base URL for the platform, check that the updated link starts with it
+      if (base && !updatedLink.url.startsWith(base)) {
+        errors.push({
+          id: updatedLink.id,
+          error: `The link must start with the base URL for ${updatedLink.platform}: ${base}`,
+        })
+        continue // skip further processing for this link
       }
 
       await db.link.create({

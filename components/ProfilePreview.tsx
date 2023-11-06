@@ -2,7 +2,36 @@ import React from 'react'
 import Image from 'next/image'
 import CustomLinkBlock from './CustomLinkBlock'
 
-const ProfilePreview = ({ profile, isOverlay = false, preview }) => {
+interface ProfilePreviewProps {
+  profile: {
+    links: {
+      id: string
+      url: string
+      platform: string
+    }[]
+    id: string
+    platform: string
+    url: string
+    createdAt: Date
+    userId: string
+    username: string
+    firstname: string
+    lastname: string
+    email: string
+    profileImage: string
+    updatedAt: Date
+  }
+  isOverlay?: boolean
+  preview?: {
+    preview: string
+  }
+}
+
+const ProfilePreview = ({
+  profile,
+  isOverlay = false,
+  preview,
+}: ProfilePreviewProps) => {
   const shape = isOverlay ? 'w-60 h-[3.75rem]' : 'w-72 h-[4.55rem]'
   const placeholderLink = {
     id: 'placeholder',

@@ -60,6 +60,26 @@ const platformOptions: PlatformOptions = {
   stackoverflow: 'Stack Overflow',
 }
 
+interface BaseUrlMap {
+  [platform: string]: string
+}
+
+const baseUrlMap: BaseUrlMap = {
+  github: 'https://github.com/',
+  frontendmentor: 'https://frontendmentor.io/',
+  linkedin: 'https://linkedin.com/in/',
+  youtube: 'https://youtube.com/',
+  facebook: 'https://facebook.com/',
+  twitch: 'https://twitch.tv/',
+  devto: 'https://dev.to/',
+  codewars: 'https://www.codewars.com/users/',
+  codepen: 'https://codepen.io/',
+  freecodecamp: 'https://www.freecodecamp.org/',
+  gitlab: 'https://gitlab.com/',
+  hashnode: 'https://hashnode.com/@',
+  stackoverflow: 'https://stackoverflow.com/users/',
+}
+
 const EditLinkBlock = ({
   link,
   index,
@@ -76,6 +96,18 @@ const EditLinkBlock = ({
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  }
+
+  const handlePlatformChange = (newPlatform: PlatformKeys) => {
+    setPlatform(newPlatform)
+    // If the new platform has a base URL and the current URL is empty or has the previous base URL, update it
+    const base = baseUrlMap[newPlatform] || ''
+    if (
+      !url ||
+      (baseUrlMap[platform] && url.startsWith(baseUrlMap[platform]))
+    ) {
+      setUrl(base)
+    }
   }
 
   useEffect(() => {
@@ -123,7 +155,9 @@ const EditLinkBlock = ({
             name='platform'
             className='w-full px-4 py-2 mt-2 border rounded-md  text-black placeholder-primary.gray bg-white'
             value={platform}
-            onChange={(e) => setPlatform(e.target.value)}
+            onChange={(e) =>
+              handlePlatformChange(e.target.value as PlatformKeys)
+            }
           >
             {keys.map((key, i) => (
               <option value={key} key={i}>
@@ -138,12 +172,14 @@ const EditLinkBlock = ({
             name='link'
             type='text'
             className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white ${
-              link.error ? 'error-container' : null
+              errorType === 'URL' ? 'error-container' : null
             }`}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-          {link.error && <p className='form-validation-error'>{link.error}</p>}
+          {errorType === 'URL' && (
+            <p className='form-validation-error'>{error}</p>
+          )}
         </div>
       </div>
     </article>
