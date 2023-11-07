@@ -30,6 +30,11 @@ interface Link {
   platform: string
 }
 
+interface Errors {
+  url: string
+  error: string
+}
+
 const Links = ({ profile, setProfile }) => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
   const sensors = useSensors(
@@ -41,7 +46,7 @@ const Links = ({ profile, setProfile }) => {
   const [links, setLinks] = useState(profile.links)
   const isMobile = useMobileDetect()
 
-  const [error, setError] = useState('Something went wrong')
+  const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -97,11 +102,12 @@ const Links = ({ profile, setProfile }) => {
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
           setErrorType('URL')
-          toast.error("Couldn't save links, check your URLs.")
+
           const errorArray = err.response.data.errors // Assuming this is an array of error objects
-          const updatedLinks = links.map((link, index) => {
+          // Update the links with error messages based on their IDs
+          const updatedLinksWithErrors = links.map((link) => {
             const errorForThisLink = errorArray.find(
-              (err) => err.url === link.url
+              (error) => error.id === link.id
             )
             return {
               ...link,
@@ -109,7 +115,10 @@ const Links = ({ profile, setProfile }) => {
             }
           })
 
-          setLinks(updatedLinks) // Update the state with the new error messages
+          setErrors(updatedLinksWithErrors) // Store the updated links with their errors
+        } else {
+          // Handle other types of errors
+          toast.error('An error occurred while saving the links.')
         }
       })
   }
@@ -188,7 +197,7 @@ const Links = ({ profile, setProfile }) => {
                       id={link.id}
                       updateLink={updateLink}
                       removeLink={removeLink}
-                      error={error}
+                      error={link.error}
                       errorType={errorType}
                     />
                   )
