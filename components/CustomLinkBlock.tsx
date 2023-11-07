@@ -85,7 +85,7 @@ const CustomLinkBlock = ({
       } ${isOverlay ? 'm-2 text-md' : 'm-5 text-xl'} ${shape} rounded-md`}
     >
       <Link
-        href={link ? link.url : ''}
+        href={link ? link.url : null}
         target='_blank'
         rel='noopener noreferrer'
         className='flex items-center justify-between w-full'
