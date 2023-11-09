@@ -114,7 +114,7 @@ const Links = ({ profile, setProfile }) => {
               error: errorForThisLink ? errorForThisLink.error : null,
             }
           })
-
+          console.log(updatedLinksWithErrors) // This should show the links with their errors
           setErrors(updatedLinksWithErrors) // Store the updated links with their errors
         } else {
           // Handle other types of errors
