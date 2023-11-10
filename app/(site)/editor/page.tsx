@@ -105,7 +105,7 @@ const Editor = () => {
       >
         {!isTablet && <MobilePreview profile={profile} preview={preview} />}
         {activeButton === 'links' && (
-          <div className='flex flex-col pb-32 mr-10'>
+          <div className='flex flex-col pb-32 desktop:mr-10 tablet:m-0'>
             <Links profile={profile} setProfile={setProfile} />
           </div>
         )}
