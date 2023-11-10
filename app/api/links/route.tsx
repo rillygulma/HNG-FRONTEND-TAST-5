@@ -6,6 +6,44 @@ import { options } from '../../api/auth/[...nextauth]/options'
 import { db } from '@/prisma/db.server'
 import { NextApiRequest } from 'next'
 
+type PlatformKeys =
+  | 'default'
+  | 'github'
+  | 'frontendmentor'
+  | 'x'
+  | 'linkedin'
+  | 'youtube'
+  | 'facebook'
+  | 'twitch'
+  | 'devto'
+  | 'codewars'
+  | 'codepen'
+  | 'freecodecamp'
+  | 'gitlab'
+  | 'hashnode'
+  | 'stackoverflow'
+
+type PlatformOptions = {
+  [K in PlatformKeys]: string
+}
+
+const platformOptions: PlatformOptions = {
+  default: 'Select a platform',
+  github: 'GitHub',
+  frontendmentor: 'Frontend Mentor',
+  x: 'X',
+  linkedin: 'LinkedIn',
+  youtube: 'YouTube',
+  facebook: 'Facebook',
+  twitch: 'Twitch',
+  devto: 'Dev.to',
+  codewars: 'Codewars',
+  codepen: 'Codepen',
+  freecodecamp: 'freeCodeCamp',
+  gitlab: 'GitLab',
+  hashnode: 'Hashnode',
+  stackoverflow: 'Stack Overflow',
+}
 interface BaseUrlMap {
   [platform: string]: string
 }
@@ -40,16 +78,16 @@ export async function POST(req: Request) {
 
   if (!user) {
     return NextResponse.json(
-      { error: 'User not found', errorType: 'TOAST_ERROR' },
+      { error: 'User not found.', errorType: 'TOAST_ERROR' },
       { status: 404 }
     )
   }
 
   const updatedLinks = body.links
 
-  if (!Array.isArray(updatedLinks) || updatedLinks.length === 0) {
+  if (!Array.isArray(updatedLinks)) {
     return NextResponse.json(
-      { error: 'No valid links provided', errorType: 'TOAST_ERROR' },
+      { error: 'No valid links provided.', errorType: 'TOAST_ERROR' },
       { status: 400 }
     )
   }
@@ -72,6 +110,19 @@ export async function POST(req: Request) {
   for (const id of idsToDelete) {
     await db.link.delete({
       where: { id },
+    })
+  }
+
+  if (updatedLinks.length === 0) {
+    await db.user.update({
+      data: {
+        links: {
+          deleteMany: {},
+        },
+      },
+      where: {
+        id: user.id,
+      },
     })
   }
 
@@ -98,16 +149,24 @@ export async function POST(req: Request) {
 
       if (!urlPattern.test(updatedLink.url)) {
         console.log('Invalid URL triggered: ' + updatedLink.url)
-        // Instead of returning, just push an error message
-        errors.push({ url: updatedLink.url, error: 'Not a valid URL.' })
+        errors.push({
+          id: updatedLink.id,
+          url: updatedLink.url,
+          error: 'Check your URL.',
+        })
         continue // skip the rest of the loop and go to the next iteration
+      }
+
+      if (updatedLink.url.length === 0) {
+        errors.push({ id: updatedLink.id, error: 'Cannot be empty.' })
+        continue // skip further processing for this link
       }
 
       // If there's a base URL for the platform, check that the updated link starts with it
       if (base && !updatedLink.url.startsWith(base)) {
         errors.push({
           id: updatedLink.id,
-          error: `The link must start with the base URL for ${updatedLink.platform}: ${base}`,
+          error: `URL must match platform.`,
         })
         continue // skip further processing for this link
       }

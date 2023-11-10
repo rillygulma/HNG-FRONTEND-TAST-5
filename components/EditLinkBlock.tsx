@@ -118,13 +118,17 @@ const EditLinkBlock = ({
     keyof typeof platformOptions
   >
 
+  useEffect(() => {
+    console.log(error)
+  }, [])
+
   return (
     <article
       ref={setNodeRef}
       style={style}
       className='text-primary.gray text-sm z-50 bg-background rounded-md h-60 w-full my-4'
     >
-      <div className='flex justify-between py-4 px-3'>
+      <div className='flex justify-between py-4 pb-3 px-3'>
         <div className=' flex w-full'>
           <Image
             src='./images/icon-drag-and-drop.svg'
@@ -148,7 +152,7 @@ const EditLinkBlock = ({
           Remove
         </button>
       </div>
-      <div className='px-4 space-y-5'>
+      <div className='pt-1 px-4 space-y-4'>
         <div>
           <label htmlFor='platform'> Platform</label>
           <select
@@ -172,14 +176,12 @@ const EditLinkBlock = ({
             name='link'
             type='text'
             className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white ${
-              errorType === 'URL' ? 'error-container' : null
+              error ? 'error-container' : null
             }`}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
-          {errorType === 'URL' && (
-            <p className='form-validation-error'>{error}</p>
-          )}
+          {error && <p className='form-validation-error'>{error}</p>}
         </div>
       </div>
     </article>

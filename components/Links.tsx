@@ -45,9 +45,13 @@ const Links = ({ profile, setProfile }) => {
   )
   const [links, setLinks] = useState(profile.links)
   const isMobile = useMobileDetect()
-
+  const [userHasModifiedLinks, setUserHasModifiedLinks] = useState(false)
   const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')
+
+  useEffect(() => {
+    console.log(links)
+  }, [links])
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
@@ -74,18 +78,21 @@ const Links = ({ profile, setProfile }) => {
     }
     const arr = new Array(...(links || [])).concat(newLink)
     setLinks(arr)
+    setUserHasModifiedLinks(true)
   }
 
   const updateLink = (index: number, updatedLink: Link) => {
     const newLinks = [...links]
     newLinks[index] = updatedLink
     setLinks(newLinks)
+    setUserHasModifiedLinks(true)
   }
 
   const removeLink = (index: number) => {
     console.log('remove link at index ' + index)
     const newLinks = [...links].filter((link) => link.id !== links[index].id)
     setLinks(newLinks)
+    setUserHasModifiedLinks(true)
   }
 
   const handleUpdateLinks = async (e: React.FormEvent) => {
@@ -101,8 +108,6 @@ const Links = ({ profile, setProfile }) => {
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
-          setErrorType('URL')
-
           const errorArray = err.response.data.errors // Assuming this is an array of error objects
           // Update the links with error messages based on their IDs
           const updatedLinksWithErrors = links.map((link) => {
@@ -114,14 +119,31 @@ const Links = ({ profile, setProfile }) => {
               error: errorForThisLink ? errorForThisLink.error : null,
             }
           })
-          console.log(updatedLinksWithErrors) // This should show the links with their errors
-          setErrors(updatedLinksWithErrors) // Store the updated links with their errors
+
+          setLinks(updatedLinksWithErrors) // Store the updated links with their errors
         } else {
           // Handle other types of errors
-          toast.error('An error occurred while saving the links.')
+          toast.error('An error occurred while saving your links.')
         }
       })
   }
+
+  useEffect(() => {
+    const updateLinksOnServer = async () => {
+      try {
+        const response = await axios.post('/api/links', { links: [] })
+        toast.success('All links removed.')
+        console.log('All links removed on server:', response.data)
+      } catch (error) {
+        toast.error('An error occurred while removing your links.')
+        console.error('Error removing all links:', error)
+      }
+    }
+
+    if (links.length === 0 && userHasModifiedLinks) {
+      updateLinksOnServer()
+    }
+  }, [links, userHasModifiedLinks])
 
   useEffect(() => {
     setProfile((prevProfile) => {
@@ -197,7 +219,7 @@ const Links = ({ profile, setProfile }) => {
                       id={link.id}
                       updateLink={updateLink}
                       removeLink={removeLink}
-                      error={link.error}
+                      error={link?.error}
                       errorType={errorType}
                     />
                   )
