@@ -88,6 +88,17 @@ export async function GET(): Promise<NextResponse> {
     },
   })
 
+  const userUrl = `https://localhost:3000/${user?.username}`
+
+  if (!user?.userUrl) {
+    await db.user.update({
+      where: { email: session?.user?.email as string },
+      data: {
+        userUrl: userUrl,
+      },
+    })
+  }
+
   if (!user) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 })
   }

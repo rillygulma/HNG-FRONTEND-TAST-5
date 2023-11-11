@@ -1,10 +1,7 @@
 import React from 'react'
 import axios from 'axios'
-import { getLinks } from '../../../api/getLinks'
-import { getUser } from '../../../api/getLinks'
 import Image from 'next/image'
 import CustomLinkBlock from '@/components/CustomLinkBlock'
-import { db } from '../../../../prisma/db.server'
 
 interface DevLinksProps {
   id: string

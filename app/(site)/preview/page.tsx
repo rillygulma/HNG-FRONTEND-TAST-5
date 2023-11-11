@@ -12,7 +12,7 @@ interface User {
   links: React.JSX.Element[] | undefined
   id: string
   platform: string
-  url: string
+  userUrl: string
   createdAt: Date
   userId: string
   username: string
@@ -29,7 +29,7 @@ const Preview = () => {
     links: [],
     id: '',
     platform: '',
-    url: '',
+    userUrl: '',
     createdAt: new Date(),
     userId: '',
     username: '',
@@ -39,7 +39,6 @@ const Preview = () => {
     profileImage: '',
     updatedAt: new Date(),
   })
-  const [uniqueUrl, setUniqueUrl] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
   const renderProfile = useCallback((profile) => {
@@ -47,7 +46,6 @@ const Preview = () => {
   }, [])
 
   const toggleModal = () => {
-    console.log('toggling modal...')
     setIsOpen(!isOpen)
   }
 
@@ -73,6 +71,10 @@ const Preview = () => {
     }
 
     if (hasFetchedWithError) {
+      const signOut = () => {
+        toast.error('An unexpected error occurred.')
+        signOut()
+      }
       signOut()
     }
 
@@ -96,7 +98,7 @@ const Preview = () => {
         <ShareModal
           isOpen={isOpen}
           onClose={() => setIsOpen(false)}
-          uniqueUrl={uniqueUrl}
+          uniqueUrl={profile.userUrl}
         />
       )}
       {renderProfile(profile)}

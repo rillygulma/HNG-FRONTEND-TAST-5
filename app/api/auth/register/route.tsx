@@ -90,12 +90,13 @@ export async function POST(
 
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
-
+  const userUrl = `https://localhost:3000/${username}` // use devlinks.vercel.app for production
   const user = await db.user.create({
     data: {
       email,
       password: hash,
       username,
+      userUrl,
     },
   })
 
