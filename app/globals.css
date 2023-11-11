@@ -17,7 +17,11 @@
   --twitch-bg: #9146ff;
   --youtube-bg: #ee3939;
   --github-bg: #2b3137;
-  --website-bg: var(--primary-green);
+  --stackoverflow-bg: #ec7100;
+  --hashnode-bg: #2962ff;
+  --gitlab-bg: #eb4925;
+  --devto-bg: #0a0a0a;
+  --website-bg: #5cf0a0;
 }
 
 .facebook-bg {
@@ -25,6 +29,7 @@
 }
 .x-bg {
   background-color: var(--x-bg);
+  border: 2px solid #000;
 }
 .linkedin-bg {
   background-color: var(--linkedin-bg);
@@ -53,8 +58,21 @@
 .github-bg {
   background-color: var(--github-bg);
 }
+.stackoverflow-bg {
+  background-color: var(--stackoverflow-bg);
+}
+.hashnode-bg {
+  background-color: var(--hashnode-bg);
+}
+.gitlab-bg {
+  background-color: var(--gitlab-bg);
+}
+.devto-bg {
+  background-color: var(--devto-bg);
+}
 .website-bg {
   background-color: var(--website-bg);
+  border: 2px solid #000;
 }
 
 @media (prefers-color-scheme: dark) {

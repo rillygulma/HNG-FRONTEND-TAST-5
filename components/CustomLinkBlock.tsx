@@ -25,6 +25,9 @@ type PlatformKeys =
   | 'twitch'
   | 'youtube'
   | 'github'
+  | 'stackoverflow'
+  | 'hashnode'
+  | 'gitlab'
   | 'website'
 
 const CustomLinkBlock = ({
@@ -48,6 +51,10 @@ const CustomLinkBlock = ({
     twitch: 'twitch-bg',
     youtube: 'youtube-bg',
     github: 'github-bg',
+    stackoverflow: 'stackoverflow-bg',
+    hashnode: 'hashnode-bg',
+    gitlab: 'gitlab-bg',
+
     website: 'website-bg',
   })
 
@@ -63,6 +70,10 @@ const CustomLinkBlock = ({
     twitch: 'Twitch',
     youtube: 'YouTube',
     github: 'GitHub',
+    stackoverflow: 'Stack Overflow',
+    hashnode: 'Hashnode',
+    gitlab: 'GitLab',
+
     website: 'Website',
   })
 
@@ -82,7 +93,9 @@ const CustomLinkBlock = ({
     <div
       className={`flex items-center justify-between ${
         platform ? getPlatformStyle(social) : 'bg-secondary.gray'
-      } ${isOverlay ? 'm-2 text-md' : 'm-5 text-xl'} ${shape} rounded-md`}
+      } ${(platform === 'x' || platform === 'website') && 'text-black'} ${
+        isOverlay ? 'm-2 text-md' : 'm-5 text-xl'
+      } ${shape} rounded-md`}
     >
       <Link
         href={link ? link.url : null}
@@ -94,24 +107,34 @@ const CustomLinkBlock = ({
           {platform && (
             <Image
               src={`/images/${getIcon(social)}`}
-              className='z-20 w-10 h-10 ml-4 fill-white'
+              className='z-20 w-8 h-8 ml-4 fill-white'
               width={10}
               height={10}
               alt=''
             />
           )}
-          <span className=' mt-0.5 ml-4 font-semibold'>
+          <span className=' mt-0.5 ml-4 font-light'>
             {getPlatform(platform)}
           </span>
         </div>
         {platform && (
-          <Image
-            src='/images/icon-arrow-right.svg'
-            className='z-20 w-7 h-7 pr-0.5 mr-4 mt-0.5 fill-white'
-            width={10}
-            height={10}
-            alt=''
-          />
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='10'
+            height='10'
+            fill='white'
+            className={`z-20 w-6 h-6 pr-0.5 mr-4 mt-0.5 ${
+              platform === 'x' || platform === 'website'
+                ? 'fill-current text-black'
+                : ''
+            }`}
+            viewBox='0 0 16 16'
+          >
+            <path
+              fill='fill-current'
+              d='M2.667 7.333v1.334h8L7 12.333l.947.947L13.227 8l-5.28-5.28L7 3.667l3.667 3.666h-8Z'
+            />
+          </svg>
         )}
       </Link>
     </div>

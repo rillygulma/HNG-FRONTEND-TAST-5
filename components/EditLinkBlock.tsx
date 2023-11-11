@@ -30,13 +30,13 @@ type PlatformKeys =
   | 'youtube'
   | 'facebook'
   | 'twitch'
-  | 'devto'
   | 'codewars'
   | 'codepen'
   | 'freecodecamp'
   | 'gitlab'
   | 'hashnode'
   | 'stackoverflow'
+  | 'website'
 
 type PlatformOptions = {
   [K in PlatformKeys]: string
@@ -51,13 +51,13 @@ const platformOptions: PlatformOptions = {
   youtube: 'YouTube',
   facebook: 'Facebook',
   twitch: 'Twitch',
-  devto: 'Dev.to',
   codewars: 'Codewars',
   codepen: 'Codepen',
   freecodecamp: 'freeCodeCamp',
   gitlab: 'GitLab',
   hashnode: 'Hashnode',
   stackoverflow: 'Stack Overflow',
+  website: 'Personal Website',
 }
 
 interface BaseUrlMap {
@@ -71,7 +71,6 @@ const baseUrlMap: BaseUrlMap = {
   youtube: 'https://youtube.com/',
   facebook: 'https://facebook.com/',
   twitch: 'https://twitch.tv/',
-  devto: 'https://dev.to/',
   codewars: 'https://www.codewars.com/users/',
   codepen: 'https://codepen.io/',
   freecodecamp: 'https://www.freecodecamp.org/',
