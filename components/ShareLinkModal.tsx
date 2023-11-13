@@ -8,11 +8,8 @@ const ShareModal = ({ isOpen, onClose, uniqueUrl }) => {
 
   return (
     isOpen && (
-      <div className='bg-white flex py-2 rounded-lg w-auto top-20 absolute shadow-lg'>
-        <button
-          onClick={onClose}
-          className='bg-transparent text-white px-4 py-2 rounded-md'
-        >
+      <div className='bg-white flex py-2 rounded-lg w-auto top-20 absolute shadow-lg z-50'>
+        <button onClick={onClose} className='px-4 py-2 rounded-md'>
           <svg
             className='w-6 h-6 text-primary.blue'
             aria-hidden='true'
@@ -36,10 +33,7 @@ const ShareModal = ({ isOpen, onClose, uniqueUrl }) => {
           readOnly
           className='bg-white text-black my-2 p-2 rounded-md w-3/4 text-center'
         />
-        <button
-          onClick={copyToClipboard}
-          className='bg-transparent px-4 py-2 rounded-md'
-        >
+        <button onClick={copyToClipboard} className='px-4 py-2 rounded-md'>
           <svg
             className='w-6 h-6 text-primary.blue'
             aria-hidden='true'

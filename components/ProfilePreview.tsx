@@ -45,7 +45,7 @@ const ProfilePreview = ({
       className={`${
         isOverlay
           ? 'w-64 h-full pb-2 mt-10 mx-1 flex flex-col items-center justify-center bg-white'
-          : 'flex flex-col items-center justify-center'
+          : 'flex flex-col items-center justify-center z-10 bg-tertiary.gray mt-10 px-4 shadow-2xl rounded-lg'
       }`}
     >
       <div
@@ -59,7 +59,7 @@ const ProfilePreview = ({
             alt='Profile Image'
             layout='fill'
             objectFit='cover'
-            className='rounded-full absolute top-0 left-0'
+            className='rounded-full absolute top-0 left-0 z-10'
           />
         )}
       </div>

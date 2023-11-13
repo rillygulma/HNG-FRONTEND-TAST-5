@@ -8,6 +8,7 @@ import axios from 'axios'
 import ProfilePreview from '@/components/ProfilePreview'
 import toast from 'react-hot-toast'
 import { signOut } from 'next-auth/react'
+import useMobileDetect from '@/hooks/useMobileDetect'
 interface User {
   links: React.JSX.Element[] | undefined
   id: string
@@ -40,6 +41,7 @@ const Preview = () => {
     updatedAt: new Date(),
   })
   const [isOpen, setIsOpen] = useState(false)
+  const isMobile = useMobileDetect()
 
   const renderProfile = useCallback((profile) => {
     return <ProfilePreview profile={profile} />
@@ -85,15 +87,24 @@ const Preview = () => {
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
-      <nav className='flex desktop:w-80 phone:w-80 phone:px-2 desktop:text-md phone:text-sm h-16 items-start space-x-4'>
+      {!isMobile && (
+        <div className='w-full h-1/3 bg-primary.blue absolute rounded-b-3xl top-0 left-0 z-0' />
+      )}
+      <nav className='flex bg-tertiary.gray rounded-lg desktop:w-[80rem] phone:w-80 phone:px-2 desktop:text-md phone:text-sm h-16 items-start space-x-4 z-10'>
         <Link
           href='/editor'
-          className='bg-transparent text-center hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 w-full'
+          className='bg-transparent text-center hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 mr-4 w-full' // Added right margin
         >
           Back to Editor
         </Link>
-        <Button text='Share Link' style='filled' handler={toggleModal} />
+        <Button
+          text='Share Link'
+          style='filled'
+          handler={toggleModal}
+          className='ml-4'
+        />{' '}
       </nav>
+
       {isOpen && (
         <ShareModal
           isOpen={isOpen}
