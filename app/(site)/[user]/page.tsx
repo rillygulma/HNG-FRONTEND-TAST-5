@@ -66,6 +66,8 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
               index={index}
               link={link}
               platform={link.platform}
+              shape='circle'
+              isOverlay={false}
             />
           ))}
         </section>
