@@ -90,19 +90,19 @@ const Preview = () => {
       {!isMobile && (
         <div className='w-full h-1/3 bg-primary.blue absolute rounded-b-3xl top-0 left-0 z-0' />
       )}
-      <nav className='flex bg-tertiary.gray rounded-lg desktop:w-[80rem] phone:w-80 phone:px-2 desktop:text-md phone:text-sm h-16 items-start space-x-4 z-10'>
+      <nav className='flex bg-tertiary.gray rounded-lg desktop:w-[60rem] desktop:mt-1 tablet:w-[40rem] desktop:text-md tablet:mt-2 phone:w-80 phone:px-2 phone:text-sm h-16 items-start space-x-4 z-10 justify-between'>
         <Link
           href='/editor'
-          className='bg-transparent text-center hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mt-4 mr-4 w-full' // Added right margin
+          className='bg-transparent text-center hover:bg-tertiary.blue text-primary.blue font-bold border-primary.blue border-2 rounded-md px-4 py-2 mr-4 desktop:w-52 tablet:w-72 self-center' // Added right margin
         >
           Back to Editor
         </Link>
-        <Button
-          text='Share Link'
-          style='filled'
-          handler={toggleModal}
-          className='ml-4'
-        />{' '}
+        <button
+          className='flex justify-center align-middle bg-primary.blue hover:bg-secondary.blue text-white font-bold border-primary.blue border-2 rounded-md px-4 py-2 desktop:w-52 tablet:w-72 self-center'
+          onClick={toggleModal}
+        >
+          Share Link
+        </button>{' '}
       </nav>
 
       {isOpen && (

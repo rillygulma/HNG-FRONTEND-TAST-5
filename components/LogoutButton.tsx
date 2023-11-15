@@ -13,7 +13,7 @@ const LogoutButton = () => {
         )}
         {isMobile && (
           <svg
-            className='w-6 h-6 text-primary.gray dark:text-white'
+            className='w-5 h-5 ml-1 text-primary.gray dark:text-white'
             aria-hidden='true'
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
