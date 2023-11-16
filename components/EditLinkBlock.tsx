@@ -77,6 +77,8 @@ const baseUrlMap: BaseUrlMap = {
   gitlab: 'https://gitlab.com/',
   hashnode: 'https://hashnode.com/@',
   stackoverflow: 'https://stackoverflow.com/users/',
+  x: 'https://twitter.com/',
+  website: 'https://your.website.dev',
 }
 
 const EditLinkBlock = ({

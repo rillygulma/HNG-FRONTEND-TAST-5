@@ -25,7 +25,7 @@ const Nav = ({ activeButton, setActiveButton }: NavProps) => {
       />
 
       {/* Toggle buttons */}
-      <div className={`flex ${!isMobile && 'space-x-4'}`}>
+      <div className={`flex ${!isMobile ? 'space-x-4' : 'ml-12'}`}>
         <button
           className={`px-4 py-2 hover:text-primary.blue ${
             activeButton === 'links'

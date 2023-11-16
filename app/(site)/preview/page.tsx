@@ -86,7 +86,7 @@ const Preview = () => {
   }, [hasFetchedWithError])
 
   return (
-    <main className='flex flex-col justify-start align-middle items-center bg-background w-screen h-screen'>
+    <main className='flex flex-col justify-start align-middle items-center bg-background w-screen min-h-screen'>
       {!isMobile && (
         <div className='w-full h-1/3 bg-primary.blue absolute rounded-b-3xl top-0 left-0 z-0' />
       )}
@@ -102,7 +102,7 @@ const Preview = () => {
           onClick={toggleModal}
         >
           Share Link
-        </button>{' '}
+        </button>
       </nav>
 
       {isOpen && (
@@ -112,7 +112,7 @@ const Preview = () => {
           uniqueUrl={profile.userUrl}
         />
       )}
-      {renderProfile(profile)}
+      <div className='mb-6 z-50'>{renderProfile(profile)}</div>
     </main>
   )
 }

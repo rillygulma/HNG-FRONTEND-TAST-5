@@ -101,7 +101,7 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${gridStyle} justify-items-center bg-background min-h-screen pb-10 desktop:px-0 tablet:px-10`}
+        className={`${gridStyle} justify-items-center bg-background min-h-auto pb-10 desktop:px-0 tablet:px-10`}
       >
         {!isTablet && <MobilePreview profile={profile} preview={preview} />}
         {activeButton === 'links' && (
