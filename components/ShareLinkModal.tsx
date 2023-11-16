@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import axios from 'axios'
 
 const ShareModal = ({ isOpen, onClose, uniqueUrl }) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(uniqueUrl)
+    toast.success('Link copied to clipboard.')
+    setTimeout(() => {
+      onClose()
+    }, 2000)
   }
 
   return (
     isOpen && (
-      <div className='bg-white flex py-2 rounded-lg w-auto top-20 absolute shadow-lg z-50'>
+      <div className='bg-white flex py-2 rounded-lg w-auto desktop:w-[30rem] tablet:w-[32rem] phone:w-[24rem] top-20 absolute shadow-lg z-50'>
         <button onClick={onClose} className='px-4 py-2 rounded-md'>
           <svg
             className='w-6 h-6 text-primary.blue'
@@ -33,7 +38,10 @@ const ShareModal = ({ isOpen, onClose, uniqueUrl }) => {
           readOnly
           className='bg-white text-black my-2 p-2 rounded-md w-3/4 text-center'
         />
-        <button onClick={copyToClipboard} className='px-4 py-2 rounded-md'>
+        <button
+          onClick={copyToClipboard}
+          className='px-4 py-2 ml-1 rounded-md hover:bg-tertiary.blue hover:rounded-sm'
+        >
           <svg
             className='w-6 h-6 text-primary.blue'
             aria-hidden='true'

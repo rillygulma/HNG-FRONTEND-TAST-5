@@ -112,7 +112,9 @@ const Preview = () => {
           uniqueUrl={profile.userUrl}
         />
       )}
-      <div className='mb-6 z-50'>{renderProfile(profile)}</div>
+      <div className='mb-6 max-w-[22rem] w-full z-40'>
+        {renderProfile(profile)}
+      </div>
     </main>
   )
 }
