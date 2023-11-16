@@ -60,7 +60,7 @@ const Editor = () => {
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
-    : 'grid grid-cols-2 '
+    : 'grid grid-cols-2'
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -101,11 +101,11 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${gridStyle} justify-items-center space-y-2 bg-background min-h-screen pb-10 desktop:px-0 tablet:px-10`}
+        className={`${gridStyle} justify-items-center bg-background min-h-screen pb-10 desktop:px-0 tablet:px-10`}
       >
         {!isTablet && <MobilePreview profile={profile} preview={preview} />}
         {activeButton === 'links' && (
-          <div className='flex flex-col pb-32 desktop:mr-10 tablet:m-0'>
+          <div className='flex flex-col pb-32 w-full desktop:mr-16 phone:m-0'>
             <Links profile={profile} setProfile={setProfile} />
           </div>
         )}

@@ -69,7 +69,7 @@ const Profile = ({ profile, setProfile, preview, setPreview }) => {
     : 'grid grid-cols-3 justify-center place-items-center'
 
   return (
-    <section className='flex flex-col justify-start mb-10 z-20 bg-white text-black px-4 pt-2 mt-8 desktop:w-full desktop:mr-20 tablet:w-full tablet:mr-6 phone:w-80 phone:h-full rounded-md'>
+    <section className='flex flex-col justify-start z-20 bg-white text-black px-4 pt-2 desktop:w-full desktop:mr-20 tablet:w-full tablet:mr-6 phone:w-80 phone:h-full phone:mt-4 rounded-md'>
       <h1 className='py-4'>Profile Details</h1>
 
       <p className='text-sm text-gray-500'>
