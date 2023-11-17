@@ -78,7 +78,7 @@ const Profile = ({ profile, setProfile, preview, setPreview }) => {
       <article
         className={`${gridStyle} align-middle text-primary.gray text-sm z-50 bg-background rounded-md h-auto w-full my-4 p-4`}
       >
-        <h2 className='desktop:ml-2 tablet:justify-self-start'>
+        <h2 className='desktop:ml-2 tablet:justify-self-start tablet:mr-2'>
           Profile Picture
         </h2>
         <ImageDropzone
