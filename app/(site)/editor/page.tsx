@@ -13,6 +13,7 @@ import ProfilePreview from '@/components/ProfilePreview'
 import toast from 'react-hot-toast'
 import { signOut } from 'next-auth/react'
 import axios from 'axios'
+import useSWR from 'swr'
 interface Link {
   id: string
   url: string
@@ -57,6 +58,9 @@ const Editor = () => {
     profileImage: '',
     updatedAt: new Date(),
   })
+  const fetcher = (url: string) =>
+    axios.get(url).then((res) => setProfile(res.data))
+  const { data, error, isLoading } = useSWR('/api/profile', fetcher)
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
