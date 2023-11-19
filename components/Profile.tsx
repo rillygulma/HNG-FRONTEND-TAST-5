@@ -25,7 +25,6 @@ const Profile = ({ profile, setProfile, preview, setPreview }) => {
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Sending profile to server:', profile)
     axios
       .post('/api/profile', {
         profile: {
@@ -54,7 +53,6 @@ const Profile = ({ profile, setProfile, preview, setPreview }) => {
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
-          console.log(err.response.data.errors)
           setErrors(err.response.data.errors)
           toast.error("Couldn't save profile, check your info.")
           setTimeout(() => {
