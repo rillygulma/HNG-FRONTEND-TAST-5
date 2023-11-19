@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import CustomLinkBlock from './CustomLinkBlock'
+import PreviewSkeleton from './skeletons/PreviewSkeleton'
 
 interface ProfilePreviewProps {
   profile: {
@@ -25,12 +26,14 @@ interface ProfilePreviewProps {
   preview?: {
     preview: string
   }
+  isLoading: boolean
 }
 
 const ProfilePreview = ({
   profile,
   isOverlay = false,
   preview,
+  isLoading,
 }: ProfilePreviewProps) => {
   const shape = isOverlay ? 'w-60 h-[3.75rem]' : 'w-72 h-[4.55rem]'
   const placeholderLink = {
@@ -39,6 +42,10 @@ const ProfilePreview = ({
     platform: '',
   }
   const imageSrc = preview?.preview || profile.profileImage
+
+  if (isLoading) {
+    return <PreviewSkeleton isOverlay={isOverlay} />
+  }
 
   return (
     <div

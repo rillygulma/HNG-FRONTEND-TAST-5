@@ -13,7 +13,12 @@ const MobilePreview = ({ profile, preview, isLoading }) => {
         className='w-auto'
       />
       <div className='absolute z-10 flex flex-col items-center justify-center ml-6 max-h-[48rem] rounded-md overflow-y-auto overflow-x-hidden'>
-        <ProfilePreview profile={profile} isOverlay={true} preview={preview} />
+        <ProfilePreview
+          profile={profile}
+          isOverlay={true}
+          preview={preview}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   )

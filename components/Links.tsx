@@ -3,6 +3,7 @@ import useMobileDetect from '@/hooks/useMobileDetect'
 import EditLinkBlock from './EditLinkBlock' // sortable item
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'
+import LinksSkeleton from './skeletons/LinksSkeleton'
 import Image from 'next/image'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
@@ -184,7 +185,7 @@ const Links = ({ profile, setProfile, isLoading }) => {
       <AddLinkButton addLink={addLink} />
       <form action='' className='w-full mb-4' onSubmit={handleUpdateLinks}>
         <div className='space-y-6'>
-          {links.length === 0 && (
+          {!isLoading && links.length === 0 && (
             <article className='flex flex-col justify-center items-center py-8 pb-20 text-primary.gray text-sm z-50 bg-background rounded-md desktop:h-full phone:min-h-72 w-full my-4'>
               <Image
                 src='./images/illustration-empty.svg'
@@ -209,6 +210,7 @@ const Links = ({ profile, setProfile, isLoading }) => {
               items={links}
               strategy={verticalListSortingStrategy}
             >
+              {isLoading && <LinksSkeleton />}
               {links.length > 0 &&
                 links.map((link, index) => {
                   return (
