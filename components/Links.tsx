@@ -35,7 +35,7 @@ interface Errors {
   error: string
 }
 
-const Links = ({ profile, setProfile }) => {
+const Links = ({ profile, setProfile, isLoading }) => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
   const sensors = useSensors(
     useSensor(PointerSensor),

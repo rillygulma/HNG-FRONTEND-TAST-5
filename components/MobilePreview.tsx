@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import ProfilePreview from '@/components/ProfilePreview'
 
-const MobilePreview = ({ profile, preview }) => {
+const MobilePreview = ({ profile, preview, isLoading }) => {
   return (
     <div className='flex flex-col col-span-1 mt-10 p-2 relative'>
       <Image

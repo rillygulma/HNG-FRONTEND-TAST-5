@@ -39,8 +39,6 @@ const Editor = () => {
   // State to manage the active button in the toggle
   const isTablet = useTabletDetect()
   const { data: session, status } = useSession()
-  const [hasFetchedWithError, setHasFetchedWithError] = useState(false)
-
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [preview, setPreview] = useState<Object | null>(null)
@@ -58,9 +56,14 @@ const Editor = () => {
     profileImage: '',
     updatedAt: new Date(),
   })
-  const fetcher = (url: string) =>
-    axios.get(url).then((res) => setProfile(res.data))
-  const { data, error, isLoading } = useSWR('/api/profile', fetcher)
+  const fetcher = async (url: string) => {
+    const response = await axios.get(url).then((res) => res.data)
+    setProfile(response)
+    if (response.error) {
+      toast.error(response.error || 'An unexpected error occurred.')
+    }
+  }
+  const { error, isLoading } = useSWR('/api/profile', fetcher)
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
@@ -75,42 +78,26 @@ const Editor = () => {
     }
   }, [session, status])
 
-  useEffect(() => {
-    // Fetch data when the component mounts
-    const getProfile = async () => {
-      try {
-        const response = await axios.get('/api/profile')
-
-        if (response.data.error) {
-          throw new Error(response.data.error)
-        }
-
-        setProfile(response.data)
-      } catch (err: any) {
-        if (!hasFetchedWithError) {
-          setHasFetchedWithError(true)
-          toast.error(
-            err.response.data.error || 'An unexpected error occurred.'
-          )
-        }
-      }
-    }
-
-    if (!hasFetchedWithError) {
-      getProfile()
-    }
-  }, [hasFetchedWithError])
-
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
         className={`${gridStyle} justify-items-center bg-background min-h-auto pb-10 desktop:px-0 tablet:px-10`}
       >
-        {!isTablet && <MobilePreview profile={profile} preview={preview} />}
+        {!isTablet && (
+          <MobilePreview
+            profile={profile}
+            preview={preview}
+            isLoading={isLoading}
+          />
+        )}
         {activeButton === 'links' && (
           <div className='flex flex-col pb-32 w-full desktop:mr-16 phone:m-0'>
-            <Links profile={profile} setProfile={setProfile} />
+            <Links
+              profile={profile}
+              setProfile={setProfile}
+              isLoading={isLoading}
+            />
           </div>
         )}
         {activeButton === 'profile' && (
