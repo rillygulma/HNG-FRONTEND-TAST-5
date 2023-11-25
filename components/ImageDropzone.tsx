@@ -3,7 +3,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
-import useMobileDetect from '@/hooks/useMobileDetect'
+import useMobileDetect from '../hooks/useMobileDetect'
 
 const ImageDropzone = ({
   setImage,

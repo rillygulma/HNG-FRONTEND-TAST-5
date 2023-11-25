@@ -1,5 +1,5 @@
 import React from 'react'
-import useMobileDetect from '@/hooks/useMobileDetect'
+import useMobileDetect from '../hooks/useMobileDetect'
 
 const SaveButton = () => {
   const isMobile = useMobileDetect()

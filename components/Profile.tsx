@@ -3,7 +3,7 @@ import SaveButton from './SaveButton'
 import ImageDropzone from './ImageDropzone'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import useMobileDetect from '@/hooks/useMobileDetect'
+import useMobileDetect from '../hooks/useMobileDetect'
 
 interface ValidError extends Error {
   error: string
