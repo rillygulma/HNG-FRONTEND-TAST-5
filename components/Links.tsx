@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import useMobileDetect from '@/hooks/useMobileDetect'
+import useMobileDetect from '../hooks/useMobileDetect'
 import EditLinkBlock from './EditLinkBlock' // sortable item
 import SaveButton from './SaveButton'
 import AddLinkButton from './AddLinkButton'

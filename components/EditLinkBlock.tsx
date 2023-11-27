@@ -128,9 +128,10 @@ const EditLinkBlock = ({
       ref={setNodeRef}
       style={style}
       className='text-primary.gray text-sm z-50 bg-background rounded-md h-60 w-full my-4'
+      data-testid='edit-link-block'
     >
       <div className='flex justify-between py-4 pb-3 px-3'>
-        <div className=' flex w-full'>
+        <div className='flex w-full' data-testid='drag-handle'>
           <Image
             src='./images/icon-drag-and-drop.svg'
             alt=''
@@ -149,6 +150,7 @@ const EditLinkBlock = ({
           onClick={() => removeLink(index)}
           className='mr-2 pt-0.5 text-primary.gray'
           type='button'
+          data-testid='remove-link'
         >
           Remove
         </button>

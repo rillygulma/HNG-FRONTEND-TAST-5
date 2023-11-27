@@ -2,7 +2,7 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import Profile from '../../components/Profile'
+import Profile from '../Profile'
 import axios from 'axios'
 import { waitFor } from '@testing-library/dom'
 
@@ -26,6 +26,10 @@ describe('Profile Component', () => {
     preview: {},
     setPreview: jest.fn(),
   }
+
+  afterEach(() => {
+    jest.resetAllMocks()
+  })
 
   test('renders and can type into input fields', () => {
     render(<Profile {...initialProps} />)
@@ -80,10 +84,6 @@ describe('Profile Component', () => {
     )
   })
 
-  afterEach(() => {
-    jest.resetAllMocks()
-  })
-
   test('displays error message on failed submission', async () => {
     axios.post.mockRejectedValue({
       response: {
@@ -103,9 +103,5 @@ describe('Profile Component', () => {
       const errorMessage = screen.getByText(/invalid email/i)
       expect(errorMessage).toBeInTheDocument()
     })
-  })
-
-  afterEach(() => {
-    jest.resetAllMocks()
   })
 })
