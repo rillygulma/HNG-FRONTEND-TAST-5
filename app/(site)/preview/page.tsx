@@ -10,7 +10,11 @@ import toast from 'react-hot-toast'
 import { signOut } from 'next-auth/react'
 import useMobileDetect from '@/hooks/useMobileDetect'
 interface User {
-  links: React.JSX.Element[] | undefined
+  links: {
+    id: string
+    url: string
+    platform: string
+  }[]
   id: string
   platform: string
   userUrl: string
@@ -42,10 +46,6 @@ const Preview = () => {
   })
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobileDetect()
-
-  const renderProfile = useCallback((profile) => {
-    return <ProfilePreview profile={profile} />
-  }, [])
 
   const toggleModal = () => {
     setIsOpen(!isOpen)
@@ -113,7 +113,7 @@ const Preview = () => {
         />
       )}
       <div className='mb-6 max-w-[22rem] w-full z-40'>
-        {renderProfile(profile)}
+        <ProfilePreview profile={profile} />
       </div>
     </main>
   )

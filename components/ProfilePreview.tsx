@@ -12,7 +12,7 @@ interface ProfilePreviewProps {
     }[]
     id: string
     platform: string
-    url: string
+    userUrl: string
     createdAt: Date
     userId: string
     username: string
@@ -26,7 +26,7 @@ interface ProfilePreviewProps {
   preview?: {
     preview: string
   }
-  isLoading: boolean
+  isLoading?: boolean
 }
 
 const ProfilePreview = ({
@@ -145,4 +145,4 @@ const ProfilePreview = ({
   )
 }
 
-export default ProfilePreview
+export default React.memo(ProfilePreview)
