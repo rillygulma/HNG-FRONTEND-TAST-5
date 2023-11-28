@@ -45,7 +45,6 @@ const Links = ({ profile, setProfile, isLoading }) => {
     })
   )
   const [links, setLinks] = useState(profile.links)
-  const isMobile = useMobileDetect()
   const [userHasModifiedLinks, setUserHasModifiedLinks] = useState(false)
   const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')

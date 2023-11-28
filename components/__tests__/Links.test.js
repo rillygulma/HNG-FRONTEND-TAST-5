@@ -114,6 +114,7 @@ describe('Links Component', () => {
     fireEvent.mouseUp(dragHandles[1])
   })*/
 
+  //test doesn't appear to be accurate right now, manual tests show this functionality is working
   test('removes link block when remove button is clicked', async () => {
     render(
       <Links profile={mockProfile} setProfile={() => {}} isLoading={false} />
@@ -123,10 +124,7 @@ describe('Links Component', () => {
 
     const removeButtons = screen.getAllByText(/remove/i)
 
-    // Wrap the click event in act
-    await act(async () => {
-      fireEvent.click(removeButtons[0])
-    })
+    fireEvent.click(removeButtons[0])
 
     // Check the result
     await waitFor(() => {
