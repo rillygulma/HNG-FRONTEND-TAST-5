@@ -114,7 +114,7 @@ describe('Links Component', () => {
     fireEvent.mouseUp(dragHandles[1])
   })*/
 
-  //test doesn't appear to be accurate right now, manual tests show this functionality is working
+  // manual tests show this functionality is working, but automated test FAILS
   test('removes link block when remove button is clicked', async () => {
     render(
       <Links profile={mockProfile} setProfile={() => {}} isLoading={false} />
@@ -124,13 +124,41 @@ describe('Links Component', () => {
 
     const removeButtons = screen.getAllByText(/remove/i)
 
-    fireEvent.click(removeButtons[0])
+    await act(async () => {
+      fireEvent.click(removeButtons[0])
+    })
 
     // Check the result
     await waitFor(() => {
       expect(screen.queryAllByTestId('edit-link-block')).toHaveLength(
         initialLinkBlocks.length - 1
       )
+    })
+  })
+
+  test('updates link block when save button is clicked', async () => {
+    // Mock the server response
+    axios.post.mockResolvedValueOnce({ data: { success: true } })
+
+    render(
+      <Links profile={mockProfile} setProfile={() => {}} isLoading={false} />
+    )
+
+    // Find the input field for the URL and the save button
+    const linkInput = screen.getByTestId('url-input')
+    const saveButton = screen.getByRole('button', { name: /save/i })
+
+    // Simulate user typing a new link into the input field and clicking the save button
+    fireEvent.change(linkInput, { target: { value: 'http://newlink.com' } })
+    fireEvent.click(saveButton)
+
+    // Check if axios.post was called with the correct data
+    await waitFor(() => {
+      expect(axios.post).toHaveBeenCalledWith('/api/links', {
+        links: expect.arrayContaining([
+          expect.objectContaining({ url: 'http://newlink.com' }),
+        ]),
+      })
     })
   })
 })

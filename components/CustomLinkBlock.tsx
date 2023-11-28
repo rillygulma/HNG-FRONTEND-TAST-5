@@ -96,6 +96,7 @@ const CustomLinkBlock = ({
       } ${(platform === 'x' || platform === 'website') && 'text-black'} ${
         isOverlay ? 'm-2 text-md' : 'm-5 text-xl'
       } ${shape} rounded-md`}
+      data-testid={`custom-link-block-#${index}`}
     >
       <Link
         href={link ? link.url : null}

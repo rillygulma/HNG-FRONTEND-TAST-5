@@ -89,10 +89,12 @@ const Links = ({ profile, setProfile, isLoading }) => {
   }
 
   const removeLink = (index: number) => {
-    console.log('remove link at index ' + index)
+    console.log('links length: ' + links.length)
     const newLinks = [...links].filter((link) => link.id !== links[index].id)
     setLinks(newLinks)
+    console.log('new links length: ' + newLinks.length)
     setUserHasModifiedLinks(true)
+    console.log('links: ' + links)
   }
 
   const handleUpdateLinks = async (e: React.FormEvent) => {

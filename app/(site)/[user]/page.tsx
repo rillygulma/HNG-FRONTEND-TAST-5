@@ -18,6 +18,11 @@ interface DevLinksProps {
     }
   ]
 }
+interface Link {
+  id: string
+  url: string
+  platform: string
+}
 
 const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
   const user = params.user
@@ -60,7 +65,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
           <span className='text-primary.blue font-semibold'>{'}'}</span>
         </h3>
         <section className='flex flex-col w-72 mt-10 justify-center items-center'>
-          {userLinks?.map((link, index) => (
+          {userLinks?.map((link: Link, index: number) => (
             <CustomLinkBlock
               key={link?.id}
               index={index}

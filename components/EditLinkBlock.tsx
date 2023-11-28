@@ -183,6 +183,7 @@ const EditLinkBlock = ({
             }`}
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            data-testid='url-input'
           />
           {error && <p className='form-validation-error'>{error}</p>}
         </div>

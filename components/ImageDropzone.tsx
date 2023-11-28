@@ -54,7 +54,7 @@ const ImageDropzone = ({
   }`
 
   return (
-    <div {...getRootProps()} className={dropZoneStyle}>
+    <div {...getRootProps()} className={dropZoneStyle} data-testid='dropzone'>
       {preview && (
         <Image
           src={preview.preview}
