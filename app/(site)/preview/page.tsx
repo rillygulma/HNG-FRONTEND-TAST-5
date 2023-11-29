@@ -9,6 +9,7 @@ import ProfilePreview from '@/components/ProfilePreview'
 import toast from 'react-hot-toast'
 import { signOut } from 'next-auth/react'
 import useMobileDetect from '@/hooks/useMobileDetect'
+import useSWR from 'swr'
 interface User {
   links: {
     id: string
@@ -29,61 +30,24 @@ interface User {
 }
 
 const Preview = () => {
-  const [hasFetchedWithError, setHasFetchedWithError] = useState(false)
-  const [profile, setProfile] = useState<User>({
-    links: [],
-    id: '',
-    platform: '',
-    userUrl: '',
-    createdAt: new Date(),
-    userId: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    profileImage: '',
-    updatedAt: new Date(),
-  })
   const [isOpen, setIsOpen] = useState(false)
   const isMobile = useMobileDetect()
+  const fetcher = (url: string) => axios.get(url).then((res) => res.data)
+
+  const { data: profile, error } = useSWR('/api/profile', fetcher)
+
+  useEffect(() => {
+    if (error) {
+      toast.error('An unexpected error occurred.')
+      // Additional error handling can be added here
+    }
+  }, [error])
 
   const toggleModal = () => {
     setIsOpen(!isOpen)
   }
 
-  useEffect(() => {
-    // Fetch data when the component mounts
-    const getProfile = async () => {
-      try {
-        const response = await axios.get('/api/profile')
-
-        if (response.data.error) {
-          throw new Error(response.data.error)
-        }
-
-        setProfile(response.data)
-      } catch (err) {
-        if (!hasFetchedWithError) {
-          setHasFetchedWithError(true)
-          toast.error(
-            err.response.data.error || 'An unexpected error occurred.'
-          )
-        }
-      }
-    }
-
-    if (hasFetchedWithError) {
-      const signOut = () => {
-        toast.error('An unexpected error occurred.')
-        signOut()
-      }
-      signOut()
-    }
-
-    if (!hasFetchedWithError) {
-      getProfile()
-    }
-  }, [hasFetchedWithError])
+  console.log(profile)
 
   return (
     <main className='flex flex-col justify-start align-middle items-center bg-background w-screen min-h-screen'>

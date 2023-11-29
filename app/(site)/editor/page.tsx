@@ -39,28 +39,32 @@ const Editor = () => {
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [preview, setPreview] = useState<Object | null>(null)
-  const [profile, setProfile] = useState<User>({
-    links: [],
-    id: '',
-    platform: '',
-    url: '',
-    createdAt: new Date(),
-    userId: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    profileImage: '',
-    updatedAt: new Date(),
-  })
+
   const fetcher = async (url: string) => {
     const response = await axios.get(url).then((res) => res.data)
-    setProfile(response)
+
     if (response.error) {
       toast.error(response.error || 'An unexpected error occurred.')
     }
+    return response
   }
-  const { error, isLoading } = useSWR('/api/profile', fetcher)
+  const { error, isLoading, data } = useSWR('/api/profile', fetcher)
+  const [profile, setProfile] = useState<User>(
+    data || {
+      links: [],
+      id: '',
+      platform: '',
+      url: '',
+      createdAt: new Date(),
+      userId: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      profileImage: '',
+      updatedAt: new Date(),
+    }
+  )
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
@@ -75,6 +79,10 @@ const Editor = () => {
     }
   }, [session, status])
 
+  useEffect(() => {
+    console.log(data, profile.lastname)
+  })
+
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
@@ -83,7 +91,7 @@ const Editor = () => {
       >
         {!isTablet && (
           <MobilePreview
-            profile={profile}
+            profile={data}
             preview={preview}
             isLoading={isLoading}
           />

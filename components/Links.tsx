@@ -44,7 +44,7 @@ const Links = ({ profile, setProfile, isLoading }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-  const [links, setLinks] = useState(profile.links)
+  const [links, setLinks] = useState(profile?.links)
   const [userHasModifiedLinks, setUserHasModifiedLinks] = useState(false)
   const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')
@@ -57,11 +57,11 @@ const Links = ({ profile, setProfile, isLoading }) => {
     const { active, over } = event
 
     if (over) {
-      const activeLink = links.find((item) => item.id === active.id)
-      const overLink = links.find((item) => item.id === over.id)
+      const activeLink = links.find((item: Link) => item.id === active.id)
+      const overLink = links.find((item: Link) => item.id === over.id)
 
       if (activeLink && overLink) {
-        setLinks((prevLinks) => {
+        setLinks((prevLinks: Link[]) => {
           const oldIndex = prevLinks.indexOf(activeLink)
           const newIndex = prevLinks.indexOf(overLink)
           return arrayMove(prevLinks, oldIndex, newIndex)
@@ -212,8 +212,8 @@ const Links = ({ profile, setProfile, isLoading }) => {
               strategy={verticalListSortingStrategy}
             >
               {isLoading && <LinksSkeleton />}
-              {links.length > 0 &&
-                links.map((link, index) => {
+              {links?.length > 0 &&
+                links?.map((link, index) => {
                   return (
                     <EditLinkBlock
                       link={link}
@@ -231,7 +231,7 @@ const Links = ({ profile, setProfile, isLoading }) => {
           </DndContext>
         </div>
         <div className='flex justify-end items-center'>
-          {links.length > 0 && <SaveButton />}
+          {links?.length > 0 && <SaveButton />}
         </div>
       </form>
     </section>
