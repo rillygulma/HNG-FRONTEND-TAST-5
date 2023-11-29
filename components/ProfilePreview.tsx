@@ -73,7 +73,7 @@ const ProfilePreview = ({
 
       <h1 className={`${isOverlay ? 'text-3xl' : 'text-4xl'} mt-4 text-black`}>
         <span className='text-primary.blue font-semibold'>{'{'}</span>
-        {(profile.firstname || 'Your') + ' ' + (profile.lastname || 'Name') ||
+        {(profile?.firstname || 'Your') + ' ' + (profile?.lastname || 'Name') ||
           profile?.username ||
           'Your Name Here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>

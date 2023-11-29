@@ -20,7 +20,6 @@ interface Link {
 interface User {
   links: React.JSX.Element[] | undefined
   id: string
-  platform: string
   url: string
   createdAt: Date
   userId: string
@@ -53,7 +52,6 @@ const Editor = () => {
     data || {
       links: [],
       id: '',
-      platform: '',
       url: '',
       createdAt: new Date(),
       userId: '',
@@ -80,8 +78,14 @@ const Editor = () => {
   }, [session, status])
 
   useEffect(() => {
+    if (data) {
+      setProfile(data)
+    }
+  }, [data])
+
+  useEffect(() => {
     console.log(data, profile.lastname)
-  })
+  }, [])
 
   return (
     <>
@@ -91,7 +95,7 @@ const Editor = () => {
       >
         {!isTablet && (
           <MobilePreview
-            profile={data}
+            profile={profile}
             preview={preview}
             isLoading={isLoading}
           />

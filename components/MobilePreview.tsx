@@ -3,6 +3,9 @@ import Image from 'next/image'
 import ProfilePreview from '@/components/ProfilePreview'
 
 const MobilePreview = ({ profile, preview, isLoading }) => {
+  const { firstname, lastname } = profile
+  console.log(firstname, lastname)
+
   return (
     <div className='flex flex-col col-span-1 mt-10 p-2 relative'>
       <Image
