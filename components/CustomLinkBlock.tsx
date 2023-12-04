@@ -99,7 +99,7 @@ const CustomLinkBlock = ({
       data-testid={`custom-link-block-#${index}`}
     >
       <Link
-        href={link ? link.url : null}
+        href={link?.url || '/'}
         target='_blank'
         rel='noopener noreferrer'
         className='flex items-center justify-between w-full'
