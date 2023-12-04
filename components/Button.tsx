@@ -1,7 +1,8 @@
 import React from 'react'
+import { MouseEventHandler } from 'react'
 
 interface ButtonProps {
-  handler: Function
+  handler: MouseEventHandler<HTMLButtonElement>
   text: string
   style: 'clear' | 'filled' // Define style as a union type of 'clear' or 'filled'
 }
