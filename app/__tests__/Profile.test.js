@@ -1,7 +1,7 @@
 // __tests__/Profile.test.js
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import Profile from '../Profile'
+import Profile from '../../components/Profile'
 import axios from 'axios'
 import { waitFor } from '@testing-library/dom'
 

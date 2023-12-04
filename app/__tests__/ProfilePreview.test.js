@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
-import ProfilePreview from '../ProfilePreview'
+import ProfilePreview from '../../components/ProfilePreview'
 import '@testing-library/jest-dom'
 
 jest.mock('next/image', () => ({

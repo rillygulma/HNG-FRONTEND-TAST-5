@@ -3,7 +3,7 @@ import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { DndContext } from '@dnd-kit/core'
 import axios from 'axios'
-import Links from '../Links'
+import Links from '../../components/Links'
 
 jest.mock('axios', () => ({
   get: jest.fn(),

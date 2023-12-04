@@ -83,10 +83,6 @@ const Editor = () => {
     }
   }, [data])
 
-  useEffect(() => {
-    console.log(data, profile.lastname)
-  }, [])
-
   return (
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
