@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-const ShareModal = ({ isOpen, onClose, uniqueUrl }) => {
+interface ShareModalProps {
+  isOpen: boolean
+  onClose: () => void
+  uniqueUrl: string
+}
+
+const ShareModal = ({ isOpen, onClose, uniqueUrl }: ShareModalProps) => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(uniqueUrl)
     toast.success('Link copied to clipboard.')

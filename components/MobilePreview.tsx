@@ -2,7 +2,31 @@ import React from 'react'
 import Image from 'next/image'
 import ProfilePreview from '@/components/ProfilePreview'
 
-const MobilePreview = ({ profile, preview, isLoading }) => {
+interface MobilePreviewProps {
+  profile: {
+    links: {
+      id: string
+      url: string
+      platform: string
+    }[]
+    id: string
+    url: string
+    createdAt: Date
+    userId: string
+    username: string
+    firstname: string
+    lastname: string
+    email: string
+    profileImage: string
+    updatedAt: Date
+  }
+  preview: {
+    preview: string
+  } | null
+  isLoading: boolean
+}
+
+const MobilePreview = ({ profile, preview, isLoading }: MobilePreviewProps) => {
   const { firstname, lastname } = profile
   console.log(firstname, lastname)
 

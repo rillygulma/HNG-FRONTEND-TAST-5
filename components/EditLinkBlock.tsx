@@ -10,7 +10,7 @@ interface Link {
   error?: string
 }
 
-interface LinkBlockProps {
+interface EditLinkBlockProps {
   link: Link
   index: number
   key: string
@@ -88,7 +88,7 @@ const EditLinkBlock = ({
   removeLink,
   error,
   errorType,
-}: LinkBlockProps) => {
+}: EditLinkBlockProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: link.id })
   const [platform, setPlatform] = useState(link.platform || '')

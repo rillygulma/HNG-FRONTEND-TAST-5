@@ -10,7 +10,53 @@ interface ValidError extends Error {
   errorType: string
 }
 
-const Profile = ({ profile, setProfile, preview, setPreview }) => {
+interface Link {
+  id: string
+  url: string
+  platform: string
+}
+
+interface ProfileProps {
+  profile: {
+    links: Link[]
+    id: string
+    url: string
+    createdAt: Date
+    userId: string
+    username: string
+    firstname: string
+    lastname: string
+    email: string
+    profileImage: string
+    updatedAt: Date
+  }
+  setProfile: React.Dispatch<
+    React.SetStateAction<{
+      links: Link[]
+      id: string
+      url: string
+      createdAt: Date
+      userId: string
+      username: string
+      firstname: string
+      lastname: string
+      email: string
+      profileImage: string
+      updatedAt: Date
+    }>
+  >
+  preview: {
+    preview: string
+  } | null
+  setPreview: React.Dispatch<React.SetStateAction<{ preview: string } | null>>
+}
+
+const Profile = ({
+  profile,
+  setProfile,
+  preview,
+  setPreview,
+}: ProfileProps) => {
   const isMobile = useMobileDetect()
   const [image, setImage] = useState<File | null>(null)
   const [errors, setErrors] = useState<ValidError[]>([])

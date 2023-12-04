@@ -6,7 +6,7 @@ import Image from 'next/image'
 import useMobileDetect from '@/hooks/useMobileDetect'
 import LogoutButton from './LogoutButton'
 
-type NavProps = {
+interface NavProps {
   activeButton: string
   setActiveButton: React.Dispatch<React.SetStateAction<string>>
 }

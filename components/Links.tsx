@@ -31,12 +31,34 @@ interface Link {
   platform: string
 }
 
+interface LinksProps {
+  profile: {
+    links: Link[]
+  }
+  setProfile: React.Dispatch<
+    React.SetStateAction<{
+      links: Link[]
+      id: string
+      url: string
+      createdAt: Date
+      userId: string
+      username: string
+      firstname: string
+      lastname: string
+      email: string
+      profileImage: string
+      updatedAt: Date
+    }>
+  >
+  isLoading: boolean
+}
+
 interface Errors {
   url: string
   error: string
 }
 
-const Links = ({ profile, setProfile, isLoading }) => {
+const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
   //const testArr = Array.from({ length: 3 }) as Array<string>
   const sensors = useSensors(
     useSensor(PointerSensor),

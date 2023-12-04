@@ -11,6 +11,7 @@ import MobilePreview from '@/components/MobilePreview'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import useSWR from 'swr'
+
 interface Link {
   id: string
   url: string
@@ -18,7 +19,7 @@ interface Link {
 }
 
 interface User {
-  links: React.JSX.Element[] | undefined
+  links: Link[]
   id: string
   url: string
   createdAt: Date
@@ -37,7 +38,7 @@ const Editor = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
-  const [preview, setPreview] = useState<Object | null>(null)
+  const [preview, setPreview] = useState<{ preview: string } | null>(null)
 
   const fetcher = async (url: string) => {
     const response = await axios.get(url).then((res) => res.data)
@@ -50,7 +51,7 @@ const Editor = () => {
   const { error, isLoading, data } = useSWR('/api/profile', fetcher)
   const [profile, setProfile] = useState<User>(
     data || {
-      links: [],
+      links: data?.links || [],
       id: '',
       url: '',
       createdAt: new Date(),
