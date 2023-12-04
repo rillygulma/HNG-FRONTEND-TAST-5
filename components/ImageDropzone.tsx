@@ -5,13 +5,41 @@ import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 import useMobileDetect from '../hooks/useMobileDetect'
 
+interface ImageDropzoneProps {
+  setImage: React.Dispatch<React.SetStateAction<File | null>>
+  image: File | null
+  setPreview: React.Dispatch<
+    React.SetStateAction<{
+      preview: string
+    }>
+  >
+  preview: {
+    preview: string
+  } | null
+  setProfile: React.Dispatch<
+    React.SetStateAction<{
+      links: React.JSX.Element[] | undefined
+      id: string
+      url: string
+      createdAt: Date
+      userId: string
+      username: string
+      firstname: string
+      lastname: string
+      email: string
+      profileImage: string
+      updatedAt: Date
+    }>
+  >
+}
+
 const ImageDropzone = ({
   setImage,
   image,
   setPreview,
   preview,
   setProfile,
-}) => {
+}: ImageDropzoneProps) => {
   const isMobile = useMobileDetect()
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
