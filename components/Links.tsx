@@ -49,10 +49,6 @@ const Links = ({ profile, setProfile, isLoading }) => {
   const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 
-  useEffect(() => {
-    console.log(links)
-  }, [links])
-
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
 
@@ -154,7 +150,7 @@ const Links = ({ profile, setProfile, isLoading }) => {
         links: links,
       }
     })
-  }, [links])
+  }, [links, setProfile])
 
   // useSWR with this instead
   useEffect(() => {

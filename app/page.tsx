@@ -22,7 +22,7 @@ export default function SignIn() {
     if (status === 'authenticated') {
       router.push('/editor')
     }
-  }, [session, status])
+  }, [session, status, router])
 
   const loginUser = async (e: React.FormEvent) => {
     e.preventDefault()

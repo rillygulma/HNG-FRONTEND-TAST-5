@@ -75,7 +75,7 @@ const Editor = () => {
     if (status === 'authenticated') {
       console.log(session, status)
     }
-  }, [session, status])
+  }, [session, status, router])
 
   useEffect(() => {
     if (data) {
