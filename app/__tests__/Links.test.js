@@ -1,7 +1,6 @@
 import React from 'react'
-import { render, fireEvent, screen, waitFor, act } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import { DndContext } from '@dnd-kit/core'
 import axios from 'axios'
 import Links from '../../components/Links'
 
@@ -124,9 +123,7 @@ describe('Links Component', () => {
 
     const removeButtons = screen.getAllByText(/remove/i)
 
-    await act(async () => {
-      fireEvent.click(removeButtons[0])
-    })
+    fireEvent.click(removeButtons[0])
 
     // Check the result
     await waitFor(() => {
