@@ -62,6 +62,7 @@ const baseUrlMap: BaseUrlMap = {
   gitlab: 'https://gitlab.com/',
   hashnode: 'https://hashnode.com/@',
   stackoverflow: 'https://stackoverflow.com/users/',
+  x: 'https://twitter.com/',
 }
 
 export async function POST(req: Request) {
@@ -135,42 +136,43 @@ export async function POST(req: Request) {
 
     const base = baseUrlMap[updatedLink.platform]
 
+    const urlPattern = new RegExp(
+      '^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?' + // port
+        '(\\/[-a-z\\d%@_.~+&:]*)*' + // path
+        '(\\?[;&a-z\\d%@_.,~+&:=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$',
+      'i'
+    ) // fragment locator
+    console.log('current link: ' + updatedLink.url)
+
+    if (!urlPattern.test(updatedLink.url)) {
+      console.log('Invalid URL triggered: ' + updatedLink.url)
+      errors.push({
+        id: updatedLink.id,
+        url: updatedLink.url,
+        error: 'Check your URL.',
+      })
+      continue // skip the rest of the loop and go to the next iteration
+    }
+
+    if (updatedLink.url.length === 0) {
+      errors.push({ id: updatedLink.id, error: 'Cannot be empty.' })
+      continue // skip further processing for this link
+    }
+
+    // If there's a base URL for the platform, check that the updated link starts with it
+    if (base && !updatedLink.url.startsWith(base)) {
+      errors.push({
+        id: updatedLink.id,
+        error: `URL must match platform.`,
+      })
+      continue // skip further processing for this link
+    }
+
     if (!linkExists) {
-      const urlPattern = new RegExp(
-        '^(https?:\\/\\/)?' + // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name and extension
-          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-          '(\\:\\d+)?' + // port
-          '(\\/[-a-z\\d%@_.~+&:]*)*' + // path
-          '(\\?[;&a-z\\d%@_.,~+&:=-]*)?' + // query string
-          '(\\#[-a-z\\d_]*)?$',
-        'i'
-      ) // fragment locator
-
-      if (!urlPattern.test(updatedLink.url)) {
-        console.log('Invalid URL triggered: ' + updatedLink.url)
-        errors.push({
-          id: updatedLink.id,
-          url: updatedLink.url,
-          error: 'Check your URL.',
-        })
-        continue // skip the rest of the loop and go to the next iteration
-      }
-
-      if (updatedLink.url.length === 0) {
-        errors.push({ id: updatedLink.id, error: 'Cannot be empty.' })
-        continue // skip further processing for this link
-      }
-
-      // If there's a base URL for the platform, check that the updated link starts with it
-      if (base && !updatedLink.url.startsWith(base)) {
-        errors.push({
-          id: updatedLink.id,
-          error: `URL must match platform.`,
-        })
-        continue // skip further processing for this link
-      }
-
       await db.link.create({
         data: {
           url: updatedLink.url,

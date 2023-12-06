@@ -113,7 +113,7 @@ const EditLinkBlock = ({
 
   useEffect(() => {
     updateLink(index, { id: link.id, platform, url })
-  }, [platform, url, index, link.id, updateLink])
+  }, [platform, url, index, link.id])
 
   const keys = Object.keys(platformOptions) as Array<
     keyof typeof platformOptions

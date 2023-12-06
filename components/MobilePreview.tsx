@@ -10,7 +10,8 @@ interface MobilePreviewProps {
       platform: string
     }[]
     id: string
-    url: string
+    platform: string
+    userUrl: string
     createdAt: Date
     userId: string
     username: string
@@ -20,15 +21,14 @@ interface MobilePreviewProps {
     profileImage: string
     updatedAt: Date
   }
-  preview: {
+  preview?: {
     preview: string
-  } | null
+  }
   isLoading: boolean
 }
 
 const MobilePreview = ({ profile, preview, isLoading }: MobilePreviewProps) => {
   const { firstname, lastname } = profile
-  console.log(firstname, lastname)
 
   return (
     <div className='flex flex-col col-span-1 mt-10 p-2 relative'>
