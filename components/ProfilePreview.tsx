@@ -24,7 +24,7 @@ interface ProfilePreviewProps {
   isOverlay?: boolean
   preview?: {
     preview: string
-  }
+  } | null
   isLoading?: boolean
 }
 
