@@ -5,22 +5,27 @@ import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
 import useMobileDetect from '../hooks/useMobileDetect'
 
+interface Link {
+  id: string
+  url: string
+  platform: string
+}
 interface ImageDropzoneProps {
   setImage: React.Dispatch<React.SetStateAction<File | null>>
   image: File | null
   setPreview: React.Dispatch<
     React.SetStateAction<{
       preview: string
-    }>
+    } | null>
   >
   preview: {
     preview: string
   } | null
   setProfile: React.Dispatch<
     React.SetStateAction<{
-      links: React.JSX.Element[] | undefined
+      links: Link[]
       id: string
-      url: string
+      userUrl: string
       createdAt: Date
       userId: string
       username: string
