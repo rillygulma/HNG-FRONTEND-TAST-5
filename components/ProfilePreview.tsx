@@ -11,7 +11,6 @@ interface ProfilePreviewProps {
       platform: string
     }[]
     id: string
-    platform: string
     userUrl: string
     createdAt: Date
     userId: string

@@ -20,7 +20,7 @@ interface ProfileProps {
   profile: {
     links: Link[]
     id: string
-    url: string
+    userUrl: string
     createdAt: Date
     userId: string
     username: string
@@ -34,7 +34,7 @@ interface ProfileProps {
     React.SetStateAction<{
       links: Link[]
       id: string
-      url: string
+      userUrl: string
       createdAt: Date
       userId: string
       username: string

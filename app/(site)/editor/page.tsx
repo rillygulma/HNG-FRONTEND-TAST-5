@@ -21,7 +21,7 @@ interface Link {
 interface User {
   links: Link[]
   id: string
-  url: string
+  userUrl: string
   createdAt: Date
   userId: string
   username: string
