@@ -29,6 +29,7 @@ interface Link {
   id: string
   url: string
   platform: string
+  error?: string
 }
 
 interface LinksProps {
@@ -54,8 +55,9 @@ interface LinksProps {
 }
 
 interface Errors {
-  url: string
+  id: string
   error: string
+  url?: string
 }
 
 const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
@@ -132,7 +134,7 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
           // Update the links with error messages based on their IDs
           const updatedLinksWithErrors = links.map((link) => {
             const errorForThisLink = errorArray.find(
-              (error) => error.id === link.id
+              (error: Errors) => error.id === link.id
             )
             return {
               ...link,
