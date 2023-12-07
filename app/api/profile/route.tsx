@@ -88,7 +88,7 @@ export async function GET(): Promise<NextResponse> {
     },
   })
 
-  const userUrl = `https://localhost:3000/${user?.username}`
+  const userUrl = `https://dev-links-nreya5hcf-matt-o-west-portfolio.vercel.app/${user?.username}`
 
   if (!user?.userUrl) {
     await db.user.update({
