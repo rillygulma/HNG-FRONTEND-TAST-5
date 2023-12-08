@@ -86,16 +86,14 @@ const Profile = ({
           ...profile,
           firstname: details.firstname,
           lastname: details.lastname,
-          email: details.email,
+          email: details.email === '' ? profile.email : details.email,
         })
-        console.log(profile)
-        console.log('profile sent to server')
+
         setDetails({
           firstname: '',
           lastname: '',
           email: '',
         })
-        console.log(details)
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {

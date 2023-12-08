@@ -88,7 +88,7 @@ const Editor = () => {
     <>
       <Nav activeButton={activeButton} setActiveButton={setActiveButton} />
       <main
-        className={`${gridStyle} justify-items-center bg-background min-h-auto pb-10 desktop:px-0 tablet:px-10`}
+        className={`${gridStyle} justify-items-center bg-background min-h-screen pb-10 desktop:px-0 tablet:px-10`}
       >
         {!isTablet && (
           <MobilePreview
@@ -98,7 +98,7 @@ const Editor = () => {
           />
         )}
         {activeButton === 'links' && (
-          <div className='flex flex-col pb-32 w-full desktop:mr-16 phone:m-0'>
+          <div className='flex flex-col items-center pb-32 tablet:pl-6 w-full'>
             <Links
               profile={profile}
               setProfile={setProfile}
@@ -107,12 +107,14 @@ const Editor = () => {
           </div>
         )}
         {activeButton === 'profile' && (
-          <Profile
-            profile={profile}
-            setProfile={setProfile}
-            preview={preview}
-            setPreview={setPreview}
-          />
+          <div className='flex flex-col items-center pb-32 tablet:pl-6 w-full'>
+            <Profile
+              profile={profile}
+              setProfile={setProfile}
+              preview={preview}
+              setPreview={setPreview}
+            />
+          </div>
         )}
       </main>
     </>

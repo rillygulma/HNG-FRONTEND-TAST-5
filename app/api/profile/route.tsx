@@ -61,6 +61,7 @@ export async function POST(req: Request, res: Response) {
       data: {
         firstname: firstName,
         lastname: lastName,
+        email: user.email,
       },
     })
   } else {
