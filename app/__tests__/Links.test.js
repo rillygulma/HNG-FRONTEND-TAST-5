@@ -82,7 +82,7 @@ describe('Links Component', () => {
     )
   })
 
-  test('adds a new link block when add link button is clicked', async () => {
+  it('adds a new link block when add link button is clicked', async () => {
     render(
       <Links profile={mockProfile} setProfile={() => {}} isLoading={false} />
     )
@@ -114,7 +114,7 @@ describe('Links Component', () => {
   })*/
 
   // manual tests show this functionality is working, but automated test FAILS
-  test('removes link block when remove button is clicked', async () => {
+  it('removes link block when remove button is clicked', async () => {
     render(
       <Links profile={mockProfile} setProfile={() => {}} isLoading={false} />
     )
@@ -133,7 +133,7 @@ describe('Links Component', () => {
     })
   })
 
-  test('updates link block when save button is clicked', async () => {
+  it('updates link block when save button is clicked', async () => {
     // Mock the server response
     axios.post.mockResolvedValueOnce({ data: { success: true } })
 

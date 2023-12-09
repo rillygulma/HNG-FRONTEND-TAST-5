@@ -23,7 +23,7 @@ describe('ProfilePreview Component', () => {
     ],
   }
 
-  test('displays profile information and links correctly', async () => {
+  it('displays profile information and links correctly', async () => {
     render(
       <ProfilePreview
         profile={mockProfile}

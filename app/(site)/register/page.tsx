@@ -11,6 +11,7 @@ export default function Register() {
   const [data, setData] = useState({
     email: '',
     password: '',
+    passwordMatch: '',
     username: '',
   })
   const [error, setError] = useState('Something went wrong')
@@ -18,6 +19,13 @@ export default function Register() {
 
   const registerUser = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (data.password !== data.passwordMatch) {
+      setError('Passwords do not match.')
+      setErrorType('PASSWORD')
+      return
+    }
+
     axios
       .post('/api/auth/register', data)
       .then(() => {
@@ -89,50 +97,108 @@ export default function Register() {
                   <p className='form-validation-error'>{error}</p>
                 )}
               </div>
-              <label
-                className='block text-sm font-medium text-black mb-2'
-                htmlFor='email'
-              >
-                Email
-              </label>
-              <input
-                className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
-                  errorType === 'EMAIL' ? 'error-container' : null
-                }`}
-                id='email'
-                type='text'
-                placeholder='Enter your email'
-                onChange={(e) => setData({ ...data, email: e.target.value })}
-                value={data.email}
-                required
-              />
-              {errorType === 'EMAIL' && (
-                <p className='form-validation-error'>{error}</p>
-              )}
+              <div className='mb-4 relative'>
+                <label
+                  className='block text-sm font-medium text-black mb-2'
+                  htmlFor='email'
+                >
+                  Email
+                </label>
+                <div className='relative'>
+                  <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                    <Image
+                      src='./images/icon-email.svg'
+                      alt='Email'
+                      width={20}
+                      height={20}
+                    />
+                  </div>
+                  <input
+                    className={`pl-11 w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                      errorType === 'EMAIL' ? 'error-container' : ''
+                    }`}
+                    id='email'
+                    type='email' // Changed type to 'email' for proper validation
+                    placeholder='Enter your email'
+                    onChange={(e) =>
+                      setData({ ...data, email: e.target.value })
+                    }
+                    value={data.email}
+                    required
+                  />
+                </div>
+                {errorType === 'EMAIL' && (
+                  <p className='form-validation-error'>{error}</p>
+                )}
+              </div>
             </div>
-            <div className='mb-4'>
+            <div className='mb-4 relative'>
               <label
                 className='block text-sm font-medium text-black mb-2'
                 htmlFor='password'
               >
-                Password
+                Create password
               </label>
-              <input
-                className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
-                  errorType === 'PASSWORD' ? 'error-container' : null
-                }`}
-                id='password'
-                type='password'
-                placeholder='Enter your password'
-                minLength={5}
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                value={data.password}
-                required
-              />
+              <div className='relative'>
+                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                  <Image
+                    src='./images/icon-password.svg' // Make sure this path is correct
+                    alt='Password'
+                    width={20}
+                    height={20}
+                  />
+                </div>
+                <input
+                  className={`w-full pl-11 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                    errorType === 'PASSWORD' ? 'error-container' : ''
+                  }`}
+                  id='password'
+                  type='password'
+                  placeholder='At least 8 characters'
+                  onChange={(e) =>
+                    setData({ ...data, password: e.target.value })
+                  }
+                  required
+                />
+              </div>
               {errorType === 'PASSWORD' && (
                 <p className='form-validation-error'>{error}</p>
               )}
             </div>
+            <div className='mb-6 relative'>
+              <label
+                className='block text-sm font-medium text-black mb-2'
+                htmlFor='password'
+              >
+                Confirm password
+              </label>
+              <div className='relative'>
+                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                  <Image
+                    src='./images/icon-password.svg' // Make sure this path is correct
+                    alt='Password'
+                    width={20}
+                    height={20}
+                  />
+                </div>
+                <input
+                  className={`w-full pl-11 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+                    errorType === 'PASSWORD' ? 'error-container' : ''
+                  }`}
+                  id='passwordMatch'
+                  type='password'
+                  placeholder='At least 8 characters'
+                  onChange={(e) =>
+                    setData({ ...data, passwordMatch: e.target.value })
+                  }
+                  required
+                />
+              </div>
+              {errorType === 'PASSWORD' && (
+                <p className='form-validation-error'>{error}</p>
+              )}
+            </div>
+
             <button
               type='submit'
               className='w-full py-2 px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'

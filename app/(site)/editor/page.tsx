@@ -98,7 +98,7 @@ const Editor = () => {
           />
         )}
         {activeButton === 'links' && (
-          <div className='flex flex-col items-center pb-32 tablet:pl-6 w-full'>
+          <div className='flex flex-col items-center pb-32 tablet:pl-6 desktop:mr-20 tablet:mr-0 w-full'>
             <Links
               profile={profile}
               setProfile={setProfile}

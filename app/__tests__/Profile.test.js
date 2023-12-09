@@ -1,4 +1,4 @@
-// __tests__/Profile.test.js
+// __its__/Profile.it.js
 import React from 'react'
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import Profile from '../../components/Profile'
@@ -29,7 +29,7 @@ describe('Profile Component', () => {
     jest.resetAllMocks()
   })
 
-  test('renders and can type into input fields', () => {
+  it('renders and can type into input fields', () => {
     render(<Profile {...initialProps} />)
 
     // Check if the form fields are rendered
@@ -46,7 +46,7 @@ describe('Profile Component', () => {
     expect(screen.getByLabelText(/first name*/i).value).toBe('John')
   })
 
-  test('submits form and sends correct data', async () => {
+  it('submits form and sends correct data', async () => {
     axios.post.mockImplementation(() =>
       Promise.resolve({
         data: {
@@ -82,7 +82,7 @@ describe('Profile Component', () => {
     )
   })
 
-  test('displays error message on failed submission', async () => {
+  it('displays error message on failed submission', async () => {
     axios.post.mockRejectedValue({
       response: {
         data: {
