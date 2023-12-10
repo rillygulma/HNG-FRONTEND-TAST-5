@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
@@ -36,6 +36,19 @@ interface ImageDropzoneProps {
       updatedAt: Date
     }>
   >
+  profile: {
+    links: Link[]
+    id: string
+    userUrl: string
+    createdAt: Date
+    userId: string
+    username: string
+    firstname: string
+    lastname: string
+    email: string
+    profileImage: string
+    updatedAt: Date
+  }
 }
 
 const ImageDropzone = ({
@@ -44,8 +57,14 @@ const ImageDropzone = ({
   setPreview,
   preview,
   setProfile,
+  profile,
 }: ImageDropzoneProps) => {
   const isMobile = useMobileDetect()
+
+  useEffect(() => {
+    console.log('Profile updated:', profile?.profileImage)
+    console.log('Preview updated:', preview)
+  }, [profile, preview])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
@@ -61,11 +80,12 @@ const ImageDropzone = ({
 
         try {
           const response = await axios.post('/api/imageUpload', formData)
+          console.log(response.data.imageUrl)
 
           // If the image is uploaded successfully, update the profile image
           setProfile((prevProfile) => ({
             ...prevProfile,
-            profileImage: response.data.imageUrl,
+            profileImage: response.data.profileImage,
           }))
 
           toast.success('Image uploaded successfully.')
@@ -88,9 +108,10 @@ const ImageDropzone = ({
 
   return (
     <div {...getRootProps()} className={dropZoneStyle} data-testid='dropzone'>
+      {/*Change this conditional below so that when the user toggles back and forth between the Links and Profile, the preview?.preview object is retained. Do we need a ref?*/}
       {preview && (
         <Image
-          src={preview.preview}
+          src={preview?.preview}
           alt='profile picture'
           width={160}
           height={160}
