@@ -40,9 +40,7 @@ const ProfilePreview = ({
     url: '',
     platform: '',
   }
-  const imageSrc = profile?.profileImage
-    ? profile?.profileImage
-    : preview?.preview
+  const imageSrc = preview?.preview || profile?.profileImage
 
   if (isLoading) {
     return <PreviewSkeleton isOverlay={isOverlay} />
