@@ -40,7 +40,9 @@ const ProfilePreview = ({
     url: '',
     platform: '',
   }
-  const imageSrc = preview?.preview || profile?.profileImage
+  const imageSrc = profile?.profileImage
+    ? profile?.profileImage
+    : preview?.preview
 
   if (isLoading) {
     return <PreviewSkeleton isOverlay={isOverlay} />
@@ -144,4 +146,4 @@ const ProfilePreview = ({
   )
 }
 
-export default React.memo(ProfilePreview)
+export default ProfilePreview

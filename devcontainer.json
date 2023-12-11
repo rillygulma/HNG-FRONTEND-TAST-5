@@ -1,0 +1,15 @@
+{
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "matt-o-west/dev-links": {
+          "permissions": {
+            "contents": "read",
+            "metadata": "read",
+            "sourceControl": "read"
+          }
+        }
+      }
+    }
+  }
+}
