@@ -39,6 +39,7 @@ const Editor = () => {
   const router = useRouter()
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [preview, setPreview] = useState<{ preview: string } | null>(null)
+  const [imageUploadTrigger, setImageUploadTrigger] = useState(false)
 
   const fetcher = async (url: string) => {
     const response = await axios.get(url).then((res) => res.data)
@@ -48,7 +49,9 @@ const Editor = () => {
     }
     return response
   }
-  const { error, isLoading, data } = useSWR('/api/profile', fetcher)
+  const { error, isLoading, data } = useSWR('/api/profile', fetcher, {
+    refreshInterval: 1000,
+  })
   const [profile, setProfile] = useState<User>(
     data || {
       links: data?.links || [],
@@ -73,16 +76,18 @@ const Editor = () => {
     if (status === 'unauthenticated') {
       router.push('/signin')
     }
-    if (status === 'authenticated') {
-      console.log(session, status)
-    }
   }, [session, status, router])
 
   useEffect(() => {
+    console.log('refetch profile')
+
     if (data) {
+      console.log('set profile image: ' + data.profileImage)
       setProfile(data)
     }
-  }, [data])
+
+    // add state variable to dependency array here to trigger data refetch for the profile image
+  }, [data, imageUploadTrigger])
 
   return (
     <>
@@ -113,6 +118,7 @@ const Editor = () => {
               setProfile={setProfile}
               preview={preview}
               setPreview={setPreview}
+              setImageUploadTrigger={setImageUploadTrigger}
             />
           </div>
         )}

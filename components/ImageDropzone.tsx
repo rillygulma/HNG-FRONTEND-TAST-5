@@ -49,6 +49,7 @@ interface ImageDropzoneProps {
     profileImage: string
     updatedAt: Date
   }
+  setImageUploadTrigger: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ImageDropzone = ({
@@ -58,6 +59,7 @@ const ImageDropzone = ({
   preview,
   setProfile,
   profile,
+  setImageUploadTrigger,
 }: ImageDropzoneProps) => {
   const isMobile = useMobileDetect()
 
@@ -80,13 +82,15 @@ const ImageDropzone = ({
 
         try {
           const response = await axios.post('/api/imageUpload', formData)
-          console.log(response.data.imageUrl)
-
           // If the image is uploaded successfully, update the profile image
           setProfile((prevProfile) => ({
             ...prevProfile,
-            profileImage: response.data.profileImage,
+            profileImage: `${
+              response.data.profileImage
+            }?timestamp=${new Date().getTime()}`,
           }))
+
+          setImageUploadTrigger((prev) => !prev)
 
           toast.success('Image uploaded successfully.')
           URL.revokeObjectURL(previewUrl)
@@ -113,8 +117,8 @@ const ImageDropzone = ({
         <Image
           src={preview?.preview}
           alt='profile picture'
-          width={160}
-          height={160}
+          width={140}
+          height={140}
           className={`border-blue border-2 w-auto ${
             isDragActive &&
             'border-secondary.blue border-2 blur hover:blur-sm hover:opacity-80'
