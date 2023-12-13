@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import Select from 'react-select'
 
 interface Link {
   id: string
@@ -119,6 +120,30 @@ const EditLinkBlock = ({
     keyof typeof platformOptions
   >
 
+  const options = keys.map((key) => ({
+    value: key,
+    label: (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Image
+          src={`/images/icon-${key}.svg`}
+          alt={`${platformOptions[key]} Icon`}
+          width={20}
+          height={20}
+        />
+        <span style={{ marginLeft: '10px' }}>{platformOptions[key]}</span>
+      </div>
+    ),
+  }))
+
+  const customStyles = {
+    option: (provided: any, state: any) => ({
+      ...provided,
+      display: 'flex',
+      alignItems: 'center',
+    }),
+    // other style overrides
+  }
+
   return (
     <article
       ref={setNodeRef}
@@ -154,20 +179,14 @@ const EditLinkBlock = ({
       <div className='pt-1 px-4 space-y-4'>
         <div>
           <label htmlFor='platform'> Platform</label>
-          <select
-            name='platform'
-            className='w-full px-4 py-2 mt-2 border rounded-md  text-black placeholder-primary.gray bg-white'
-            value={platform}
-            onChange={(e) =>
-              handlePlatformChange(e.target.value as PlatformKeys)
+          <Select
+            options={options}
+            styles={customStyles}
+            value={options.find((option) => option.value === platform)}
+            onChange={(selectedOption) =>
+              handlePlatformChange(selectedOption.value)
             }
-          >
-            {keys.map((key, i) => (
-              <option value={key} key={i}>
-                {platformOptions[key]}
-              </option>
-            ))}
-          </select>
+          />
         </div>
         <div>
           <label htmlFor='link'> Link</label>

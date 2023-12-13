@@ -50,7 +50,7 @@ export async function POST(
     return NextResponse.json(
       {
         errorType: 'USERNAME',
-        error: 'Username must have minimum three characters.',
+        error: 'Username must have minimum three characters, no spaces.',
       },
       { status: 400 }
     )
@@ -90,7 +90,7 @@ export async function POST(
 
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
-  const userUrl = `http://https://dev-links-nreya5hcf-matt-o-west-portfolio.vercel.app/${username}` // use devlinks.vercel.app for production
+  const userUrl = `https://dev-links-black.vercel.app/${username}` // use devlinks.vercel.app for production
   const user = await db.user.create({
     data: {
       email,

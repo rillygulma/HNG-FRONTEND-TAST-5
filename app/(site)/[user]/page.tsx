@@ -29,7 +29,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
   //console.log(user)
 
   const { data } = await axios.post(
-    'http://https://dev-links-nreya5hcf-matt-o-west-portfolio.vercel.app/api/devLink',
+    'https://dev-links-black.vercel.app/api/devLink',
     {
       user: user,
     }

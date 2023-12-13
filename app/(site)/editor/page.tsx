@@ -49,9 +49,7 @@ const Editor = () => {
     }
     return response
   }
-  const { error, isLoading, data } = useSWR('/api/profile', fetcher, {
-    refreshInterval: 1000,
-  })
+  const { error, isLoading, data } = useSWR('/api/profile', fetcher)
   const [profile, setProfile] = useState<User>(
     data || {
       links: data?.links || [],

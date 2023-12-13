@@ -68,6 +68,9 @@ const ProfilePreview = ({
             className='rounded-full absolute top-0 left-0 z-10'
           />
         )}
+        {!imageSrc && (
+          <div className='rounded-full absolute top-0 left-0 z-10 bg-secondary.gray w-full h-full' />
+        )}
       </div>
 
       <h1 className={`${isOverlay ? 'text-3xl' : 'text-4xl'} mt-4 text-black`}>
