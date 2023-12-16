@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import Select from 'react-select'
+import Select, { components } from 'react-select'
+import DropdownChevron from './DropdownChevron'
 
 interface Link {
   id: string
@@ -82,6 +83,16 @@ const baseUrlMap: BaseUrlMap = {
   website: 'https://your.website.dev',
 }
 
+const DropdownIndicator = (props: any) => {
+  return (
+    <components.DropdownIndicator {...props}>
+      <DropdownChevron
+        style={{ transform: props.isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+      />
+    </components.DropdownIndicator>
+  )
+}
+
 const EditLinkBlock = ({
   link,
   index,
@@ -94,13 +105,18 @@ const EditLinkBlock = ({
     useSortable({ id: link.id })
   const [platform, setPlatform] = useState(link.platform || '')
   const [url, setUrl] = useState(link.url || '')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
+  const onDropdownOpen = () => {
+    setIsDropdownOpen(true)
   }
 
-  const handlePlatformChange = (newPlatform: PlatformKeys) => {
+  const onDropdownClose = () => {
+    setIsDropdownOpen(false)
+  }
+
+  const handlePlatformChange = (selectedOption: string) => {
+    const newPlatform = selectedOption || 'default'
     setPlatform(newPlatform)
     // If the new platform has a base URL and the current URL is empty or has the previous base URL, update it
     const base = baseUrlMap[newPlatform] || ''
@@ -112,9 +128,10 @@ const EditLinkBlock = ({
     }
   }
 
-  useEffect(() => {
-    updateLink(index, { id: link.id, platform, url })
-  }, [platform, url, index, link.id])
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }
 
   const keys = Object.keys(platformOptions) as Array<
     keyof typeof platformOptions
@@ -122,27 +139,40 @@ const EditLinkBlock = ({
 
   const options = keys.map((key) => ({
     value: key,
-    label: (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Image
-          src={`/images/icon-${key}.svg`}
-          alt={`${platformOptions[key]} Icon`}
-          width={20}
-          height={20}
-        />
-        <span style={{ marginLeft: '10px' }}>{platformOptions[key]}</span>
-      </div>
-    ),
+    label:
+      key !== 'default' ? (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Image
+            src={`/images/icon-${key}.svg`}
+            alt={`${platformOptions[key]} Icon`}
+            width={20}
+            height={20}
+          />
+          <span style={{ marginLeft: '10px' }}>{platformOptions[key]}</span>
+        </div>
+      ) : (
+        platformOptions[key] // Just the label for the default option
+      ),
   }))
 
   const customStyles = {
+    control: (provided: any) => ({
+      ...provided,
+      // Increase padding inside the control
+      padding: '0.25rem', // Adjust this value as needed
+    }),
     option: (provided: any, state: any) => ({
       ...provided,
       display: 'flex',
       alignItems: 'center',
+      fontFamily: 'Instrument Sans, sans-serif',
     }),
     // other style overrides
   }
+
+  useEffect(() => {
+    updateLink(index, { id: link.id, platform, url })
+  }, [platform, url, index, link.id])
 
   return (
     <article
@@ -182,9 +212,21 @@ const EditLinkBlock = ({
           <Select
             options={options}
             styles={customStyles}
-            value={options.find((option) => option.value === platform)}
+            components={{
+              DropdownIndicator: (props) => (
+                <DropdownIndicator {...props} isOpen={isDropdownOpen} />
+              ),
+            }}
+            className='mt-2'
+            value={
+              options.find((option) => option.value === platform) || options[0]
+            }
+            onMenuOpen={onDropdownOpen}
+            onMenuClose={onDropdownClose}
             onChange={(selectedOption) =>
-              handlePlatformChange(selectedOption.value)
+              handlePlatformChange(
+                selectedOption ? selectedOption.value : 'default'
+              )
             }
           />
         </div>
@@ -193,7 +235,7 @@ const EditLinkBlock = ({
           <input
             name='link'
             type='text'
-            className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border rounded-md text-black placeholder-primary.gray bg-white ${
+            className={`input-with-icon w-full px-4 pl-10 py-2 mt-2 border border-secondary.gray rounded-md text-black placeholder-primary.gray bg-white ${
               error ? 'error-container' : null
             }`}
             value={url}

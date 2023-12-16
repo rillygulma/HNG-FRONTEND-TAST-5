@@ -92,7 +92,9 @@ const CustomLinkBlock = ({
   return (
     <div
       className={`flex items-center justify-between ${
-        platform ? getPlatformStyle(social) : 'bg-secondary.gray'
+        platform && platform !== 'default'
+          ? getPlatformStyle(social)
+          : 'bg-secondary.gray'
       } ${(platform === 'x' || platform === 'website') && 'text-black'} ${
         isOverlay ? 'm-2 text-md' : 'm-5 text-xl'
       } ${shape} rounded-md`}
@@ -105,7 +107,7 @@ const CustomLinkBlock = ({
         className='flex items-center justify-between w-full'
       >
         <div className='flex items-center'>
-          {platform && (
+          {platform && platform !== 'default' && (
             <Image
               src={`/images/${getIcon(social)}`}
               className='z-20 w-8 h-8 ml-4 fill-white'
@@ -118,7 +120,7 @@ const CustomLinkBlock = ({
             {getPlatform(platform)}
           </span>
         </div>
-        {platform && (
+        {platform && platform !== 'default' && (
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='10'
