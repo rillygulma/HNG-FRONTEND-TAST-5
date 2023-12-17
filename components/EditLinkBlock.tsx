@@ -4,6 +4,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Select, { components } from 'react-select'
 import DropdownChevron from './DropdownChevron'
+import Icon from './Icon'
 
 interface Link {
   id: string
@@ -142,12 +143,7 @@ const EditLinkBlock = ({
     label:
       key !== 'default' ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Image
-            src={`/images/icon-${key}.svg`}
-            alt={`${platformOptions[key]} Icon`}
-            width={20}
-            height={20}
-          />
+          <Icon name={key} color='gray' size='18px' />
           <span style={{ marginLeft: '10px' }}>{platformOptions[key]}</span>
         </div>
       ) : (
