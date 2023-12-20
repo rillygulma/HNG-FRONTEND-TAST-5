@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import CustomLinkBlock from './CustomLinkBlock'
 import PreviewSkeleton from './skeletons/PreviewSkeleton'
@@ -40,7 +40,11 @@ const ProfilePreview = ({
     url: '',
     platform: '',
   }
-  const imageSrc = preview?.preview || profile?.profileImage
+  const imageSrc = profile?.profileImage
+
+  useEffect(() => {
+    console.log('Profile image url: ' + profile?.profileImage)
+  }, [])
 
   if (isLoading) {
     return <PreviewSkeleton isOverlay={isOverlay} />
