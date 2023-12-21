@@ -47,7 +47,7 @@ export async function POST(req: NextRequest, res: Response) {
     try {
       const data = await s3Client.send(putObjectCommand)
       console.log(data)
-      const s3FileUrl = `https://${process.env.AWS_BUCKET}.s3.amazonaws.com/${uniqueS3Key}`
+      const s3FileUrl = `https://${process.env.AWS_BUCKET}.s3.amazonaws.com/${uniqueS3Key}?${putObjectParams.Body.byteLength}`
       await db.user.update({
         where: {
           id: user.id,
