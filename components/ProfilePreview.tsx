@@ -40,7 +40,14 @@ const ProfilePreview = ({
     url: '',
     platform: '',
   }
-  const imageSrc = profile?.profileImage
+  const uniqueQuery = `?${new Date().getTime()}` // Or any other unique value generator
+  let imageSrc
+
+  if (profile?.profileImage) {
+    imageSrc = `${profile?.profileImage}${uniqueQuery}`
+  } else if (profile?.profileImage === '') {
+    imageSrc = ''
+  }
 
   useEffect(() => {
     console.log('Profile image url: ' + profile?.profileImage)

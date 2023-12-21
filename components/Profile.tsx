@@ -49,7 +49,6 @@ interface ProfileProps {
     preview: string
   } | null
   setPreview: React.Dispatch<React.SetStateAction<{ preview: string } | null>>
-  setImageUploadTrigger: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const Profile = ({
@@ -57,7 +56,6 @@ const Profile = ({
   setProfile,
   preview,
   setPreview,
-  setImageUploadTrigger,
 }: ProfileProps) => {
   const isMobile = useMobileDetect()
   const [image, setImage] = useState<File | null>(null)
@@ -132,7 +130,6 @@ const Profile = ({
           preview={preview}
           setProfile={setProfile}
           profile={profile}
-          setImageUploadTrigger={setImageUploadTrigger}
         />
         <p className='text-xs text-gray-500 desktop:ml-2 tablet:ml-6'>
           Image must be below 1024x1024px. Use PNG or JPG format.

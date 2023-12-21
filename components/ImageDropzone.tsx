@@ -3,6 +3,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { toast } from 'react-hot-toast'
 import { useDropzone } from 'react-dropzone'
+import { useSWRConfig } from 'swr'
 import useMobileDetect from '../hooks/useMobileDetect'
 
 interface Link {
@@ -49,7 +50,6 @@ interface ImageDropzoneProps {
     profileImage: string
     updatedAt: Date
   }
-  setImageUploadTrigger: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const ImageDropzone = ({
@@ -59,9 +59,9 @@ const ImageDropzone = ({
   preview,
   setProfile,
   profile,
-  setImageUploadTrigger,
 }: ImageDropzoneProps) => {
   const isMobile = useMobileDetect()
+  const { mutate } = useSWRConfig()
 
   useEffect(() => {
     console.log('Profile updated:', profile?.profileImage)
@@ -87,10 +87,13 @@ const ImageDropzone = ({
             ...prevProfile,
             profileImage: `${
               response.data.profileImage
-            }?timestamp=${new Date().getTime()}`,
+            }?${new Date().getTime()}`,
           }))
-
-          setImageUploadTrigger((prev) => !prev)
+          await mutate(
+            '/api/profile',
+            { ...profile, profileImage: response.data.profileImage },
+            false
+          )
 
           toast.success('Image uploaded successfully.')
           URL.revokeObjectURL(previewUrl)
