@@ -54,7 +54,6 @@ const CustomLinkBlock = ({
     stackoverflow: 'stackoverflow-bg',
     hashnode: 'hashnode-bg',
     gitlab: 'gitlab-bg',
-
     website: 'website-bg',
   })
 
@@ -73,7 +72,6 @@ const CustomLinkBlock = ({
     stackoverflow: 'Stack Overflow',
     hashnode: 'Hashnode',
     gitlab: 'GitLab',
-
     website: 'Website',
   })
 

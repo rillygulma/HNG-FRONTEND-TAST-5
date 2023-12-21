@@ -63,11 +63,6 @@ const ImageDropzone = ({
   const isMobile = useMobileDetect()
   const { mutate } = useSWRConfig()
 
-  useEffect(() => {
-    console.log('Profile updated:', profile?.profileImage)
-    console.log('Preview updated:', preview)
-  }, [profile, preview])
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: async (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
