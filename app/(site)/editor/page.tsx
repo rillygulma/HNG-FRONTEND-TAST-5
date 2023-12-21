@@ -77,15 +77,15 @@ const Editor = () => {
   }, [session, status, router])
 
   useEffect(() => {
-    console.log('refetch profile')
-
     if (data) {
-      console.log('set profile image: ' + data.profileImage)
       setProfile(data)
     }
-
-    // add state variable to dependency array here to trigger data refetch for the profile image
   }, [data])
+
+  useEffect(() => {
+    // Reset the preview state when switching tabs
+    setPreview(null)
+  }, [activeButton])
 
   return (
     <>

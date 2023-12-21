@@ -23,7 +23,7 @@ model Link {
 
 model User {
   id            String       @default(cuid()) @id
-  username      String?      @unique
+  username      String       @unique
   firstname     String?
   lastname      String?
   email         String       @unique

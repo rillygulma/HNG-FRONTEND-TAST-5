@@ -55,10 +55,13 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
               className='w-auto rounded-full'
             />
           )}
+          {!userImage && (
+            <div className='rounded-full absolute top-0 left-0 z-10 bg-secondary.gray w-full h-full' />
+          )}
         </div>
         <h1 className='text-4xl mt-4 text-black'>
           <span className='text-primary.blue font-semibold'>{'{'}</span>
-          {name || userName || 'Your username here'}
+          {data?.firstname !== null ? name : userName}
           <span className='text-primary.blue font-semibold'>{'}'}</span>
         </h1>
         <h3 className='text-xl mt-2 text-black'>
