@@ -92,13 +92,35 @@ export default function SignIn() {
                 required
               />
             </div>
-
-            <button
-              type='submit'
-              className='w-full py-2 px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'
-            >
-              Login
-            </button>
+            {error && <p className='form-validation-error'>{error}</p>}
+            <div className='flex justify-end'>
+              <Link href='/forgot-password'>
+                <span className='text-primary.blue hover:text-secondary.blue'>
+                  Forgot password?
+                </span>
+              </Link>
+            </div>
+            <div className='flex flex-col space-y-4 mt-6'>
+              <button
+                type='submit'
+                className='w-full py-[0.82rem] px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'
+              >
+                Login
+              </button>
+              <button
+                className='w-full py-[0.75rem] px-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
+                onClick={() => signIn('github')}
+              >
+                <Image
+                  src='./images/icon-github.svg'
+                  alt='Github Logo'
+                  width={20}
+                  height={20}
+                  className='inline-block mr-5 mb-1'
+                />
+                Login with Github
+              </button>
+            </div>
           </form>
           <div className='flex mt-4 justify-center flex-wrap'>
             <span className='text-black'>Don&apos;t have an account?</span>
@@ -106,7 +128,7 @@ export default function SignIn() {
               href='/register'
               className='desktop:block phone:flex phone:flex-nowrap justify-center ml-2 text-primary.blue hover:text-secondary.blue'
             >
-              Create one
+              Create one.
             </Link>
           </div>
         </div>
