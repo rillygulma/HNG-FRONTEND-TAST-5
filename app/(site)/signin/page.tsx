@@ -109,7 +109,7 @@ export default function SignIn() {
               </button>
               <button
                 className='w-full py-[0.75rem] px-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
-                onClick={() => signIn('github')}
+                onClick={() => signIn('github', { callbackUrl: '/editor' })}
               >
                 <Image
                   src='./images/icon-github.svg'
