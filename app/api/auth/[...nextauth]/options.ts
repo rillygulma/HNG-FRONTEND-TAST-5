@@ -19,7 +19,7 @@ export const options: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
       profile(profile) {
-        console.log('Github Profile: ' + profile)
+        console.log('Github Profile: ', profile)
         return profile
       },
     }),
@@ -63,32 +63,42 @@ export const options: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
   },
   debug: process.env.NODE_ENV === 'development',
   callbacks: {
+    async jwt({ token, user, account, profile }) {
+      // Add user data to the token right after signing in
+      if (account && user) {
+        token.accessToken = account.access_token
+        token.user = user
+      }
+      return token
+    },
+    async session({ session, token }) {
+      if (token.user) {
+        session.user = token.user
+      }
+      return session
+    },
     async signIn({ user, account, profile }): Promise<boolean> {
       if (account?.provider === 'github') {
-        const email = profile?.email?.[0]?.valueOf()
-          ? profile.email[0].valueOf()
-          : user?.email
-        const avatar = profile?.photos?.[0]?.value
-        const username = profile?.username
+        console.log('Profile in signIn callback:', profile) // Log the profile
+        const email = profile?.email || user?.email
+        const avatar = profile?.avatar_url // Assuming 'avatar_url' is the correct field
+        const username = profile?.login // Assuming 'login' is the GitHub username
 
-        await db.user.upsert({
-          where: {
-            email,
-          },
-          create: {
-            email,
-            profileImage: avatar,
-            username,
-          },
-          update: {
-            email,
-            profileImage: avatar,
-            username,
-          },
-        })
+        try {
+          await db.user.upsert({
+            where: { email },
+            create: { email, profileImage: avatar, username },
+            update: { profileImage: avatar, username },
+          })
+        } catch (error) {
+          console.error('Error in signIn callback:', error)
+          return false
+        }
       }
       return true
     },

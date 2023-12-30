@@ -175,24 +175,6 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
     })
   }, [links, setProfile])
 
-  // useSWR with this instead
-  useEffect(() => {
-    const getLinks = async () => {
-      axios
-        .get('/api/links')
-        .then((response) => response.data)
-        .then((data) => {
-          console.log(data)
-          setLinks(data.links)
-        })
-        .catch((error) => {
-          console.log(error) // create error boundary if links are corrupted, or display graphic if user has no links
-        })
-    }
-
-    getLinks()
-  }, [])
-
   return (
     <section className='flex flex-col col-span-1 col-start-2 row-span-1 row-start-1 self-start justify-start z-20 bg-white text-black px-4 pt-2 desktop:w-full tablet:w-full phone:w-80 rounded-md phone:mt-4 m-auto'>
       <h1 className='py-4'>Customize your links</h1>

@@ -80,32 +80,36 @@ export async function POST(req: Request, res: Response) {
 
 export async function GET(): Promise<NextResponse> {
   const session = await getServerSession(options)
-  console.log(session)
+  console.log('Session:', session)
 
+  // Check if the session and session user email exists
+  if (!session || !session.user?.email) {
+    return NextResponse.json({ error: 'Session not found.' }, { status: 401 })
+  }
+
+  const userEmail = session.user.email
   const user = await db.user.findUnique({
-    where: { email: session?.user?.email as string },
+    where: { email: userEmail },
     include: {
       links: true,
     },
   })
 
-  const userUrl = `https://dev-links-nreya5hcf-matt-o-west-portfolio.vercel.app/${user?.username}`
+  if (!user) {
+    return NextResponse.json({ error: 'User not found.' }, { status: 404 })
+  }
 
-  if (!user?.userUrl) {
+  // Construct user URL
+  const userUrl = `https://dev-links-nreya5hcf-matt-o-west-portfolio.vercel.app/${user.username}`
+
+  // Update user URL if it doesn't exist
+  if (!user.userUrl) {
     await db.user.update({
-      where: { email: session?.user?.email as string },
+      where: { email: userEmail },
       data: {
         userUrl: userUrl,
       },
     })
-  }
-
-  if (!user) {
-    return NextResponse.json({ error: 'User not found' }, { status: 404 })
-  }
-
-  if (!user.links) {
-    return NextResponse.json({ error: 'No links found' }, { status: 404 })
   }
 
   return NextResponse.json(user)
