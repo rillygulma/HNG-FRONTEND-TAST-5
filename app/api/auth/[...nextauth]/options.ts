@@ -82,25 +82,60 @@ export const options: NextAuthOptions = {
       }
       return session
     },
-    async signIn({ user, account, profile }): Promise<boolean> {
-      if (account?.provider === 'github') {
-        console.log('Profile in signIn callback:', profile) // Log the profile
-        const email = profile?.email || user?.email
-        const avatar = profile?.avatar_url // Assuming 'avatar_url' is the correct field
-        const username = profile?.login // Assuming 'login' is the GitHub username
+    async signIn({ user, account, profile, email }) {
+      let isSuccessful = false
 
-        try {
-          await db.user.upsert({
-            where: { email },
-            create: { email, profileImage: avatar, username },
-            update: { profileImage: avatar, username },
+      if (account?.provider === 'github') {
+        const githubProfile = profile as GithubProfile
+        const existingUser = await db.user.findUnique({
+          where: {
+            email: profile?.email,
+          },
+        })
+
+        if (existingUser) {
+          await db.account.upsert({
+            where: {
+              provider_providerAccountId: {
+                provider: account.provider,
+                providerAccountId: account.providerAccountId,
+              },
+            },
+            create: {
+              userId: existingUser.id,
+              type: account.type,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+              access_token: account.access_token,
+              refresh_token: account.refresh_token,
+            },
+            update: {
+              // Update any fields if necessary
+            },
           })
-        } catch (error) {
-          console.error('Error in signIn callback:', error)
-          return false
+          isSuccessful = true
+        } else {
+          await db.user.create({
+            data: {
+              email: profile?.email as string,
+              username: githubProfile.login,
+              profileImage: githubProfile.avatar_url,
+              accounts: {
+                create: {
+                  type: account.type,
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                  access_token: account.access_token,
+                  refresh_token: account.refresh_token,
+                },
+              },
+            },
+          })
+          isSuccessful = true
         }
       }
-      return true
+
+      return isSuccessful
     },
   },
 }
