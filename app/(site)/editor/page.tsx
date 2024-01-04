@@ -50,7 +50,19 @@ const Editor = () => {
   }
 
   const { error, isLoading, data } = useSWR('/api/profile', fetcher)
-  const [profile, setProfile] = useState<User>(data)
+  const [profile, setProfile] = useState<User>({
+    links: [],
+    id: '',
+    userUrl: '',
+    createdAt: new Date(),
+    userId: '',
+    username: '',
+    firstname: '',
+    lastname: '',
+    email: '',
+    profileImage: '',
+    updatedAt: new Date(),
+  })
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'

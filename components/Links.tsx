@@ -108,12 +108,9 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
   }
 
   const removeLink = (index: number) => {
-    console.log('links length: ' + links.length)
     const newLinks = [...links].filter((link) => link.id !== links[index].id)
     setLinks(newLinks)
-    console.log('new links length: ' + newLinks.length)
     setUserHasModifiedLinks(true)
-    console.log('links: ' + links)
   }
 
   const handleUpdateLinks = async (e: React.FormEvent) => {
@@ -125,7 +122,6 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       })
       .then(() => {
         toast.success('Links saved.')
-        console.log('links sent to server')
       })
       .catch((err) => {
         if (err.response && err.response.data && err.response.data.errors) {
@@ -154,10 +150,8 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       try {
         const response = await axios.post('/api/links', { links: [] })
         toast.success('All links removed.')
-        console.log('All links removed on server:', response.data)
       } catch (error) {
         toast.error('An error occurred while removing your links.')
-        console.error('Error removing all links:', error)
       }
     }
 

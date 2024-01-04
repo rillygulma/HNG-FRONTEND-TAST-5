@@ -85,6 +85,10 @@ export const options: NextAuthOptions = {
     async signIn({ user, account, profile, email }) {
       let isSuccessful = false
 
+      if (account?.provider === 'credentials') {
+        isSuccessful = true
+      }
+
       if (account?.provider === 'github') {
         const githubProfile = profile as GithubProfile
         const existingUser = await db.user.findUnique({

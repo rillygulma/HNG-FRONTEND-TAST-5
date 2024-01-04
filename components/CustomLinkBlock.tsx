@@ -87,6 +87,8 @@ const CustomLinkBlock = ({
     return platforms[platform as PlatformKeys]
   }
 
+  console.log(platform)
+
   return (
     <div
       className={`flex items-center justify-between ${
@@ -115,7 +117,7 @@ const CustomLinkBlock = ({
             />
           )}
           <span className=' mt-0.5 ml-4 font-light'>
-            {getPlatform(platform)}
+            {getPlatform(platform) || platform}
           </span>
         </div>
         {platform && platform !== 'default' && (
