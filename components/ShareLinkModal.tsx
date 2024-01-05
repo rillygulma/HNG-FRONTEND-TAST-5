@@ -51,8 +51,8 @@ const ShareModal = ({ isOpen, onClose, uniqueUrl }: ShareModalProps) => {
   return (
     isOpen && (
       <FocusLock returnFocus>
-        <div className='fixed inset-0 z-50 flex justify-center items-start m-20'>
-          <div className='bg-white flex items-center py-2 rounded-lg w-auto desktop:w-[30rem] tablet:w-[32rem] phone:w-[24rem] shadow-lg'>
+        <div className='fixed inset-0 z-50 flex justify-center mt-20 items-start m-auto w-auto'>
+          <div className='bg-white flex items-center justify-between py-2 rounded-lg tablet:w-[34rem] phone:w-96 shadow-lg'>
             <button
               onClick={onClose}
               className='px-4 py-2 rounded-md'
