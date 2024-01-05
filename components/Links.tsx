@@ -199,15 +199,6 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
     }
   }, [profile.links, userHasModifiedLinks])
 
-  useEffect(() => {
-    setProfile((prevProfile) => {
-      return {
-        ...prevProfile,
-        links: profile.links,
-      }
-    })
-  }, [profile.links, setProfile])
-
   return (
     <section className='flex flex-col col-span-1 col-start-2 row-span-1 row-start-1 self-start justify-start z-20 bg-white text-black px-4 pt-2 desktop:w-full tablet:w-full phone:w-80 rounded-md phone:mt-4 m-auto'>
       <h1 className='py-4'>Customize your links</h1>
