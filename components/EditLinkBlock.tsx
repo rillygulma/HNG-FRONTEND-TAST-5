@@ -154,8 +154,7 @@ const EditLinkBlock = ({
   const customStyles = {
     control: (provided: any) => ({
       ...provided,
-      // Increase padding inside the control
-      padding: '0.25rem', // Adjust this value as needed
+      padding: '0.25rem',
     }),
     option: (provided: any, state: any) => ({
       ...provided,

@@ -31,6 +31,20 @@ interface Link {
   error?: string
 }
 
+interface Profile {
+  links: Link[]
+  id: string
+  userUrl: string
+  createdAt: Date
+  userId: string
+  username: string
+  firstname: string
+  lastname: string
+  email: string
+  profileImage: string
+  updatedAt: Date
+}
+
 interface LinksProps {
   profile: {
     links: Link[]
@@ -67,7 +81,7 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-  const [links, setLinks] = useState(profile?.links)
+
   const [userHasModifiedLinks, setUserHasModifiedLinks] = useState(false)
   const [errors, setErrors] = useState<Errors[]>([])
   const [errorType, setErrorType] = useState('TOAST_ERROR')
@@ -75,17 +89,20 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
 
-    if (over) {
-      const activeLink = links.find((item: Link) => item.id === active.id)
-      const overLink = links.find((item: Link) => item.id === over.id)
+    if (active.id !== over?.id) {
+      setProfile((prevProfile) => {
+        const activeIndex = prevProfile.links.findIndex(
+          (link) => link.id === active.id
+        )
+        const overIndex = prevProfile.links.findIndex(
+          (link) => link.id === over?.id
+        )
 
-      if (activeLink && overLink) {
-        setLinks((prevLinks: Link[]) => {
-          const oldIndex = prevLinks.indexOf(activeLink)
-          const newIndex = prevLinks.indexOf(overLink)
-          return arrayMove(prevLinks, oldIndex, newIndex)
-        })
-      }
+        return {
+          ...prevProfile,
+          links: arrayMove(prevProfile.links, activeIndex, overIndex),
+        }
+      })
     }
   }
 
@@ -95,30 +112,47 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       url: '',
       platform: '',
     }
-    const arr = new Array(...(links || [])).concat(newLink)
-    setLinks(arr)
+    const arr = new Array(...(profile.links || [])).concat(newLink)
+    setProfile((prevProfile) => {
+      return {
+        ...prevProfile,
+        links: arr,
+      }
+    })
     setUserHasModifiedLinks(true)
   }
 
   const updateLink = (index: number, updatedLink: Link) => {
-    const newLinks = [...links]
+    const newLinks = [...profile.links]
     newLinks[index] = updatedLink
-    setLinks(newLinks)
+    setProfile((prevProfile) => {
+      return {
+        ...prevProfile,
+        links: newLinks,
+      }
+    })
     setUserHasModifiedLinks(true)
   }
 
   const removeLink = (index: number) => {
-    const newLinks = [...links].filter((link) => link.id !== links[index].id)
-    setLinks(newLinks)
+    const newLinks = [...profile.links].filter(
+      (link) => link.id !== profile.links[index].id
+    )
+    setProfile((prevProfile) => {
+      return {
+        ...prevProfile,
+        links: newLinks,
+      }
+    })
     setUserHasModifiedLinks(true)
   }
 
   const handleUpdateLinks = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Sending the following links to server:', links)
+    console.log('Sending the following links to server:', profile.links)
     axios
       .post('/api/links', {
-        links: links,
+        links: profile.links,
       })
       .then(() => {
         toast.success('Links saved.')
@@ -127,7 +161,7 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
         if (err.response && err.response.data && err.response.data.errors) {
           const errorArray = err.response.data.errors // Assuming this is an array of error objects
           // Update the links with error messages based on their IDs
-          const updatedLinksWithErrors = links.map((link) => {
+          const updatedLinksWithErrors = profile.links.map((link) => {
             const errorForThisLink = errorArray.find(
               (error: Errors) => error.id === link.id
             )
@@ -137,7 +171,12 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
             }
           })
 
-          setLinks(updatedLinksWithErrors) // Store the updated links with their errors
+          setProfile((prevProfile) => {
+            return {
+              ...prevProfile,
+              links: updatedLinksWithErrors,
+            }
+          }) // Store the updated links with their errors
         } else {
           // Handle other types of errors
           toast.error('An error occurred while saving your links.')
@@ -155,25 +194,19 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       }
     }
 
-    if (links.length === 0 && userHasModifiedLinks) {
+    if (profile.links.length === 0 && userHasModifiedLinks) {
       updateLinksOnServer()
     }
-  }, [links, userHasModifiedLinks])
+  }, [profile.links, userHasModifiedLinks])
 
   useEffect(() => {
     setProfile((prevProfile) => {
       return {
         ...prevProfile,
-        links: links,
+        links: profile.links,
       }
     })
-  }, [links, setProfile])
-
-  useEffect(() => {
-    if (profile?.links) {
-      setLinks(profile.links)
-    }
-  }, [profile, setProfile])
+  }, [profile.links, setProfile])
 
   return (
     <section className='flex flex-col col-span-1 col-start-2 row-span-1 row-start-1 self-start justify-start z-20 bg-white text-black px-4 pt-2 desktop:w-full tablet:w-full phone:w-80 rounded-md phone:mt-4 m-auto'>
@@ -187,7 +220,7 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
       <AddLinkButton addLink={addLink} />
       <form action='' className='w-full mb-4' onSubmit={handleUpdateLinks}>
         <div className='space-y-6'>
-          {!isLoading && links.length === 0 && (
+          {!isLoading && profile.links.length === 0 && (
             <article className='flex flex-col justify-center items-center py-8 pb-20 text-primary.gray text-sm z-50 bg-background rounded-md desktop:h-full phone:min-h-72 w-full my-4'>
               <Image
                 src='./images/illustration-empty.svg'
@@ -209,12 +242,12 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
             onDragEnd={handleDragEnd}
           >
             <SortableContext
-              items={links}
+              items={profile.links}
               strategy={verticalListSortingStrategy}
             >
               {isLoading && <LinksSkeleton />}
-              {links?.length > 0 &&
-                links?.map((link, index) => {
+              {profile.links?.length > 0 &&
+                profile.links?.map((link, index) => {
                   return (
                     <EditLinkBlock
                       link={link}
@@ -232,7 +265,7 @@ const Links = ({ profile, setProfile, isLoading }: LinksProps) => {
           </DndContext>
         </div>
         <div className='flex justify-end items-center'>
-          {links?.length > 0 && <SaveButton />}
+          {profile.links?.length > 0 && <SaveButton />}
         </div>
       </form>
     </section>
