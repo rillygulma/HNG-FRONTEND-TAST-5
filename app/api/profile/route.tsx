@@ -112,5 +112,7 @@ export async function GET(): Promise<NextResponse> {
     })
   }
 
+  console.log('User: ', user.links, 'User URL: ', user.userUrl)
+
   return NextResponse.json(user)
 }

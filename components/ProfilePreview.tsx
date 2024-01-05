@@ -42,9 +42,8 @@ const ProfilePreview = ({
   }
 
   const imageSrc = profile?.profileImage
-
   useEffect(() => {
-    console.log('Profile image url: ' + profile?.profileImage)
+    console.log('profile', profile)
   }, [])
 
   if (isLoading) {
@@ -92,7 +91,11 @@ const ProfilePreview = ({
           'Your Name Here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>
       </h1>
-      <h3 className='text-xl mt-2 text-black'>
+      <h3
+        className={`${
+          isOverlay && profile?.email?.length > 20 ? 'text-lg' : 'text-xl'
+        } mt-4 text-black`}
+      >
         <span className='text-primary.blue font-semibold'>{'{'}</span>
         {profile?.email || 'Your email here'}
         <span className='text-primary.blue font-semibold'>{'}'}</span>

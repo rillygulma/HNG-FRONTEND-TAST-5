@@ -11,7 +11,7 @@ import MobilePreview from '@/components/MobilePreview'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import useSWR from 'swr'
-
+import { useUser } from '../../../hooks/useUser'
 interface Link {
   id: string
   url: string
@@ -40,29 +40,24 @@ const Editor = () => {
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [preview, setPreview] = useState<{ preview: string } | null>(null)
 
-  const fetcher = async (url: string) => {
-    const response = await axios.get(url).then((res) => res.data)
-
-    if (response.error) {
-      toast.error(response.error || 'An unexpected error occurred.')
+  const { data, isLoading, isError } = useUser('/api/profile')
+  const [profile, setProfile] = useState<User>(
+    data || {
+      links: [],
+      id: '',
+      userUrl: '',
+      createdAt: new Date(),
+      userId: '',
+      username: '',
+      firstname: '',
+      lastname: '',
+      email: '',
+      profileImage: '',
+      updatedAt: new Date(),
     }
-    return response
-  }
+  )
 
-  const { error, isLoading, data } = useSWR('/api/profile', fetcher)
-  const [profile, setProfile] = useState<User>({
-    links: [],
-    id: '',
-    userUrl: '',
-    createdAt: new Date(),
-    userId: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    email: '',
-    profileImage: '',
-    updatedAt: new Date(),
-  })
+  console.log('data returned from profile: ', data)
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
@@ -75,16 +70,15 @@ const Editor = () => {
   }, [session, status, router])
 
   useEffect(() => {
-    if (data) {
-      setProfile(data)
-      console.log(data)
-    }
-  }, [data])
-
-  useEffect(() => {
     // Reset the preview state when switching tabs
     setPreview(null)
   }, [activeButton])
+
+  useEffect(() => {
+    if (data) {
+      setProfile(data)
+    }
+  }, [data])
 
   return (
     <>
