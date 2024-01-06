@@ -2,7 +2,7 @@
 import useSWR from 'swr'
 import axios from 'axios'
 
-export const useUser = (url: string) => {
+export const useGet = (url: string) => {
   const fetcher = async (url: string) => {
     const response = await axios.get(url)
     return response.data

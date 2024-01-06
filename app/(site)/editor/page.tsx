@@ -11,7 +11,7 @@ import MobilePreview from '@/components/MobilePreview'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import useSWR from 'swr'
-import { useUser } from '../../../hooks/useUser'
+import { useGet } from '../../../hooks/useGet'
 interface Link {
   id: string
   url: string
@@ -40,7 +40,7 @@ const Editor = () => {
   const [activeButton, setActiveButton] = useState('links') // 'links' or 'profile'
   const [preview, setPreview] = useState<{ preview: string } | null>(null)
 
-  const { data, isLoading, isError } = useUser('/api/profile')
+  const { data, isLoading, isError } = useGet('/api/profile')
   const [profile, setProfile] = useState<User>(
     data || {
       links: [],
@@ -56,8 +56,6 @@ const Editor = () => {
       updatedAt: new Date(),
     }
   )
-
-  console.log('data returned from profile: ', data)
 
   const gridStyle = isTablet
     ? 'flex flex-col items-center w-auto'
