@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { options } from '../auth/[...nextauth]/options'
-import { s3Client } from '../../../libs/awsClient'
+import { s3Client } from '../../../libs/aws'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Response } from 'express'
 
