@@ -37,6 +37,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  resetToken           String?   @db.Text
+  resetTokenExpiry     DateTime?
+
   @@map(name: "users")
 }
 
