@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
+import Modal from '../../../components/Modal'
+import ForgotPasswordForm from '../../../components/ForgotPasswordForm'
 
 export default function SignIn() {
   const [data, setData] = useState({
@@ -15,6 +17,7 @@ export default function SignIn() {
   const searchParams = useSearchParams()
   const loginError = searchParams.get('error') || null
   const [error, setSerror] = useState<string>(loginError || '')
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const { data: session, status } = useSession()
   const router = useRouter()
 
@@ -94,12 +97,18 @@ export default function SignIn() {
             </div>
             {error && <p className='form-validation-error'>{error}</p>}
             <div className='flex justify-end'>
-              <Link href='/forgot-password'>
+              <button type='button' onClick={() => setIsOpen(true)}>
                 <span className='text-primary.blue hover:text-secondary.blue'>
                   Forgot password?
                 </span>
-              </Link>
+              </button>
             </div>
+            {isOpen && (
+              <Modal defaultOpen={isOpen} onClose={() => setIsOpen(false)}>
+                {/* The content of the modal will go here, which could be a separate component */}
+                <ForgotPasswordForm />
+              </Modal>
+            )}
             <div className='flex flex-col space-y-4 mt-6'>
               <button
                 type='submit'

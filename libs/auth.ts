@@ -1,4 +1,6 @@
 import { db } from '../prisma/db.server'
+import { SendEmailCommand } from '@aws-sdk/client-ses' // ES Modules import
+import { sesClient } from './aws'
 import crypto from 'crypto'
 
 export async function generateResetToken(email: string) {
@@ -26,9 +28,44 @@ export async function generateResetToken(email: string) {
 
 export async function sendResetEmail(email: string, resetToken: string) {
   const msg = {
-    to: email,
-    from: 'DevLinks',
-    subject: 'Password Reset',
-    html: `<a href="https://yourapp.com/reset?token=${resetToken}">Click here to reset your password</a>`,
+    // SendEmailRequest
+    Source: 'pw@devlinks.app', // required
+    Destination: {
+      // Destination
+      ToAddresses: [
+        // AddressList
+        email,
+      ],
+    },
+    Message: {
+      // Message
+      Subject: {
+        // Content
+        Data: 'Password Reset', // required
+      },
+      Body: {
+        // Body
+        Text: {
+          Data: 'You requested a password reset?', // required
+        },
+        Html: {
+          Data: `<a href="https://localhost:3000/reset?token=${resetToken}">Click here to reset your password</a>`, // required
+        },
+      },
+    },
+    Tags: [
+      // MessageTagList
+      {
+        // MessageTag
+        Name: 'forgot-password', // required
+        Value: 'reset', // required
+      },
+    ],
   }
+
+  // send email
+  const command = new SendEmailCommand(msg)
+  const response = await sesClient.send(command)
+
+  return { msg, response }
 }
