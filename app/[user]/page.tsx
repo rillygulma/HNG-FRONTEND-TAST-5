@@ -52,6 +52,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
               alt='Profile Image'
               width={128}
               height={128}
+              objectFit='cover'
               className='w-auto rounded-full'
             />
           )}
