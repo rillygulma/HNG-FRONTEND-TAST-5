@@ -7,7 +7,7 @@ const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('')
   const router = useRouter()
 
-  const handleForgotPw = async (e) => {
+  const handleForgotPw = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
   }
 
