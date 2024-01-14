@@ -69,7 +69,7 @@ const ProfilePreview = ({
             alt='Profile Image'
             layout='fill'
             objectFit='cover'
-            className='rounded-full absolute top-0 left-0 z-10'
+            className='rounded-full absolute top-0 left-0 z-10 overflow-hidden'
           />
         )}
         {!imageSrc && (
