@@ -3,10 +3,7 @@ import { sendResetEmail, generateResetToken } from '@/libs/auth'
 
 import { db } from '@/prisma/db.server'
 
-export async function POST(
-  req: Request,
-  res: NextResponse
-): Promise<NextResponse> {
+export async function POST(req: Request): Promise<NextResponse> {
   const body = await req.json()
   const { email } = body
 
