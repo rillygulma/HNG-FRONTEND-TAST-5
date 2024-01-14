@@ -78,16 +78,6 @@ export async function POST(
     )
   }
 
-  if (usernameExists) {
-    return NextResponse.json(
-      {
-        errorType: 'TOAST_ERROR',
-        error: `Username ${usernameExists.username} already exists.`,
-      },
-      { status: 409 }
-    )
-  }
-
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
   const userUrl = `https://dev-links-black.vercel.app/${username}` // use devlinks.vercel.app for production

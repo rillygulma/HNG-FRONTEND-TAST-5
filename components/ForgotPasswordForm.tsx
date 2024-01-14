@@ -3,27 +3,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-interface ForgotPasswordProps {}
-
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState('')
   const router = useRouter()
-  if (router?.query) {
-    const { token } = router.query
-  }
 
-  const handleSubmit = async (e) => {
+  const handleForgotPw = async (e) => {
     e.preventDefault()
-    try {
-      await axios.post('/api/auth/resetPassword', { token, password })
-      router.push('/editor')
-    } catch (error) {
-      // Handle errors
-    }
   }
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-6 text-primary.gray'>
+    <form onSubmit={handleForgotPw} className='space-y-6 text-primary.gray'>
       <p>
         Enter your account email. If valid, a reset link will be sent to the
         address.

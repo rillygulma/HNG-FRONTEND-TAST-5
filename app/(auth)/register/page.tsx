@@ -17,7 +17,7 @@ export default function Register() {
   const [error, setError] = useState('Something went wrong')
   const [errorType, setErrorType] = useState('TOAST_ERROR')
 
-  const registerUser = async (e: React.FormEvent) => {
+  const handleRegisterUser = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (data.password !== data.passwordMatch) {
@@ -62,7 +62,7 @@ export default function Register() {
   return (
     <>
       <h1 className='text-2xl font-bold text-black mb-6'>Register</h1>
-      <form action='' onSubmit={registerUser}>
+      <form action='' onSubmit={handleRegisterUser}>
         <div className='mb-4'>
           <div className='mb-4'>
             <label
