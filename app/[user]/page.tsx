@@ -45,7 +45,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
     <div className='flex flex-col bg-background items-center h-screen'>
       <div className='w-full h-1/3 bg-primary.blue absolute rounded-b-3xl top-0 left-0 z-0' />
       <div className='flex flex-col items-center justify-center mt-10 rounded-xl shadow-2xl px-6 pb-4 w-auto bg-white z-10'>
-        <div className='border-4 border-primary.blue rounded-full h-32 w-32 mt-16 overflow-hidden'>
+        <div className='border-4 border-primary.blue rounded-full h-32 w-32 mt-16 relative overflow-hidden'>
           {userImage && (
             <Image
               src={userImage}
@@ -53,7 +53,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
               width={128}
               height={128}
               objectFit='cover'
-              className='rounded-full'
+              className='rounded-full absolute top-0 left-0 z-10'
             />
           )}
         </div>
