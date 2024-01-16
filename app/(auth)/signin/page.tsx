@@ -122,21 +122,21 @@ export default function SignIn() {
           >
             Login
           </button>
-          <button
-            className='w-full py-[0.75rem] px-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
-            onClick={() => signIn('github', { callbackUrl: '/editor' })}
-          >
-            <Image
-              src='./images/icon-github.svg'
-              alt='Github Logo'
-              width={20}
-              height={20}
-              className='inline-block mr-5 mb-1'
-            />
-            Login with Github
-          </button>
         </div>
       </form>
+      <button
+        className='w-full py-[0.75rem] px-4 my-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
+        onClick={() => signIn('github', { callbackUrl: '/editor' })}
+      >
+        <Image
+          src='./images/icon-github.svg'
+          alt='Github Logo'
+          width={20}
+          height={20}
+          className='inline-block mr-5 mb-1'
+        />
+        Login with Github
+      </button>
       <div className='flex mt-4 justify-center flex-wrap'>
         <span className='text-black'>Don&apos;t have an account?</span>
         <Link
