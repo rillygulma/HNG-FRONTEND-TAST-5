@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect } from 'react'
 import Image from 'next/image'
 import CustomLinkBlock from './CustomLinkBlock'
@@ -55,7 +56,7 @@ const ProfilePreview = ({
       className={`${
         isOverlay
           ? 'w-64 h-full pb-2 mt-10 mx-1 flex flex-col items-center justify-center bg-white'
-          : 'flex flex-col items-center justify-center z-10 bg-tertiary.gray mt-10 px-4 shadow-2xl rounded-lg'
+          : 'flex flex-col items-center justify-center mt-10 pb-4 px-10 w-auto bg-white z-10 shadow-2xl rounded-lg'
       }`}
     >
       <div
@@ -82,7 +83,7 @@ const ProfilePreview = ({
           isOverlay &&
           profile?.firstname?.length + profile?.lastname?.length > 14
             ? 'text-2xl'
-            : 'text-3xl'
+            : 'text-4xl'
         } mt-4 text-black`}
       >
         <span className='text-primary.blue font-semibold'>{'{'}</span>

@@ -1,8 +1,10 @@
 import './globals.css'
+import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import Providers from '@/context/Providers'
 import { Instrument_Sans } from 'next/font/google'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+
 const instrument = Instrument_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {

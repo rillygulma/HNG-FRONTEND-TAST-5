@@ -95,9 +95,9 @@ const CustomLinkBlock = ({
         platform && platform !== 'default'
           ? getPlatformStyle(social)
           : 'bg-secondary.gray'
-      } ${(platform === 'x' || platform === 'website') && 'text-black'} ${
-        isOverlay ? 'm-2 text-md' : 'm-5 text-xl'
-      } ${shape} rounded-md`}
+      } ${
+        platform === 'x' || platform === 'website' ? 'text-black' : 'text-white'
+      } ${isOverlay ? 'm-2 text-md' : 'm-5 text-xl'} ${shape} rounded-md`}
       data-testid={`custom-link-block-#${index}`}
     >
       <Link
@@ -116,7 +116,7 @@ const CustomLinkBlock = ({
               alt=''
             />
           )}
-          <span className=' mt-0.5 ml-4 font-light'>
+          <span className='mt-0.5 ml-4'>
             {getPlatform(platform) || platform}
           </span>
         </div>

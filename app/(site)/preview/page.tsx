@@ -76,7 +76,7 @@ const Preview = () => {
           uniqueUrl={profile.userUrl}
         />
       )}
-      <div className='mb-6 max-w-[22rem] w-full z-40'>
+      <div className='mb-6 max-w-[26rem] w-full z-40'>
         <ProfilePreview profile={profile} />
       </div>
     </main>

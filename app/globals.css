@@ -145,6 +145,31 @@ h2 {
   background-color: #eee;
 }
 
+/* Card Styles */
+.alert-info {
+  background-color: #e7f3fe;
+  border-color: #cfe2ff;
+  color: #1d5297;
+}
+
+.alert-success {
+  background-color: #e9f8f2;
+  border-color: #b9f6ca;
+  color: #0f5132;
+}
+
+.alert-warning {
+  background-color: #fff4e5;
+  border-color: #ffe8c1;
+  color: #7c4a00;
+}
+
+.alert-error {
+  background-color: #ffecec;
+  border-color: #ffc9c9;
+  color: #9c0000;
+}
+
 /* Form Elements */
 .input-with-icon {
   background-image: url('/images/icon-link.svg');

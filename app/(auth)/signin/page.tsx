@@ -5,8 +5,11 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
-import Modal from '../../../components/Modal'
-import ForgotPasswordForm from '../../../components/ForgotPasswordForm'
+import AlertCard from '@/components/AlertCard'
+interface CredentialsError {
+  message: string
+  active: boolean
+}
 
 export default function SignIn() {
   const [data, setData] = useState({
@@ -16,7 +19,11 @@ export default function SignIn() {
   })
   const searchParams = useSearchParams()
   const loginError = searchParams.get('error') || null
-  const [error, setSerror] = useState<string>(loginError || '')
+  const [error, setError] = useState<CredentialsError>({
+    message: loginError || '',
+    active: false,
+  })
+  const [demo, setDemo] = useState(true)
 
   const { data: session, status } = useSession()
   const router = useRouter()
@@ -34,7 +41,13 @@ export default function SignIn() {
       ...data,
     }).then((callback) => {
       if (callback?.error) {
-        toast.error(callback?.error)
+        setError({ message: callback?.error, active: true })
+        setTimeout(() => {
+          setError({
+            message: '',
+            active: false,
+          })
+        }, 5000)
       }
       if (callback?.ok && !callback?.error) {
         toast.success('Login successful')
@@ -45,6 +58,12 @@ export default function SignIn() {
   return (
     <>
       <h1 className='text-2xl font-bold text-black mb-6'>Login</h1>
+      {demo && (
+        <AlertCard type='info'>
+          Demo login credentials are provided. Use the demo account, create your
+          own account, or log in with Github.
+        </AlertCard>
+      )}
       <form action='' onSubmit={loginUser}>
         <div className='mb-4'>
           <label
@@ -54,14 +73,14 @@ export default function SignIn() {
             Email
           </label>
           <input
-            className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+            className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+              error.active && 'error-container'
+            }`}
             id='username'
             type='text'
             placeholder='Enter your username'
             onChange={(e) => setData({ ...data, email: e.target.value })}
             value={data.email}
-            pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-            required
           />
         </div>
 
@@ -73,25 +92,28 @@ export default function SignIn() {
             Password
           </label>
           <input
-            className='w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray'
+            className={`w-full px-4 py-2 border rounded-md text-black placeholder-primary.gray bg-tertiary.gray ${
+              error.active && 'error-container'
+            }`}
             id='password'
             type='password'
             placeholder='Enter your password'
             onChange={(e) => setData({ ...data, password: e.target.value })}
             minLength={5}
             value={data.password}
-            required
           />
         </div>
-        {error && <p className='form-validation-error'>{error}</p>}
-        <div className='flex justify-end'>
+        {error.active && (
+          <p className='form-validation-error'>{error.message}</p>
+        )}
+        {/*<div className='flex justify-end'>
           <Link
             href='/forgot-password'
             className='text-primary.blue hover:text-secondary.blue'
           >
             Forgot password?
           </Link>
-        </div>
+        </div>*/}
 
         <div className='flex flex-col space-y-4 mt-6'>
           <button

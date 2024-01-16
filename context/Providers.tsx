@@ -2,6 +2,7 @@
 import React from 'react'
 import { SessionProvider } from 'next-auth/react'
 import ToasterContext from '@/context/ToastContext'
+import RadixContext from '@/context/RadixContext'
 
 interface Props {
   children: React.ReactNode
@@ -10,8 +11,10 @@ interface Props {
 const Providers = ({ children }: Props) => {
   return (
     <SessionProvider>
-      <ToasterContext />
-      {children}
+      <RadixContext>
+        <ToasterContext />
+        {children}
+      </RadixContext>
     </SessionProvider>
   )
 }

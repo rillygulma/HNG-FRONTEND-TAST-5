@@ -1,4 +1,5 @@
 import type { Awaitable, NextAuthOptions } from 'next-auth'
+import { NextResponse } from 'next/server'
 import GitHubProvider, { GithubProfile } from 'next-auth/providers/github'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
@@ -10,6 +11,11 @@ import { User } from '@prisma/client'
 interface Profile {
   profile: GithubProfile
   tokens: Awaitable<User>
+}
+
+interface CredentialError {
+  message: string
+  type: string
 }
 
 export const options: NextAuthOptions = {
@@ -31,8 +37,13 @@ export const options: NextAuthOptions = {
       },
 
       async authorize(credentials) {
+        let errors = []
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Enter your credentials')
+          errors.push({
+            message: 'Enter your credentials.',
+            type: 'error',
+          })
+          throw new Error('Enter your credentials.')
         }
 
         const user = await db.user.findUnique({
@@ -42,7 +53,11 @@ export const options: NextAuthOptions = {
         })
 
         if (!user || !user?.password) {
-          throw new Error("User doesn't exist")
+          errors.push({
+            message: `${credentials?.email} is not registered.`,
+            type: 'error',
+          })
+          throw new Error("User doesn't exist.")
         }
 
         const passwordMatch = await bcrypt.compare(
@@ -51,7 +66,11 @@ export const options: NextAuthOptions = {
         )
 
         if (!passwordMatch) {
-          throw new Error('Incorrect password')
+          errors.push({
+            message: `Incorrect password.`,
+            type: 'error',
+          })
+          throw new Error('Incorrect password.')
         }
 
         return user
