@@ -60,8 +60,8 @@ export default function SignIn() {
       <h1 className='text-2xl font-bold text-black mb-6'>Login</h1>
       {demo && (
         <AlertCard type='info'>
-          Demo login credentials are provided. Use the demo account, create your
-          own account, or log in with Github.
+          Demo credentials are provided. Use the demo account, create your own
+          account, or log in with Github.
         </AlertCard>
       )}
       <form action='' onSubmit={loginUser}>
@@ -125,7 +125,7 @@ export default function SignIn() {
         </div>
       </form>
       <button
-        className='w-full py-[0.75rem] px-4 my-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
+        className='w-full py-[0.82rem] px-4 my-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
         onClick={() => signIn('github', { callbackUrl: '/editor' })}
       >
         <Image

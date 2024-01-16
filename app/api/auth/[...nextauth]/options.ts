@@ -143,6 +143,12 @@ export const options: NextAuthOptions = {
               email: profile?.email as string,
               username: githubProfile.login,
               profileImage: githubProfile.avatar_url,
+              links: {
+                create: {
+                  platform: 'github',
+                  url: githubProfile.html_url,
+                },
+              },
               accounts: {
                 create: {
                   type: account.type,
