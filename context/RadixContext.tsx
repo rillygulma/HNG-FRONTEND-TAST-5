@@ -1,8 +1,11 @@
+import React from 'react'
 import { Theme } from '@radix-ui/themes'
 
-import React from 'react'
+interface RadixContextProps {
+  children: React.ReactNode
+}
 
-const RadixContext = ({ children }) => {
+const RadixContext: React.FC<RadixContextProps> = ({ children }) => {
   return <Theme>{children}</Theme>
 }
 

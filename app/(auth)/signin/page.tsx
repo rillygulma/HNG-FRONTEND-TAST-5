@@ -13,8 +13,8 @@ interface CredentialsError {
 
 export default function SignIn() {
   const [data, setData] = useState({
-    email: '',
-    password: '',
+    email: 'vangogh@gmail.com',
+    password: 'AnthonyRichardson15*',
     redirect: false,
   })
   const searchParams = useSearchParams()
