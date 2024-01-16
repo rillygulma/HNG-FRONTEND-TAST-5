@@ -136,6 +136,22 @@ export const options: NextAuthOptions = {
               // Update any fields if necessary
             },
           })
+
+          await db.user.update({
+            where: {
+              id: existingUser.id,
+            },
+            data: {
+              profileImage: githubProfile.avatar_url,
+              links: {
+                create: {
+                  platform: 'github',
+                  url: githubProfile.html_url,
+                },
+              },
+            },
+          })
+
           isSuccessful = true
         } else {
           await db.user.create({
