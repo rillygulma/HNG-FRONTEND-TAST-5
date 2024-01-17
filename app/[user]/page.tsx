@@ -32,7 +32,7 @@ const DevLinks = async ({ params }: { params: { user: DevLinksProps } }) => {
   const { data } = await axios.post(
     'https://dev-links-black.vercel.app/api/devLink',
     {
-      user: 'van_gogh',
+      user: user,
     }
   )
   const profile = data

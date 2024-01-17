@@ -142,7 +142,6 @@ export const options: NextAuthOptions = {
               id: existingUser.id,
             },
             data: {
-              profileImage: githubProfile.avatar_url,
               links: {
                 create: {
                   platform: 'github',

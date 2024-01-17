@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 import AlertCard from '@/components/AlertCard'
+import LoadingSpinner from '@/components/LoadingSpinner'
 interface CredentialsError {
   message: string
   active: boolean
@@ -23,6 +24,8 @@ export default function SignIn() {
     message: loginError || '',
     active: false,
   })
+  const [credentialsLoading, setCredentialsLoading] = useState(false)
+  const [githubLoading, setGithubLoading] = useState(false)
   const [demo, setDemo] = useState(true)
 
   const { data: session, status } = useSession()
@@ -34,9 +37,10 @@ export default function SignIn() {
     }
   }, [session, status, router])
 
-  const loginUser = async (e: React.FormEvent) => {
+  const handleCredentialsLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     console.log('login function runs')
+    setCredentialsLoading(true)
     await signIn('credentials', {
       ...data,
     }).then((callback) => {
@@ -48,9 +52,31 @@ export default function SignIn() {
             active: false,
           })
         }, 5000)
+        setCredentialsLoading(false)
       }
       if (callback?.ok && !callback?.error) {
         toast.success('Login successful')
+        setCredentialsLoading(false)
+      }
+    })
+  }
+
+  const handleGithubLogin = (callbackUrl: string) => {
+    setGithubLoading(true)
+    signIn('github', { callbackUrl }).then((callback) => {
+      if (callback?.error) {
+        setError({ message: callback?.error, active: true })
+        setTimeout(() => {
+          setError({
+            message: '',
+            active: false,
+          })
+        }, 5000)
+        setGithubLoading(false)
+      }
+      if (callback?.ok && !callback?.error) {
+        toast.success('Login successful')
+        setGithubLoading(false)
       }
     })
   }
@@ -64,7 +90,7 @@ export default function SignIn() {
           account, or log in with Github.
         </AlertCard>
       )}
-      <form action='' onSubmit={loginUser}>
+      <form action='' onSubmit={handleCredentialsLogin}>
         <div className='mb-4'>
           <label
             className='block text-sm font-medium text-primary.gray mb-2'
@@ -120,22 +146,28 @@ export default function SignIn() {
             type='submit'
             className='w-full py-[0.82rem] px-4 bg-primary.blue text-white font-bold rounded-md hover:bg-secondary.blue'
           >
-            Login
+            {credentialsLoading ? <LoadingSpinner /> : 'Login'}
           </button>
         </div>
       </form>
       <button
         className='w-full py-[0.82rem] px-4 my-4 bg-charcoal text-white font-bold rounded-md hover:bg-primary.gray'
-        onClick={() => signIn('github', { callbackUrl: '/editor' })}
+        onClick={() => handleGithubLogin('/editor')}
       >
-        <Image
-          src='./images/icon-github.svg'
-          alt='Github Logo'
-          width={20}
-          height={20}
-          className='inline-block mr-5 mb-1'
-        />
-        Login with Github
+        {githubLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            <Image
+              src='./images/icon-github.svg'
+              alt='Github Logo'
+              width={20}
+              height={20}
+              className='inline-block mr-5 mb-1'
+            />
+            Login with Github
+          </>
+        )}
       </button>
       <div className='flex mt-4 justify-center flex-wrap'>
         <span className='text-black'>Don&apos;t have an account?</span>
