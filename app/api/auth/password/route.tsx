@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { sendResetEmail, generateResetToken } from '@/libs/auth'
+import { getServerSession } from 'next-auth'
+import { options } from '../../auth/[...nextauth]/options'
 
 import { db } from '@/prisma/db.server'
 
@@ -53,15 +55,16 @@ export async function POST(req: Request): Promise<NextResponse> {
   })
 }
 
-export async function GET(email?: string): Promise<NextResponse> {
-  const userEmailExists =
-    (await db.user.findUnique({
-      where: {
-        email: email,
-      },
-    })) || null
+export async function GET(): Promise<NextResponse> {
+  const session = await getServerSession(options)
+  const email = session?.user?.email || undefined
+  const userEmailExists = await db.user.findUnique({
+    where: {
+      email: email,
+    },
+  })
 
-  if (userEmailExists === null) {
+  if (!userEmailExists) {
     return NextResponse.json(
       {
         password: process.env.DEMO_PW,
