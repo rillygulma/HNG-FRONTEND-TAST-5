@@ -14,10 +14,9 @@ interface CredentialsError {
 }
 
 export default function SignIn() {
-  const { data: password, isLoading, isError } = useGet('/api/auth/password')
   const [data, setData] = useState({
     email: 'vangogh@gmail.com',
-    password: password,
+    password: 'AnthonyRichardson15*',
     redirect: false,
   })
   const searchParams = useSearchParams()
@@ -32,10 +31,6 @@ export default function SignIn() {
 
   const { data: session, status } = useSession()
   const router = useRouter()
-
-  useEffect(() => {
-    console.log('password', password)
-  }, [])
 
   useEffect(() => {
     if (status === 'authenticated') {

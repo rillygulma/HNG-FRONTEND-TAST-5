@@ -56,24 +56,10 @@ export async function POST(req: Request): Promise<NextResponse> {
 }
 
 export async function GET(): Promise<NextResponse> {
-  const session = await getServerSession(options)
-  const email = session?.user?.email || undefined
-  const userEmailExists = await db.user.findUnique({
-    where: {
-      email: email,
+  return NextResponse.json(
+    {
+      password: process.env.DEMO_PW,
     },
-  })
-
-  if (!userEmailExists) {
-    return NextResponse.json(
-      {
-        password: process.env.DEMO_PW,
-      },
-      { status: 400 }
-    )
-  }
-
-  return NextResponse.json('vangogh@gmail.com' || userEmailExists, {
-    status: 200,
-  })
+    { status: 400 }
+  )
 }
