@@ -15,7 +15,7 @@ interface CredentialsError {
 export default function SignIn() {
   const [data, setData] = useState({
     email: 'vangogh@gmail.com',
-    password: 'AnthonyRichardson15*',
+    password: process.env.DEMO_PW,
     redirect: false,
   })
   const searchParams = useSearchParams()
