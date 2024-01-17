@@ -140,7 +140,10 @@ export const options: NextAuthOptions = {
             },
           })
 
-          if (existingUser.links.find((link) => link.platform !== 'github')) {
+          if (
+            existingUser.links.find((link) => link.platform === 'github') ===
+            undefined
+          ) {
             await db.user.update({
               where: {
                 id: existingUser.id,
