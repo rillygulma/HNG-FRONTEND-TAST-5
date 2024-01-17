@@ -52,3 +52,25 @@ export async function POST(req: Request): Promise<NextResponse> {
     status: 200,
   })
 }
+
+export async function GET(email?: string): Promise<NextResponse> {
+  const userEmailExists =
+    (await db.user.findUnique({
+      where: {
+        email: email,
+      },
+    })) || null
+
+  if (userEmailExists === null) {
+    return NextResponse.json(
+      {
+        password: process.env.DEMO_PW,
+      },
+      { status: 400 }
+    )
+  }
+
+  return NextResponse.json('vangogh@gmail.com' || userEmailExists, {
+    status: 200,
+  })
+}

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 import AlertCard from '@/components/AlertCard'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import { useGet } from '@/hooks/useGet'
 interface CredentialsError {
   message: string
   active: boolean
@@ -15,7 +16,7 @@ interface CredentialsError {
 export default function SignIn() {
   const [data, setData] = useState({
     email: 'vangogh@gmail.com',
-    password: process.env.DEMO_PW,
+    password: 'AnthonyRichardson15*',
     redirect: false,
   })
   const searchParams = useSearchParams()
@@ -30,6 +31,10 @@ export default function SignIn() {
 
   const { data: session, status } = useSession()
   const router = useRouter()
+
+  useEffect(() => {
+    console.log('password', password)
+  }, [])
 
   useEffect(() => {
     if (status === 'authenticated') {
