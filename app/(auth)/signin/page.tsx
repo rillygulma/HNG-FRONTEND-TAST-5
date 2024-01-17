@@ -14,9 +14,10 @@ interface CredentialsError {
 }
 
 export default function SignIn() {
+  const { data: password, isLoading, isError } = useGet('/api/auth/password')
   const [data, setData] = useState({
     email: 'vangogh@gmail.com',
-    password: 'AnthonyRichardson15*',
+    password: password,
     redirect: false,
   })
   const searchParams = useSearchParams()
