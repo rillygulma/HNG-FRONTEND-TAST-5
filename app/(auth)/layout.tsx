@@ -7,8 +7,8 @@ export default function AuthLayout({
 }) {
   return (
     <div className='min-h-screen flex items-center justify-center bg-background'>
-      <div className='w-full max-w-md desktop:mb-0 phone:mb-16'>
-        <div className='flex items-center justify-center mb-6 phone:aboslute phone:top-10'>
+      <div className='w-full max-w-md mx-6 desktop:mb-0 phone:mb-16'>
+        <div className='flex items-center justify-center mb-6 '>
           <Image
             src='./images/logo-devlinks-large.svg'
             alt='Devlinks Logo'
@@ -18,7 +18,9 @@ export default function AuthLayout({
           />
         </div>
 
-        <div className='p-6 pb-8 mx-6 phone:mx-2'>{children}</div>
+        <div className='p-6 pb-8 w-full phone:mx-2 bg-white rounded-lg'>
+          {children}
+        </div>
       </div>
     </div>
   )

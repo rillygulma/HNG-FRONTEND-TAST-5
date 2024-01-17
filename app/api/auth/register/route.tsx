@@ -87,6 +87,7 @@ export async function POST(
       password: hash,
       username,
       userUrl,
+      links: { create: [] },
     },
   })
 

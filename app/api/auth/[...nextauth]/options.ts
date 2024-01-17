@@ -114,6 +114,9 @@ export const options: NextAuthOptions = {
           where: {
             email: profile?.email,
           },
+          include: {
+            links: true,
+          },
         })
 
         if (existingUser) {
@@ -137,19 +140,21 @@ export const options: NextAuthOptions = {
             },
           })
 
-          await db.user.update({
-            where: {
-              id: existingUser.id,
-            },
-            data: {
-              links: {
-                create: {
-                  platform: 'github',
-                  url: githubProfile.html_url,
+          if (existingUser.links.find((link) => link.platform !== 'github')) {
+            await db.user.update({
+              where: {
+                id: existingUser.id,
+              },
+              data: {
+                links: {
+                  create: {
+                    platform: 'github',
+                    url: githubProfile.html_url,
+                  },
                 },
               },
-            },
-          })
+            })
+          }
 
           isSuccessful = true
         } else {
