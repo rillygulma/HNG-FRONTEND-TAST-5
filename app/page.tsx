@@ -82,7 +82,7 @@ export default function SignIn() {
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center bg-background'>
+    <main className='min-h-screen flex items-center justify-center bg-background'>
       <div className='w-full max-w-md desktop:mb-0 phone:mb-16'>
         <div className='flex items-center justify-center mb-6 phone:aboslute phone:top-10'>
           <Image
@@ -191,6 +191,6 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-    </div>
+    </main>
   )
 }
