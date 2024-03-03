@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { toast } from 'react-hot-toast'
 import AlertCard from '@/components/AlertCard'
 import LoadingSpinner from '@/components/LoadingSpinner'
-import { useGet } from '@/hooks/useGet'
+
 interface CredentialsError {
   message: string
   active: boolean

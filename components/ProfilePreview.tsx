@@ -43,13 +43,13 @@ const ProfilePreview = ({
   }
 
   const imageSrc = profile?.profileImage
-  useEffect(() => {
-    console.log('profile', profile)
-  }, [])
 
   if (isLoading) {
     return <PreviewSkeleton isOverlay={isOverlay} />
   }
+
+  const nameLength = profile?.firstname?.length + profile?.lastname?.length
+  console.log(nameLength)
 
   return (
     <div
@@ -84,7 +84,7 @@ const ProfilePreview = ({
           profile?.firstname?.length + profile?.lastname?.length > 14
             ? 'text-2xl'
             : 'text-4xl'
-        } mt-4 text-black`}
+        } desktop:text-4xl phone:text-2xl mt-4 text-black`}
       >
         <span className='text-primary.blue font-semibold'>{'{'}</span>
         {(profile?.firstname || 'Your') + ' ' + (profile?.lastname || 'Name') ||
