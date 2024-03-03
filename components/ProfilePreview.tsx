@@ -48,9 +48,6 @@ const ProfilePreview = ({
     return <PreviewSkeleton isOverlay={isOverlay} />
   }
 
-  const nameLength = profile?.firstname?.length + profile?.lastname?.length
-  console.log(nameLength)
-
   return (
     <div
       className={`${
