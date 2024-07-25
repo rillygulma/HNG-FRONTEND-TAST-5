@@ -15,8 +15,8 @@ interface CredentialsError {
 
 export default function SignIn() {
   const [data, setData] = useState({
-    email: 'vangogh@gmail.com',
-    password: 'AnthonyRichardson15*',
+    email: 'rillygulma@gmail.com',
+    password: 'Rilly_Gulma1',
     redirect: false,
   })
   const searchParams = useSearchParams()
